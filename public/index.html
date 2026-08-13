@@ -80,6 +80,17 @@ input[type=range]{width:260px}
 
 .month-graph-wrap{margin-top:8px}
 .month-graph-img{display:block;width:100%;max-width:900px;height:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+
+.live-section-head,.series-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.range-tabs-v10{display:flex;gap:6px;flex-wrap:wrap}
+.range-btn-v10{border:1px solid var(--line);background:#fff;padding:7px 10px;border-radius:8px;cursor:pointer;font-weight:650;font-size:13px}
+.range-btn-v10.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.chart-title{font-size:12px;font-weight:700;color:var(--muted);margin:10px 0 4px}
+.chart-title-second{margin-top:14px}
+.single-series-chart{width:100%;height:220px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.month-graph-wrap-v10{margin-top:10px}
+.month-graph-img-v10{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+.v10-tooltip{position:fixed;display:none;pointer-events:none;background:#111827;color:#fff;padding:7px 9px;border-radius:7px;font-size:12px;z-index:100;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -159,49 +170,45 @@ input[type=range]{width:260px}
     <div class="live-section-head">
       <div>
         <h2>Aktuální stav Lipna I</h2>
-        <div class="muted" style="font-size:12px">Zdroj: Povodí Vltavy přes GitHub cache, automaticky obnovovanou přibližně každých 15 minut.</div>
+        <div class="muted" style="font-size:12px">Zdroj: Povodí Vltavy přes GitHub cache, obnovovanou přibližně každých 15 minut.</div>
       </div>
-      <button class="btn primary live-refresh" data-station="lipno" type="button">↻ Načíst poslední data</button>
+      <button class="btn primary live-refresh-v10" data-key="lipno" type="button">↻ Načíst poslední data</button>
     </div>
-    <div class="live-status" id="lipnoLiveStatus">Načítám poslední dostupná data…</div>
+    <div class="live-status" id="lipnoV10Status">Načítám poslední dostupná data…</div>
+
     <div class="live-values">
-      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="lipnoLiveLevel">—</div></div>
-      <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="lipnoLiveVolume">—</div></div>
-      <div class="live-chip"><div class="label">Přítok</div><div class="value" id="lipnoLiveInflow">—</div></div>
-      <div class="live-chip"><div class="label">Odtok</div><div class="value" id="lipnoLiveOutflow">—</div></div>
+      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="lipnoV10Level">—</div></div>
+      <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="lipnoV10Volume">—</div></div>
+      <div class="live-chip"><div class="label">Přítok</div><div class="value" id="lipnoV10Inflow">—</div></div>
+      <div class="live-chip"><div class="label">Odtok</div><div class="value" id="lipnoV10Outflow">—</div></div>
     </div>
 
     <div class="series-head">
       <div>
-        <h3>Vývoj hladiny a odtoku</h3>
-        <div class="live-series-legend">
-          <span><i class="series-swatch level-swatch"></i>Hladina – levá osa [m n. m.]</span>
-          <span><i class="series-swatch flow-swatch"></i>Odtok – pravá osa [m³/s]</span>
-        </div>
+        <h3>Historie</h3>
+        <div class="muted" style="font-size:12px">24 h a 7 dní jsou interaktivní data; 30 dní je oficiální měsíční graf PVL.</div>
       </div>
-      <div class="range-tabs" data-chart="lipno">
-        <button type="button" class="range-btn active" data-range="1">24 hodin</button>
-        <button type="button" class="range-btn" data-range="7">7 dní</button>
-        <button type="button" class="range-btn" data-range="30">30 dní</button>
+      <div class="range-tabs-v10" data-key="lipno">
+        <button type="button" class="range-btn-v10 active" data-range="24">24 hodin</button>
+        <button type="button" class="range-btn-v10" data-range="7">7 dní</button>
+        <button type="button" class="range-btn-v10" data-range="30">30 dní</button>
       </div>
     </div>
-    <svg id="lipnoSeriesChart" class="live-series-chart" viewBox="0 0 900 300" preserveAspectRatio="none" aria-label="Vývoj hladiny a odtoku"></svg>
-    <div id="lipnoMonthWrap" class="month-graph-wrap" style="display:none">
-      <img id="lipnoMonthGraph" class="month-graph-img" src="/api/month-graph?station=VLL1" alt="Oficiální měsíční graf PVL">
-      <div class="muted" style="font-size:12px;margin-top:5px">Oficiální měsíční graf Povodí Vltavy.</div>
+
+    <div id="lipnoV10Interactive">
+      <div class="chart-title">Hladina [m n. m.]</div>
+      <svg id="lipnoV10LevelChart" class="single-series-chart" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+      <div class="chart-title chart-title-second">Odtok [m³/s]</div>
+      <svg id="lipnoV10FlowChart" class="single-series-chart" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+      <div id="lipnoV10Note" class="live-series-note"></div>
     </div>
-    <div id="lipnoSeriesNote" class="live-series-note">Graf se načte z poslední PVL cache.</div>
+
+    <div id="lipnoV10Month" class="month-graph-wrap-v10" style="display:none">
+      <img class="month-graph-img-v10" src="/api/month-graph?station=VLL1" alt="Oficiální měsíční graf PVL – Lipna I">
+      <div class="muted" style="font-size:12px;margin-top:6px">Oficiální měsíční graf Povodí Vltavy.</div>
+    </div>
   </div>
 
-
-  <div class="card" style="margin-bottom:16px">
-    <h2>Živý stav Lipna I z Povodí Vltavy</h2>
-    <div class="livebar">
-      <button class="btn primary live-refresh" data-station="lipno" type="button">↻ Aktualizovat z PVL</button>
-      <span class="live-status" id="lipnoLiveStatus">Po otevření veřejně hostované verze se data načtou automaticky.</span>
-    </div>
-    <div class="live-values">
-      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="lipnoLiveLevel">—</div></div>
       <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="lipnoLiveVolume">—</div></div>
       <div class="live-chip"><div class="label">Přítok</div><div class="value" id="lipnoLiveInflow">—</div></div>
       <div class="live-chip"><div class="label">Odtok</div><div class="value" id="lipnoLiveOutflow">—</div></div>
@@ -246,41 +253,45 @@ input[type=range]{width:260px}
     <div class="live-section-head">
       <div>
         <h2>Aktuální stav Orlíku</h2>
-        <div class="muted" style="font-size:12px">Zdroj: Povodí Vltavy přes GitHub cache, automaticky obnovovanou přibližně každých 15 minut.</div>
+        <div class="muted" style="font-size:12px">Zdroj: Povodí Vltavy přes GitHub cache, obnovovanou přibližně každých 15 minut.</div>
       </div>
-      <button class="btn primary live-refresh" data-station="orlik" type="button">↻ Načíst poslední data</button>
+      <button class="btn primary live-refresh-v10" data-key="orlik" type="button">↻ Načíst poslední data</button>
     </div>
-    <div class="live-status" id="orlikLiveStatus">Načítám poslední dostupná data…</div>
+    <div class="live-status" id="orlikV10Status">Načítám poslední dostupná data…</div>
+
     <div class="live-values">
-      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="orlikLiveLevel">—</div></div>
-      <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="orlikLiveVolume">—</div></div>
-      <div class="live-chip"><div class="label">Přítok</div><div class="value" id="orlikLiveInflow">—</div></div>
-      <div class="live-chip"><div class="label">Odtok</div><div class="value" id="orlikLiveOutflow">—</div></div>
+      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="orlikV10Level">—</div></div>
+      <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="orlikV10Volume">—</div></div>
+      <div class="live-chip"><div class="label">Přítok</div><div class="value" id="orlikV10Inflow">—</div></div>
+      <div class="live-chip"><div class="label">Odtok</div><div class="value" id="orlikV10Outflow">—</div></div>
     </div>
 
     <div class="series-head">
       <div>
-        <h3>Vývoj hladiny a odtoku</h3>
-        <div class="live-series-legend">
-          <span><i class="series-swatch level-swatch"></i>Hladina – levá osa [m n. m.]</span>
-          <span><i class="series-swatch flow-swatch"></i>Odtok – pravá osa [m³/s]</span>
-        </div>
+        <h3>Historie</h3>
+        <div class="muted" style="font-size:12px">24 h a 7 dní jsou interaktivní data; 30 dní je oficiální měsíční graf PVL.</div>
       </div>
-      <div class="range-tabs" data-chart="orlik">
-        <button type="button" class="range-btn active" data-range="1">24 hodin</button>
-        <button type="button" class="range-btn" data-range="7">7 dní</button>
-        <button type="button" class="range-btn" data-range="30">30 dní</button>
+      <div class="range-tabs-v10" data-key="orlik">
+        <button type="button" class="range-btn-v10 active" data-range="24">24 hodin</button>
+        <button type="button" class="range-btn-v10" data-range="7">7 dní</button>
+        <button type="button" class="range-btn-v10" data-range="30">30 dní</button>
       </div>
     </div>
-    <svg id="orlikSeriesChart" class="live-series-chart" viewBox="0 0 900 300" preserveAspectRatio="none" aria-label="Vývoj hladiny a odtoku"></svg>
-    <div id="orlikMonthWrap" class="month-graph-wrap" style="display:none">
-      <img id="orlikMonthGraph" class="month-graph-img" src="/api/month-graph?station=VLOR" alt="Oficiální měsíční graf PVL">
-      <div class="muted" style="font-size:12px;margin-top:5px">Oficiální měsíční graf Povodí Vltavy.</div>
-    </div>
-    <div id="orlikSeriesNote" class="live-series-note">Graf se načte z poslední PVL cache.</div>
-  </div>
 
-  <div class="card" style="margin-bottom:16px">
+    <div id="orlikV10Interactive">
+      <div class="chart-title">Hladina [m n. m.]</div>
+      <svg id="orlikV10LevelChart" class="single-series-chart" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+      <div class="chart-title chart-title-second">Odtok [m³/s]</div>
+      <svg id="orlikV10FlowChart" class="single-series-chart" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+      <div id="orlikV10Note" class="live-series-note"></div>
+    </div>
+
+    <div id="orlikV10Month" class="month-graph-wrap-v10" style="display:none">
+      <img class="month-graph-img-v10" src="/api/month-graph?station=VLOR" alt="Oficiální měsíční graf PVL – Orlíku">
+      <div class="muted" style="font-size:12px;margin-top:6px">Oficiální měsíční graf Povodí Vltavy.</div>
+    </div>
+  </div>
+<div class="card" style="margin-bottom:16px">
     <h2>Co znamená hranice 334,60 m?</h2>
     <p>V současném provozním scénáři je Orlík využíván jako hlavní zdroj vody pro udržování požadovaného odtoku z Vltavské kaskády. <b>Hladina 334,60 m n. m. není námi zvolená orientační hranice – vychází z manipulačního řádu Vltavské kaskády. Po jejím dosažení se přechází z dalšího vyprazdňování zásobního prostoru Orlíku na využívání (vyprazdňování) zásobního prostoru Slap.</b></p>
     <p>Referenční hladina Orlíku 13. 8. 2026 je <b>337,83 m</b>. Podle rekonstruované objemové křivky odpovídá objemu přibližně <b>112,68 mil. m³ nad stálým nadržením</b>. Při 334,60 m zbývá přibližně <b>70,66 mil. m³</b>. Do této provozní hranice tedy může Orlík v tomto scénáři uvolnit ještě asi <b>42,02 mil. m³</b>.</p>
@@ -350,49 +361,45 @@ input[type=range]{width:260px}
     <div class="live-section-head">
       <div>
         <h2>Aktuální stav Slap</h2>
-        <div class="muted" style="font-size:12px">Zdroj: Povodí Vltavy přes GitHub cache, automaticky obnovovanou přibližně každých 15 minut.</div>
+        <div class="muted" style="font-size:12px">Zdroj: Povodí Vltavy přes GitHub cache, obnovovanou přibližně každých 15 minut.</div>
       </div>
-      <button class="btn primary live-refresh" data-station="slapy" type="button">↻ Načíst poslední data</button>
+      <button class="btn primary live-refresh-v10" data-key="slapy" type="button">↻ Načíst poslední data</button>
     </div>
-    <div class="live-status" id="slapyLiveStatus">Načítám poslední dostupná data…</div>
+    <div class="live-status" id="slapyV10Status">Načítám poslední dostupná data…</div>
+
     <div class="live-values">
-      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="slapyLiveLevel">—</div></div>
-      <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="slapyLiveVolume">—</div></div>
-      <div class="live-chip"><div class="label">Přítok</div><div class="value" id="slapyLiveInflow">—</div></div>
-      <div class="live-chip"><div class="label">Odtok</div><div class="value" id="slapyLiveOutflow">—</div></div>
+      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="slapyV10Level">—</div></div>
+      <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="slapyV10Volume">—</div></div>
+      <div class="live-chip"><div class="label">Přítok</div><div class="value" id="slapyV10Inflow">—</div></div>
+      <div class="live-chip"><div class="label">Odtok</div><div class="value" id="slapyV10Outflow">—</div></div>
     </div>
 
     <div class="series-head">
       <div>
-        <h3>Vývoj hladiny a odtoku</h3>
-        <div class="live-series-legend">
-          <span><i class="series-swatch level-swatch"></i>Hladina – levá osa [m n. m.]</span>
-          <span><i class="series-swatch flow-swatch"></i>Odtok – pravá osa [m³/s]</span>
-        </div>
+        <h3>Historie</h3>
+        <div class="muted" style="font-size:12px">24 h a 7 dní jsou interaktivní data; 30 dní je oficiální měsíční graf PVL.</div>
       </div>
-      <div class="range-tabs" data-chart="slapy">
-        <button type="button" class="range-btn active" data-range="1">24 hodin</button>
-        <button type="button" class="range-btn" data-range="7">7 dní</button>
-        <button type="button" class="range-btn" data-range="30">30 dní</button>
+      <div class="range-tabs-v10" data-key="slapy">
+        <button type="button" class="range-btn-v10 active" data-range="24">24 hodin</button>
+        <button type="button" class="range-btn-v10" data-range="7">7 dní</button>
+        <button type="button" class="range-btn-v10" data-range="30">30 dní</button>
       </div>
     </div>
-    <svg id="slapySeriesChart" class="live-series-chart" viewBox="0 0 900 300" preserveAspectRatio="none" aria-label="Vývoj hladiny a odtoku"></svg>
-    <div id="slapyMonthWrap" class="month-graph-wrap" style="display:none">
-      <img id="slapyMonthGraph" class="month-graph-img" src="/api/month-graph?station=VLSL" alt="Oficiální měsíční graf PVL">
-      <div class="muted" style="font-size:12px;margin-top:5px">Oficiální měsíční graf Povodí Vltavy.</div>
+
+    <div id="slapyV10Interactive">
+      <div class="chart-title">Hladina [m n. m.]</div>
+      <svg id="slapyV10LevelChart" class="single-series-chart" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+      <div class="chart-title chart-title-second">Odtok [m³/s]</div>
+      <svg id="slapyV10FlowChart" class="single-series-chart" viewBox="0 0 900 220" preserveAspectRatio="none"></svg>
+      <div id="slapyV10Note" class="live-series-note"></div>
     </div>
-    <div id="slapySeriesNote" class="live-series-note">Graf se načte z poslední PVL cache.</div>
+
+    <div id="slapyV10Month" class="month-graph-wrap-v10" style="display:none">
+      <img class="month-graph-img-v10" src="/api/month-graph?station=VLSL" alt="Oficiální měsíční graf PVL – Slap">
+      <div class="muted" style="font-size:12px;margin-top:6px">Oficiální měsíční graf Povodí Vltavy.</div>
+    </div>
   </div>
 
-
-  <div class="card" style="margin-bottom:16px">
-    <h2>Živý stav Slap z Povodí Vltavy</h2>
-    <div class="livebar">
-      <button class="btn primary live-refresh" data-station="slapy" type="button">↻ Aktualizovat z PVL</button>
-      <span class="live-status" id="slapyLiveStatus">Po otevření veřejně hostované verze se data načtou automaticky.</span>
-    </div>
-    <div class="live-values">
-      <div class="live-chip"><div class="label">Hladina</div><div class="value" id="slapyLiveLevel">—</div></div>
       <div class="live-chip"><div class="label">Celkový objem</div><div class="value" id="slapyLiveVolume">—</div></div>
       <div class="live-chip"><div class="label">Přítok</div><div class="value" id="slapyLiveInflow">—</div></div>
       <div class="live-chip"><div class="label">Odtok</div><div class="value" id="slapyLiveOutflow">—</div></div>
@@ -569,7 +576,7 @@ async function refreshStation(key){
     status.textContent='Aktualizace se nepodařila: '+e.message+'. Zobrazeny zůstávají uložené referenční hodnoty.';
   }finally{buttons.forEach(b=>b.disabled=false)}
 }
-document.querySelectorAll('.live-refresh').forEach(btn=>btn.addEventListener('click',()=>refreshStation(btn.dataset.station)));
+document.querySelectorAll('.legacy-live-refresh-disabled').forEach(btn=>btn.addEventListener('click',()=>refreshStation(btn.dataset.station)));
 async function refreshAllStations(){for(const key of ['lipno','orlik','slapy']) await refreshStation(key)}
 if(location.protocol==='http:' || location.protocol==='https:') refreshAllStations();
 
@@ -691,8 +698,8 @@ async function loadLatest(key){
     else{if(svg)svg.style.display='block';if(mw)mw.style.display='none';renderLiveSeries(key,seriesForRange(key,selected),selected);}
   }catch(e){if(st)st.textContent='Načtení se nepodařilo: '+e.message;}
 }
-document.querySelectorAll('.live-refresh').forEach(btn=>btn.addEventListener('click',()=>loadLatest(btn.dataset.station)));
-document.querySelectorAll('.range-tabs').forEach(group=>{
+document.querySelectorAll('.legacy-live-refresh-disabled').forEach(btn=>btn.addEventListener('click',()=>loadLatest(btn.dataset.station)));
+document.querySelectorAll('.legacy-range-tabs-disabled').forEach(group=>{
   group.querySelectorAll('.range-btn').forEach(btn=>btn.addEventListener('click',()=>{
     group.querySelectorAll('.range-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
@@ -703,6 +710,100 @@ document.querySelectorAll('.range-tabs').forEach(group=>{
 if(location.protocol==='http:'||location.protocol==='https:'){
   ['lipno','orlik','slapy'].forEach(loadLatest);
 }
+
+const v10Cfg={
+  lipno:{station:'VLL1'},orlik:{station:'VLOR'},slapy:{station:'VLSL'}
+};
+const v10Data={lipno:null,orlik:null,slapy:null};
+const v10Range={lipno:24,orlik:24,slapy:24};
+
+function v10ParseTs(ts){
+  const m=String(ts||'').match(/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2})$/);
+  return m?new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5]):null;
+}
+function v10Fmt(x,n=2){
+  return Number(x).toLocaleString('cs-CZ',{minimumFractionDigits:n,maximumFractionDigits:n});
+}
+function v10Rows(key,range){
+  const d=v10Data[key]||{};
+  if(range===24) return d.series24h||[];
+  if(range===7) return d.series7d||[];
+  return d.series30d||[];
+}
+function v10Draw(svgId,rows,valueKey,unit){
+  const svg=document.getElementById(svgId); if(!svg)return;
+  const data=(rows||[]).map(r=>({...r,_dt:v10ParseTs(r.timestamp)}))
+    .filter(r=>r._dt&&Number.isFinite(+r[valueKey])).sort((a,b)=>a._dt-b._dt);
+  if(data.length<2){svg.innerHTML='<text x="20" y="35" font-size="12" fill="#64748b">Nedostatek dat</text>';return;}
+  const W=900,H=220,L=62,R=20,T=16,B=34,pw=W-L-R,ph=H-T-B;
+  const vals=data.map(r=>+r[valueKey]);
+  let mn=Math.min(...vals),mx=Math.max(...vals);
+  if(mx===mn){const p=Math.max(1,Math.abs(mx)*.01);mn-=p;mx+=p}
+  let pad=(mx-mn)*.1;
+  if(valueKey==='level') pad=Math.max(.01,pad);
+  if(valueKey==='outflow') mn=Math.max(0,mn-pad);
+  else mn-=pad;
+  mx+=pad;
+  const x=i=>L+i/(data.length-1)*pw,y=v=>T+(mx-v)/(mx-mn)*ph;
+  let g='';
+  for(let i=0;i<=4;i++){
+    const yy=T+i*ph/4,v=mx-i*(mx-mn)/4;
+    g+=`<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="#e5e7eb"/>`;
+    g+=`<text x="${L-7}" y="${yy+4}" text-anchor="end" font-size="11" fill="#64748b">${valueKey==='level'?v.toFixed(2):v.toFixed(0)}</text>`;
+  }
+  const pts=data.map((r,i)=>`${x(i)},${y(+r[valueKey])}`).join(' ');
+  g+=`<polyline points="${pts}" fill="none" stroke="${valueKey==='level'?'var(--accent)':'#64748b'}" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
+  data.forEach((r,i)=>g+=`<circle class="v10-hit" data-i="${i}" cx="${x(i)}" cy="${y(+r[valueKey])}" r="9" fill="transparent"/>`);
+  const range=v10Range[svgId.split('V10')[0]];
+  const fd=d=>range===24?d.toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}):d.toLocaleDateString('cs-CZ',{day:'2-digit',month:'2-digit'});
+  g+=`<text x="${L}" y="${H-9}" font-size="11" fill="#64748b">${fd(data[0]._dt)}</text>`;
+  g+=`<text x="${W-R}" y="${H-9}" text-anchor="end" font-size="11" fill="#64748b">${fd(data[data.length-1]._dt)}</text>`;
+  svg.innerHTML=g;
+  svg.querySelectorAll('.v10-hit').forEach(c=>{
+    c.addEventListener('mousemove',ev=>{
+      const r=data[+c.dataset.i];let t=document.getElementById('v10Tooltip');
+      if(!t){t=document.createElement('div');t.id='v10Tooltip';t.className='v10-tooltip';document.body.appendChild(t)}
+      t.innerHTML=`<b>${r.timestamp}</b><br>${valueKey==='level'?'Hladina':'Odtok'}: ${v10Fmt(r[valueKey],2)} ${unit}`;
+      t.style.display='block';t.style.left=(ev.clientX+12)+'px';t.style.top=(ev.clientY+12)+'px';
+    });
+    c.addEventListener('mouseleave',()=>{const t=document.getElementById('v10Tooltip');if(t)t.style.display='none'});
+  });
+}
+function v10Render(key){
+  const range=v10Range[key], interactive=document.getElementById(key+'V10Interactive'),month=document.getElementById(key+'V10Month');
+  if(range===30){
+    interactive.style.display='none';month.style.display='block';return;
+  }
+  interactive.style.display='block';month.style.display='none';
+  const rows=v10Rows(key,range);
+  v10Draw(key+'V10LevelChart',rows,'level','m');
+  v10Draw(key+'V10FlowChart',rows,'outflow','m³/s');
+  const note=document.getElementById(key+'V10Note');
+  if(note)note.textContent=`${rows.length} bodů · rozsah ${range===24?'24 hodin':'7 dní'}`;
+}
+async function v10Load(key){
+  const cfg=v10Cfg[key],st=document.getElementById(key+'V10Status');
+  if(st)st.textContent='Načítám poslední cache…';
+  try{
+    const r=await fetch('/api/pvl?station='+cfg.station+'&_='+Date.now(),{cache:'no-store'});
+    const d=await r.json();if(!d.ok)throw new Error(d.error||'Data nejsou dostupná');
+    v10Data[key]=d;
+    document.getElementById(key+'V10Level').textContent=d.level==null?'—':v10Fmt(d.level,2)+' m';
+    document.getElementById(key+'V10Volume').textContent=d.volume==null?'—':v10Fmt(d.volume,2)+' mil. m³';
+    document.getElementById(key+'V10Inflow').textContent=d.inflow==null?'—':v10Fmt(d.inflow,2)+' m³/s';
+    document.getElementById(key+'V10Outflow').textContent=d.outflow==null?'—':v10Fmt(d.outflow,2)+' m³/s';
+    if(st)st.textContent='Data PVL: '+(d.timestamp||'—');
+    v10Render(key);
+  }catch(e){if(st)st.textContent='Načtení se nepodařilo: '+e.message}
+}
+document.querySelectorAll('.live-refresh-v10').forEach(b=>b.addEventListener('click',()=>v10Load(b.dataset.key)));
+document.querySelectorAll('.range-tabs-v10').forEach(g=>{
+  g.querySelectorAll('.range-btn-v10').forEach(b=>b.addEventListener('click',()=>{
+    g.querySelectorAll('.range-btn-v10').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+    v10Range[g.dataset.key]=+b.dataset.range;v10Render(g.dataset.key);
+  }));
+});
+if(location.protocol==='http:'||location.protocol==='https:'){['lipno','orlik','slapy'].forEach(v10Load)}
 </script>
 </body>
 </html>
