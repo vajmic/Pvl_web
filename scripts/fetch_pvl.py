@@ -33,8 +33,7 @@ def num(x):
     except: return None
 
 def extract_current(text):
-    # Only inspect the block AFTER "Aktuální hodnoty", so dates above cannot be
-    # mistaken for Objem / Přítok / Odtok.
+    # Parse only the dedicated "Aktuální hodnoty" block.
     m = re.search(r"Aktuální hodnoty\s*\(([^)]+)\)([\s\S]+)$", text, re.I)
     if not m:
         return None, None, None, None, None
@@ -42,26 +41,36 @@ def extract_current(text):
     timestamp = m.group(1).strip()
     block = m.group(2)
 
-    def value_after(label, next_labels):
-        next_part = "|".join(next_labels)
-        rx = re.compile(
-            label + r"\s*(?:\[[^\]]*\])?\s*(-?\d+(?:[.,]\d+)?)"
-            + (r"(?=\s*(?:" + next_part + r"|$))" if next_labels else ""),
-            re.I
-        )
-        mm = rx.search(block)
-        return num(mm.group(1)) if mm else None
+    # Capture content BETWEEN labels. This avoids reading the "3" in m³/s
+    # as the actual value.
+    labels = [
+        ("level",  r"Hladina vody v nádrži"),
+        ("volume", r"\bObjem\b"),
+        ("inflow", r"\bPřítok\b"),
+        ("outflow",r"\bOdtok\b"),
+    ]
+    found=[]
+    for key,pat in labels:
+        mm=re.search(pat,block,re.I)
+        if mm: found.append((mm.start(),mm.end(),key))
+    found.sort()
 
-    # Simpler label-anchored expressions are more robust against superscript units.
-    def anchored(label):
-        mm = re.search(label + r"[\s\S]{0,50}?(-?\d+(?:[.,]\d+)?)", block, re.I)
-        return num(mm.group(1)) if mm else None
+    vals={"level":None,"volume":None,"inflow":None,"outflow":None}
+    for i,(st,en,key) in enumerate(found):
+        stop=found[i+1][0] if i+1<len(found) else len(block)
+        segment=block[en:stop]
 
-    level = anchored(r"Hladina vody v nádrži")
-    volume = anchored(r"\bObjem\b")
-    inflow = anchored(r"\bPřítok\b")
-    outflow = anchored(r"\bOdtok\b")
-    return timestamp, level, volume, inflow, outflow
+        # Remove common unit expressions BEFORE extracting a number.
+        segment=re.sub(r"m\s*[³3]\s*/\s*s"," ",segment,flags=re.I)
+        segment=re.sub(r"mil\.?\s*m\s*[³3]"," ",segment,flags=re.I)
+        segment=re.sub(r"m\s*[³3]"," ",segment,flags=re.I)
+        segment=re.sub(r"m\s*n\.?\s*m\.?"," ",segment,flags=re.I)
+        segment=re.sub(r"\[[^\]]*\]"," ",segment)
+
+        mm=re.search(r"-?\d+(?:[.,]\d+)?",segment)
+        if mm: vals[key]=num(mm.group(0))
+
+    return timestamp, vals["level"], vals["volume"], vals["inflow"], vals["outflow"]
 
 def extract_series(text):
     # PVL detail table is:

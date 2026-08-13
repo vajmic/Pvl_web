@@ -60,6 +60,11 @@ input[type=range]{width:260px}
 .pvl-frame{width:100%;height:500px;border:1px solid var(--line);border-radius:10px;background:#fff}
 @media(max-width:700px){.live-values{grid-template-columns:1fr 1fr}.pvl-frame{height:420px}}
 
+
+.live-series-wrap{margin-top:14px}
+.live-series-chart{width:100%;height:280px;border:1px solid #dbe4ee;border-radius:12px;background:#fff}
+.live-series-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;margin:8px 0;color:#475569}
+.live-series-note{font-size:12px;color:#64748b;margin-top:6px}
 </style>
 </head>
 <body>
@@ -156,7 +161,13 @@ input[type=range]{width:260px}
     <iframe id="lipnoPvlGraph" class="pvl-frame" style="display:none" title="Aktuální graf Povodí Vltavy pro Lipna I"></iframe>
     <div style="margin-top:8px"><a id="lipnoPvlGraphLink" class="btn" target="_blank" rel="noopener" style="display:none;text-decoration:none">Otevřít graf přímo na PVL ↗</a></div>
   </div>
-  <div class="grid">
+  <div class="card live-series-wrap">
+<h2>Vývoj hladiny a odtoku z PVL</h2>
+<div class="live-series-legend"><span>Hladina – levá osa [m n. m.]</span><span>Odtok – pravá osa [m³/s]</span></div>
+<svg id="lipnoSeriesChart" class="live-series-chart" viewBox="0 0 900 280" preserveAspectRatio="none" aria-label="Historický vývoj hladiny a odtoku"></svg>
+<div id="lipnoSeriesNote" class="live-series-note">Graf se načte z poslední PVL cache.</div>
+</div>
+<div class="grid">
     <div class="card kpi"><div class="muted">Dostupná zásoba</div><div class="v">153,06 mil. m³</div></div>
     <div class="card kpi"><div class="muted">Maximum zásobního prostoru</div><div class="v">252,99 mil. m³</div></div>
     <div class="card kpi"><div class="muted">Naplnění</div><div class="v"><span id="lipnoFillPct">60,5</span> %</div></div>
@@ -196,7 +207,13 @@ input[type=range]{width:260px}
     <p>Referenční hladina Orlíku 13. 8. 2026 je <b>337,83 m</b>. Podle rekonstruované objemové křivky odpovídá objemu přibližně <b>112,68 mil. m³ nad stálým nadržením</b>. Při 334,60 m zbývá přibližně <b>70,66 mil. m³</b>. Do této provozní hranice tedy může Orlík v tomto scénáři uvolnit ještě asi <b>42,02 mil. m³</b>.</p>
     <div class="note"><b>Důležité:</b> 334,60 m není „prázdný Orlík“. Pod touto hladinou v nádrži stále zůstává značné množství vody. Jde o hranici způsobu řízení kaskády, nikoli o fyzické vyčerpání nádrže.</div>
   </div>
-  <div class="grid">
+  <div class="card live-series-wrap">
+<h2>Vývoj hladiny a odtoku z PVL</h2>
+<div class="live-series-legend"><span>Hladina – levá osa [m n. m.]</span><span>Odtok – pravá osa [m³/s]</span></div>
+<svg id="orlikSeriesChart" class="live-series-chart" viewBox="0 0 900 280" preserveAspectRatio="none" aria-label="Historický vývoj hladiny a odtoku"></svg>
+<div id="orlikSeriesNote" class="live-series-note">Graf se načte z poslední PVL cache.</div>
+</div>
+<div class="grid">
     <div class="card kpi"><div class="muted">Aktuální stav Orlíku</div><div class="v"><span id="currentLevelCard">337,83</span> m</div><div>odhad <span id="currentUsableCard">112,68</span> mil. m³ nad stálým nadržením podle objemové křivky</div></div>
     <div class="card kpi"><div class="muted">Přechod na Slapy</div><div class="v">334,60 m</div><div>≈70,7 mil. m³</div></div>
     <div class="card kpi"><div class="muted">Kolik vody může Orlík ještě uvolnit před přechodem na vyprazdňování Slap</div><div class="v">≈42,0 mil. m³</div><div>při poklesu z dnešních 337,83 m na <b>334,60 m – hranici, při níž se podle manipulačního řádu přechází na využívání zásobního prostoru Slap</b></div></div>
@@ -278,7 +295,13 @@ input[type=range]{width:260px}
     <iframe id="slapyPvlGraph" class="pvl-frame" style="display:none" title="Aktuální graf Povodí Vltavy pro Slap"></iframe>
     <div style="margin-top:8px"><a id="slapyPvlGraphLink" class="btn" target="_blank" rel="noopener" style="display:none;text-decoration:none">Otevřít graf přímo na PVL ↗</a></div>
   </div>
-  <div class="grid">
+  <div class="card live-series-wrap">
+<h2>Vývoj hladiny a odtoku z PVL</h2>
+<div class="live-series-legend"><span>Hladina – levá osa [m n. m.]</span><span>Odtok – pravá osa [m³/s]</span></div>
+<svg id="slapySeriesChart" class="live-series-chart" viewBox="0 0 900 280" preserveAspectRatio="none" aria-label="Historický vývoj hladiny a odtoku"></svg>
+<div id="slapySeriesNote" class="live-series-note">Graf se načte z poslední PVL cache.</div>
+</div>
+<div class="grid">
     <div class="card kpi"><div class="muted">Dostupná zásoba</div><div class="v">186,10 mil. m³</div></div>
     <div class="card kpi"><div class="muted">Maximum zásobního prostoru</div><div class="v">200,50 mil. m³</div></div>
     <div class="card kpi"><div class="muted">Naplnění</div><div class="v"><span id="slapyFillPct">92,8</span> %</div></div>
@@ -415,6 +438,7 @@ async function refreshStation(key){
     if(!r.ok) throw new Error('HTTP '+r.status);
     const d=await r.json();
     if(!d.ok) throw new Error(d.error || 'PVL data nejsou dostupná');
+    renderSeriesChart(key,d.series);
     const fmt=(x,n=2)=>Number(x).toLocaleString('cs-CZ',{minimumFractionDigits:n,maximumFractionDigits:n});
     document.getElementById(cfg.levelId).textContent=d.level==null?'—':fmt(d.level,2)+' m n. m.';
     document.getElementById(cfg.volumeId).textContent=d.volume==null?'—':fmt(d.volume,2)+' mil. m³';
@@ -453,6 +477,38 @@ async function refreshAllStations(){for(const key of ['lipno','orlik','slapy']) 
 if(location.protocol==='http:' || location.protocol==='https:') refreshAllStations();
 
 
+
+function renderSeriesChart(key, series){
+  const svg=document.getElementById(key+'SeriesChart');
+  const note=document.getElementById(key+'SeriesNote');
+  if(!svg) return;
+  const rows=(series||[]).filter(r=>Number.isFinite(+r.level)&&Number.isFinite(+r.outflow)).slice().reverse();
+  if(rows.length<2){svg.innerHTML=''; if(note) note.textContent='Časová řada zatím není dostupná.'; return;}
+  const W=900,H=280,L=58,R=62,T=20,B=38, pw=W-L-R,ph=H-T-B;
+  const levels=rows.map(r=>+r.level), flows=rows.map(r=>+r.outflow);
+  let lmin=Math.min(...levels),lmax=Math.max(...levels); if(lmax===lmin){lmax+=.1;lmin-=.1}
+  const pad=(lmax-lmin)*.12; lmin-=pad;lmax+=pad;
+  let fmax=Math.max(1,...flows)*1.08;
+  const x=i=>L+(i/(rows.length-1))*pw;
+  const yl=v=>T+(lmax-v)/(lmax-lmin)*ph;
+  const yf=v=>T+(fmax-v)/fmax*ph;
+  const ptsL=rows.map((r,i)=>`${x(i).toFixed(1)},${yl(+r.level).toFixed(1)}`).join(' ');
+  const ptsF=rows.map((r,i)=>`${x(i).toFixed(1)},${yf(+r.outflow).toFixed(1)}`).join(' ');
+  let g='';
+  for(let i=0;i<=4;i++){
+    const y=T+i*ph/4, lv=lmax-i*(lmax-lmin)/4, fv=fmax-i*fmax/4;
+    g+=`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="#e5e7eb"/>`;
+    g+=`<text x="${L-7}" y="${y+4}" text-anchor="end" font-size="11">${lv.toFixed(2)}</text>`;
+    g+=`<text x="${W-R+7}" y="${y+4}" font-size="11">${fv.toFixed(0)}</text>`;
+  }
+  g+=`<polyline points="${ptsL}" fill="none" stroke="currentColor" stroke-width="2.4" vector-effect="non-scaling-stroke"/>`;
+  g+=`<polyline points="${ptsF}" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" vector-effect="non-scaling-stroke"/>`;
+  const first=rows[0].timestamp,last=rows[rows.length-1].timestamp;
+  g+=`<text x="${L}" y="${H-10}" font-size="11">${first}</text>`;
+  g+=`<text x="${W-R}" y="${H-10}" text-anchor="end" font-size="11">${last}</text>`;
+  svg.innerHTML=g;
+  if(note) note.textContent=`${rows.length} bodů. Plná křivka = hladina, přerušovaná = odtok.`;
+}
 </script>
 </body>
 </html>
