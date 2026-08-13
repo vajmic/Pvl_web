@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import json, re, ssl, urllib.request, html as htmlmod, os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 STATIONS = {
     "VLL1": {"oid":"1","name":"Lipno I"},
@@ -111,6 +111,43 @@ def extract_series(text):
             break
     return rows
 
+
+def parse_ts(ts):
+    try:
+        return datetime.strptime(ts, "%d.%m.%Y %H:%M").replace(tzinfo=timezone.utc)
+    except:
+        return None
+
+def load_previous_series(station):
+    url=f"https://raw.githubusercontent.com/vajmic/Pvl_web/data-cache/{station}.json"
+    try:
+        req=urllib.request.Request(url,headers={"User-Agent":"VltavaDashboardCache/1.2"})
+        with urllib.request.urlopen(req,timeout=20) as r:
+            data=json.loads(r.read().decode("utf-8"))
+        return data.get("series",[]) if isinstance(data,dict) else []
+    except:
+        return []
+
+def merge_series(old_rows,new_rows):
+    merged={}
+    for row in (old_rows or [])+(new_rows or []):
+        ts=row.get("timestamp")
+        if not ts: continue
+        # New scrape wins for duplicate timestamps.
+        merged[ts]={
+            "timestamp":ts,
+            "level":row.get("level"),
+            "outflow":row.get("outflow")
+        }
+    cutoff=datetime.now(timezone.utc)-timedelta(days=31)
+    kept=[]
+    for row in merged.values():
+        dt=parse_ts(row["timestamp"])
+        if dt and dt>=cutoff:
+            kept.append(row)
+    kept.sort(key=lambda r: parse_ts(r["timestamp"]) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+    return kept
+
 def parse_station(station, cfg):
     urls = [
         f"https://www.pvl.cz/portal/Nadrze/cz/smartphone/Mereni.aspx?id={station}&oid={cfg['oid']}&z=vse",
@@ -122,7 +159,7 @@ def parse_station(station, cfg):
             raw=fetch(url)
             text=plain(raw)
             timestamp,level,volume,inflow,outflow=extract_current(text)
-            series=extract_series(text)
+            series=merge_series(load_previous_series(station), extract_series(text))
 
             # Refuse to publish obviously broken current data.
             if level is None or not (200 <= level <= 800):
