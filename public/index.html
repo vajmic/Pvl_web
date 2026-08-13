@@ -268,7 +268,8 @@ input[type=range]{width:260px}
     <div class="card kpi"><div class="muted">Maximum zásobního prostoru</div><div class="v">252,99 mil. m³</div></div>
     <div class="card kpi"><div class="muted">Naplnění</div><div class="v"><span id="lipnoFillPct">60,5</span> %</div></div>
   </div>
-  <div class="grid2" style="margin-top:16px">
+  
+  <div class="grid2" style="margin-top:0">
     <div class="card"><h2>Důležité hladiny</h2>
       <table><tr><th>Hladina</th><th>m n. m.</th></tr>
       <tr><td>Stálé nadržení</td><td>716,10</td></tr>
@@ -380,21 +381,21 @@ input[type=range]{width:260px}
 <div class="card" style="margin-bottom:16px">
     <h2>Co znamená hranice 334,60 m?</h2>
     <p>V současném provozním scénáři je Orlík využíván jako hlavní zdroj vody pro udržování požadovaného odtoku z Vltavské kaskády. <b>Hladina 334,60 m n. m. není námi zvolená orientační hranice – vychází z manipulačního řádu Vltavské kaskády. Po jejím dosažení se přechází z dalšího vyprazdňování zásobního prostoru Orlíku na využívání (vyprazdňování) zásobního prostoru Slap.</b></p>
-    <p>Referenční hladina Orlíku 13. 8. 2026 je <b>337,83 m</b>. Podle rekonstruované objemové křivky odpovídá objemu přibližně <b>112,68 mil. m³ nad stálým nadržením</b>. Při 334,60 m zbývá přibližně <b>70,66 mil. m³</b>. Do této provozní hranice tedy může Orlík v tomto scénáři uvolnit ještě asi <b>42,02 mil. m³</b>.</p>
+    <p>Aktuální hladina Orlíku je <b><span id="orlTextCurrentLevel">—</span> m</b>. Podle rekonstruované objemové křivky tomu odpovídá přibližně <b><span id="orlTextCurrentUsable">—</span> mil. m³ nad stálým nadržením</b>. Při 334,60 m zbývá přibližně <b><span id="orlTextBoundaryUsable">70,66</span> mil. m³</b>. Do této provozní hranice tedy může Orlík při aktuálním stavu uvolnit ještě přibližně <b><span id="orlTextRemaining">—</span> mil. m³</b>.</p>
     <div class="note"><b>Důležité:</b> 334,60 m není „prázdný Orlík“. Pod touto hladinou v nádrži stále zůstává značné množství vody. Jde o hranici způsobu řízení kaskády, nikoli o fyzické vyčerpání nádrže.</div>
   </div><div class="grid">
-    <div class="card kpi"><div class="muted">Referenční stav analýzy (13. 8. 2026)</div><div class="v"><span id="currentLevelCard">337,83</span> m</div><div>odhad <span id="currentUsableCard">112,68</span> mil. m³ nad stálým nadržením podle objemové křivky</div></div>
+    <div class="card kpi"><div class="muted">Aktuální stav Orlíku</div><div class="v"><span id="currentLevelCard">—</span> m</div><div>odhad <span id="currentUsableCard">—</span> mil. m³ nad stálým nadržením podle objemové křivky</div></div>
     <div class="card kpi"><div class="muted">Přechod na Slapy</div><div class="v">334,60 m</div><div>≈70,7 mil. m³</div></div>
-    <div class="card kpi"><div class="muted">Kolik vody může Orlík ještě uvolnit před přechodem na vyprazdňování Slap</div><div class="v">≈42,0 mil. m³</div><div>při poklesu z dnešních 337,83 m na <b>334,60 m – hranici, při níž se podle manipulačního řádu přechází na využívání zásobního prostoru Slap</b></div></div>
+    <div class="card kpi"><div class="muted">Kolik vody může Orlík ještě uvolnit před přechodem na vyprazdňování Slap</div><div class="v">≈<span id="currentRemainingCard">—</span> mil. m³</div><div>při poklesu z aktuálních <span id="currentLevelSentence">—</span> m na <b>334,60 m – hranici, při níž se podle manipulačního řádu přechází na využívání zásobního prostoru Slap</b></div></div>
   </div>
 
   <div class="card" style="margin-top:16px">
     <h2>Objemová křivka Orlíku</h2>
     <div class="rangebox">
       <label for="level">Hladina:</label>
-      <input id="level" type="range" min="329.6" max="349.9" step="0.01" value="337.83">
-      <b><span id="lv">337,83</span> m</b>
-      <span>→ odhad <b><span id="vol">112,68</span> mil. m³</b> nad stálým nadržením</span>
+      <input id="level" type="range" min="329.6" max="349.9" step="0.01" value="337.56">
+      <b><span id="lv">—</span> m</b>
+      <span>→ odhad <b><span id="vol">—</span> mil. m³</b> nad stálým nadržením</span>
     </div>
     <div class="orlik-chart-layout">
       <div>
@@ -407,7 +408,7 @@ input[type=range]{width:260px}
       <div class="ref-list" id="orlikRefs">
         <div class="ref-card" data-ref="1"><span class="ref-num">1</span><div><b>334,60 m · přechod na Slapy</b><div>Hranice dle manipulačního řádu. Po jejím dosažení se přechází na využívání zásobního prostoru Slap.</div></div></div>
         <div class="ref-card" data-ref="2"><span class="ref-num">2</span><div><b>335,19 m · technické snížení 2019</b><div>Plánované snížení kvůli stavebním pracím; nejde o přirozené minimum při suchu.</div></div></div>
-        <div class="ref-card current" data-ref="3"><span class="ref-num">3</span><div><b>337,83 m · stav 13. 8. 2026</b><div>Referenční současný stav použitý v dashboardu. Přibližně 112,68 mil. m³ nad stálým nadržením.</div></div></div>
+        <div class="ref-card current" data-ref="3"><span class="ref-num">3</span><div><b><span id="orlRefCurrentLevel">—</span> m · <span id="orlRefCurrentDate">aktuální stav</span></b><div>Aktuální bod z poslední PVL cache. Přibližně <span id="orlRefCurrentUsable">—</span> mil. m³ nad stálým nadržením.</div></div></div>
         <div class="ref-card" data-ref="4"><span class="ref-num">4</span><div><b>338,63 m · sucho 2015</b><div>Historické minimum dosažené při přirozeném suchu a běžné provozní manipulaci.</div></div></div>
         <div class="ref-card" data-ref="5"><span class="ref-num">5</span><div><b>345,60 m · kóta přelivu</b><div>Výšková úroveň přelivu hráze.</div></div></div>
         <div class="ref-card" data-ref="6"><span class="ref-num">6</span><div><b>349,90 m · max. zásobní hladina</b><div>Horní hranice zásobního prostoru Orlíku.</div></div></div>
@@ -416,9 +417,9 @@ input[type=range]{width:260px}
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>Orientační čas do 334,60 m</h2>
-    <p>Čas nelze určit pouze z hladiny — rozhoduje <b>čistá denní bilance Orlíku</b>, tedy rozdíl mezi přítokem do nádrže a vodou, která z ní odchází. Pokud by se podmínky nezměnily a čistý úbytek zásoby činil například <b>2,5 mil. m³ za den</b>, odpovídá zbývajících 42,02 mil. m³ přibližně <b>16,8 dne</b>.</p>
-    <p class="muted">Jde pouze o scénář „beze změny podmínek“, nikoli o předpověď. Déšť, změna přítoků nebo změna manipulace může termín výrazně posunout.</p>
+    <h2>Jak se odhad času počítá</h2>
+    <p>Aktuální odhad je uveden výše v kartě <b>Aktuální provozní analytika Orlíku</b>. Nepoužívá okamžitý odtok z jedné hodiny, ale pozorovaný úbytek zásobního objemu z dostupné historie hladiny.</p>
+    <p class="muted">Jde o extrapolaci současného trendu, nikoli o předpověď. Déšť, změna přítoku nebo změna manipulačního režimu může termín výrazně posunout.</p>
   </div>
 
   <div class="grid2" style="margin-top:16px">
@@ -427,7 +428,7 @@ input[type=range]{width:260px}
       <tr><td>Stálé nadržení</td><td>329,60 m</td></tr>
       <tr><td>Přechod na Slapy</td><td>334,60 m</td></tr>
       <tr><td>Technické snížení 2019</td><td>335,19 m</td></tr>
-      <tr><td>Stav 13. 8. 2026</td><td>337,83 m</td></tr>
+      
       <tr><td>Minimum sucha 2015</td><td>338,63 m</td></tr>
       <tr><td>Kóta přelivu</td><td>345,60 m</td></tr>
       <tr><td>Max. zásobní hladina</td><td>349,90 m</td></tr>
@@ -959,6 +960,85 @@ if(typeof live11Load==='function'){
 
 // Also refresh after initial automatic loads finish.
 setTimeout(live13RefreshDerived,1500);
+
+
+function live14SyncOrlikCurrent(){
+  if(typeof live11Data==='undefined') return;
+  const d=live11Data.orlik;
+  if(!d || !Number.isFinite(+d.level)) return;
+
+  const level=+d.level;
+  const boundary=334.60;
+  const currentUsable=live13VolumeAtOrlikLevel(level);
+  const boundaryUsable=live13VolumeAtOrlikLevel(boundary);
+  const remaining=(Number.isFinite(currentUsable)&&Number.isFinite(boundaryUsable))
+    ? Math.max(0,currentUsable-boundaryUsable) : null;
+
+  const f2=x=>Number(x).toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const f1=x=>Number(x).toLocaleString('cs-CZ',{minimumFractionDigits:1,maximumFractionDigits:1});
+
+  const set=(id,val)=>{
+    const e=document.getElementById(id);
+    if(e)e.textContent=val;
+  };
+
+  set('orlTextCurrentLevel',f2(level));
+  set('orlTextCurrentUsable',Number.isFinite(currentUsable)?f2(currentUsable):'—');
+  set('orlTextBoundaryUsable',Number.isFinite(boundaryUsable)?f2(boundaryUsable):'70,66');
+  set('orlTextRemaining',remaining==null?'—':f2(remaining));
+
+  set('currentLevelCard',f2(level));
+  set('currentUsableCard',Number.isFinite(currentUsable)?f2(currentUsable):'—');
+  set('currentRemainingCard',remaining==null?'—':f1(remaining));
+  set('currentLevelSentence',f2(level));
+
+  set('orlRefCurrentLevel',f2(level));
+  set('orlRefCurrentUsable',Number.isFinite(currentUsable)?f2(currentUsable):'—');
+
+  // Keep volume-curve slider synchronized with the latest PVL value,
+  // but still let the user move it afterward for exploration.
+  const slider=document.getElementById('level');
+  if(slider && !slider.dataset.userTouched){
+    slider.value=level.toFixed(2);
+    if(typeof updateCurve==='function'){
+      try{updateCurve();}catch(e){}
+    }else{
+      set('lv',f2(level));
+      set('vol',Number.isFinite(currentUsable)?f2(currentUsable):'—');
+    }
+  }
+}
+
+const live14Slider=document.getElementById('level');
+if(live14Slider){
+  live14Slider.addEventListener('input',()=>{live14Slider.dataset.userTouched='1';});
+}
+
+if(typeof live13RefreshDerived==='function'){
+  const _live13RefreshDerived=live13RefreshDerived;
+  live13RefreshDerived=function(){
+    _live13RefreshDerived();
+    live14SyncOrlikCurrent();
+  };
+}
+setTimeout(live14SyncOrlikCurrent,1700);
+
+
+function live15SyncCurrentDate(){
+  if(typeof live11Data==='undefined') return;
+  const d=live11Data.orlik;
+  if(!d || !d.timestamp) return;
+  const e=document.getElementById('orlRefCurrentDate');
+  if(e) e.textContent='data PVL '+d.timestamp;
+}
+if(typeof live14SyncOrlikCurrent==='function'){
+  const _live14SyncOrlikCurrent=live14SyncOrlikCurrent;
+  live14SyncOrlikCurrent=function(){
+    _live14SyncOrlikCurrent();
+    live15SyncCurrentDate();
+  };
+}
+setTimeout(live15SyncCurrentDate,1800);
 
 </script>
 </body>
