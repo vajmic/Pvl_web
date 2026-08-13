@@ -1,0 +1,53 @@
+name: Update PVL cache
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+
+      - name: Fetch PVL data
+        run: python3 scripts/fetch_pvl.py
+
+      - name: Publish data-cache branch
+        shell: bash
+        run: |
+          set -e
+          rm -rf /tmp/pvl-cache
+          mkdir -p /tmp/pvl-cache
+          cp -r cache/. /tmp/pvl-cache/
+
+          git config user.name "pvl-cache-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin data-cache >/dev/null 2>&1; then
+            git fetch origin data-cache
+            git worktree add /tmp/pvl-data-cache origin/data-cache
+          else
+            git worktree add --detach /tmp/pvl-data-cache
+            cd /tmp/pvl-data-cache
+            git switch --orphan data-cache
+            git rm -rf . || true
+            cd -
+          fi
+
+          rm -rf /tmp/pvl-data-cache/*
+          cp -r /tmp/pvl-cache/. /tmp/pvl-data-cache/
+
+          cd /tmp/pvl-data-cache
+          git add .
+          if git diff --cached --quiet; then
+            echo "No data changes."
+            exit 0
+          fi
+          git commit -m "Update PVL cache"
+          git push origin HEAD:data-cache
