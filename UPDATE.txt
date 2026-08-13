@@ -1,0 +1,6 @@
+Backend v2:
+- jako první zkouší pvl.cz bez www (kvůli HTTP 526 z www.pvl.cz)
+- fallbacky: smartphone detail, PC detail, přehled, nakonec www
+- API vrací `attempts`, takže je vidět stav každého pokusu
+- API se pokouší vracet i časovou řadu v `series`
+- jméno Workeru v wrangler.jsonc změněno na pvl-web
