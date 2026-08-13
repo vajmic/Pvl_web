@@ -292,8 +292,8 @@ input[type=range]{width:260px}
       <span>→ odhad <b><span id="lipVol">153,06</span> mil. m³</b> v zásobním prostoru</span>
     </div>
     <svg id="lipCurve" viewBox="0 0 760 430" aria-label="Rekonstruovaná křivka hladina a zásobní objem Lipna I"></svg>
-    <div class="legend"><span><i class="dot" style="background:#1565c0"></i>rekonstruovaná křivka</span><span><i class="dot" style="background:#c17b00"></i>doložené body PVL</span></div>
-    <div class="muted" style="font-size:12px">Kotvy: 716,10 m = 0; 722,51 m = 153,06 (12. 8. 2026); 723,53 m = 193,370 (18. 7. 2023); 723,72 m = 201,331 (11. 7. 2023); 724,90 m = 252,99 mil. m³. Body 2023 a 2026 jsou přímo spárované z tabulek PVL; mezi nimi je lineární interpolace.</div>
+    <div class="legend"><span><i class="dot" style="background:#1565c0"></i>rekonstruovaná křivka</span><span><i class="dot" style="background:#c17b00"></i>referenční body použité pro rekonstrukci</span></div>
+    <div class="muted" style="font-size:12px">Kotvy: 716,10 m = 0; 722,51 m = 153,06 (12. 8. 2026); 723,53 m = 193,370 (18. 7. 2023); 723,72 m = 201,331 (11. 7. 2023); 724,90 m = 252,99 mil. m³. Křivka je rekonstrukce z dostupných referenčních bodů; mezi nimi je použita interpolace.</div>
   </div>
 
 </section>
@@ -522,7 +522,7 @@ input[type=range]{width:260px}
       <span>→ odhad <b><span id="slaVol">186,10</span> mil. m³</b> v zásobním prostoru</span>
     </div>
     <svg id="slaCurve" viewBox="0 0 760 430" aria-label="Rekonstruovaná křivka hladina a zásobní objem Slap"></svg>
-    <div class="legend"><span><i class="dot" style="background:#1565c0"></i>rekonstruovaná křivka</span><span><i class="dot" style="background:#c17b00"></i>doložené body PVL</span></div>
+    <div class="legend"><span><i class="dot" style="background:#1565c0"></i>rekonstruovaná křivka</span><span><i class="dot" style="background:#c17b00"></i>referenční body použité pro rekonstrukci</span></div>
     <div class="muted" style="font-size:12px">Kotvy: 246,60 m = 0; 269,34 m = 186,10 (12. 8. 2026); 269,45 m = 187,329 (18. 7. 2023); 269,84 m = 191,752 (11. 7. 2023); 270,60 m = 200,50 mil. m³. Horní provozní část je ukotvena skutečnými stavy PVL; spodní část zůstává řidší, protože Slapy se běžně drží vysoko.</div>
   </div>
 
@@ -530,7 +530,7 @@ input[type=range]{width:260px}
 
 <div class="tip" id="tip"></div>
 <footer class="muted" style="margin-top:24px;font-size:12px">
-  Datový souhrn vychází z podkladů Povodí Vltavy a ČHMÚ. U Lipna a Slap jsou body z 11. a 18. 7. 2023 a stav 12. 8. 2026 přímo spárované dvojice hladina–zásobní objem z PVL. Mezilehlé hodnoty jsou interpolované a nejsou přímá měření.
+  Datový souhrn vychází z údajů Povodí Vltavy. Aktuální hladina, objem, přítok a odtok jsou přebírány z aktuálních dat PVL. Objemové křivky použité v analytické části jsou rekonstruované z dostupných referenčních bodů; hodnoty mezi těmito body jsou interpolované a nejsou přímým měřením.
 </footer>
 </div>
 
