@@ -212,7 +212,7 @@ input[type=range]{width:260px}
     <div class="history-head">
       <div>
         <h3>Vývoj hladiny a odtoku</h3>
-        <div class="muted history-subtitle">24 hodin a 7 dní: interaktivní data · 30 dní: oficiální měsíční graf PVL</div>
+        <div class="muted history-subtitle">24 h: vlastní data · 7 a 30 dní: automaticky vlastní historie, jinak oficiální graf PVL</div>
       </div>
       <div class="live11-tabs" data-key="lipno">
         <button type="button" class="live11-tab active" data-range="24">24 hodin</button>
@@ -235,9 +235,9 @@ input[type=range]{width:260px}
       <div id="lipno11Note" class="live11-note"></div>
     </div>
 
-    <div id="lipno11Month" class="live11-month" style="display:none">
-      <img src="/api/month-graph?station=VLL1" alt="Oficiální měsíční graf PVL – Lipna I">
-      <div class="muted month-caption">Oficiální měsíční graf Povodí Vltavy.</div>
+    <div id="lipno11Official" class="live11-month" style="display:none">
+      <img id="lipno11OfficialImg" src="/api/official-graph?station=VLL1&range=week" alt="Oficiální historický graf PVL">
+      <div id="lipno11OfficialCaption" class="muted month-caption">Oficiální graf Povodí Vltavy.</div>
     </div>
   </div>
 
@@ -298,7 +298,7 @@ input[type=range]{width:260px}
     <div class="history-head">
       <div>
         <h3>Vývoj hladiny a odtoku</h3>
-        <div class="muted history-subtitle">24 hodin a 7 dní: interaktivní data · 30 dní: oficiální měsíční graf PVL</div>
+        <div class="muted history-subtitle">24 h: vlastní data · 7 a 30 dní: automaticky vlastní historie, jinak oficiální graf PVL</div>
       </div>
       <div class="live11-tabs" data-key="orlik">
         <button type="button" class="live11-tab active" data-range="24">24 hodin</button>
@@ -321,9 +321,9 @@ input[type=range]{width:260px}
       <div id="orlik11Note" class="live11-note"></div>
     </div>
 
-    <div id="orlik11Month" class="live11-month" style="display:none">
-      <img src="/api/month-graph?station=VLOR" alt="Oficiální měsíční graf PVL – Orlíku">
-      <div class="muted month-caption">Oficiální měsíční graf Povodí Vltavy.</div>
+    <div id="orlik11Official" class="live11-month" style="display:none">
+      <img id="orlik11OfficialImg" src="/api/official-graph?station=VLOR&range=week" alt="Oficiální historický graf PVL">
+      <div id="orlik11OfficialCaption" class="muted month-caption">Oficiální graf Povodí Vltavy.</div>
     </div>
   </div>
 
@@ -415,7 +415,7 @@ input[type=range]{width:260px}
     <div class="history-head">
       <div>
         <h3>Vývoj hladiny a odtoku</h3>
-        <div class="muted history-subtitle">24 hodin a 7 dní: interaktivní data · 30 dní: oficiální měsíční graf PVL</div>
+        <div class="muted history-subtitle">24 h: vlastní data · 7 a 30 dní: automaticky vlastní historie, jinak oficiální graf PVL</div>
       </div>
       <div class="live11-tabs" data-key="slapy">
         <button type="button" class="live11-tab active" data-range="24">24 hodin</button>
@@ -438,9 +438,9 @@ input[type=range]{width:260px}
       <div id="slapy11Note" class="live11-note"></div>
     </div>
 
-    <div id="slapy11Month" class="live11-month" style="display:none">
-      <img src="/api/month-graph?station=VLSL" alt="Oficiální měsíční graf PVL – Slap">
-      <div class="muted month-caption">Oficiální měsíční graf Povodí Vltavy.</div>
+    <div id="slapy11Official" class="live11-month" style="display:none">
+      <img id="slapy11OfficialImg" src="/api/official-graph?station=VLSL&range=week" alt="Oficiální historický graf PVL">
+      <div id="slapy11OfficialCaption" class="muted month-caption">Oficiální graf Povodí Vltavy.</div>
     </div>
   </div>
 
@@ -680,22 +680,51 @@ function live11Draw(svgId,rows,valueKey,unit,range){
     });
   });
 }
+
+function live11CoverageDays(rows){
+  const dates=(rows||[]).map(r=>live11Ts(r.timestamp)).filter(Boolean).sort((a,b)=>a-b);
+  if(dates.length<2) return 0;
+  return (dates[dates.length-1]-dates[0])/(24*3600*1000);
+}
+function live11OwnHistoryReady(key,range){
+  const rows=live11Rows(key,range);
+  const coverage=live11CoverageDays(rows);
+  if(range===7) return coverage>=6.5 && rows.length>=80;
+  if(range===30) return coverage>=29 && rows.length>=300;
+  return true;
+}
+
 function live11Render(key){
   const range=live11Range[key];
   const interactive=document.getElementById(key+'11Interactive');
-  const month=document.getElementById(key+'11Month');
-  if(range===30){
-    interactive.style.display='none';
-    month.style.display='block';
+  const official=document.getElementById(key+'11Official');
+  const ready=live11OwnHistoryReady(key,range);
+
+  if(range===24 || ready){
+    interactive.style.display='block';
+    official.style.display='none';
+    const rows=live11Rows(key,range);
+    live11Draw(key+'11LevelChart',rows,'level','m',range);
+    live11Draw(key+'11FlowChart',rows,'outflow','m³/s',range);
+    const note=document.getElementById(key+'11Note');
+    if(note){
+      const cov=live11CoverageDays(rows);
+      note.textContent=`${rows.length} bodů · pokrytí ${cov.toFixed(1)} dne`;
+    }
     return;
   }
-  interactive.style.display='block';
-  month.style.display='none';
-  const rows=live11Rows(key,range);
-  live11Draw(key+'11LevelChart',rows,'level','m',range);
-  live11Draw(key+'11FlowChart',rows,'outflow','m³/s',range);
-  const note=document.getElementById(key+'11Note');
-  if(note) note.textContent=`${rows.length} bodů · ${range===24?'posledních 24 hodin':'posledních 7 dní'}`;
+
+  interactive.style.display='none';
+  official.style.display='block';
+  const img=document.getElementById(key+'11OfficialImg');
+  const cap=document.getElementById(key+'11OfficialCaption');
+  if(range===7){
+    img.src='/api/official-graph?station='+live11Cfg[key].station+'&range=week&_='+Date.now();
+    if(cap) cap.textContent='Oficiální týdenní graf Povodí Vltavy. Až bude vlastní historie dostatečně hustá, dashboard automaticky přepne na interaktivní graf.';
+  }else{
+    img.src='/api/official-graph?station='+live11Cfg[key].station+'&range=month&_='+Date.now();
+    if(cap) cap.textContent='Oficiální měsíční graf Povodí Vltavy. Až bude vlastní 30denní historie dostatečně hustá, dashboard automaticky přepne na interaktivní graf.';
+  }
 }
 async function live11Load(key){
   const status=document.getElementById(key+'11Status');

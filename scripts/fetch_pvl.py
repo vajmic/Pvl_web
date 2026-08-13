@@ -182,6 +182,34 @@ def save_month_png(url,station):
     except:
         return None
 
+
+def find_week_png(raw_html,detail_url):
+    # The current/week graph lives in tabAGrafAktual. Find the first graph PNG
+    # inside that table and explicitly ignore monthly graph images.
+    m=re.search(r'<table[^>]+id=["\']tabAGrafAktual["\'][\s\S]*?</table>',raw_html,re.I)
+    block=m.group(0) if m else raw_html
+    imgs=re.findall(r'<img[^>]+src=["\']([^"\']+\.png)["\']',block,re.I)
+    for src in imgs:
+        if "GrafMesicni" not in src:
+            return urljoin(detail_url,src)
+    # Fallback: graph image with an id/name that is not monthly.
+    for mm in re.finditer(r'<img[^>]+(?:id|src)=["\'][^"\']*Graf[^"\']*["\'][^>]+src=["\']([^"\']+\.png)["\']',raw_html,re.I):
+        src=mm.group(1)
+        if "Mesicni" not in src:
+            return urljoin(detail_url,src)
+    return None
+
+def save_graph_png(url,path):
+    if not url: return None
+    try:
+        req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req,context=CTX,timeout=30) as r:
+            data=r.read()
+        with open(path,"wb") as f: f.write(data)
+        return path.split("/")[-1]
+    except:
+        return None
+
 def parse_station(station,cfg):
     detail_urls=[
         f"https://www.pvl.cz/portal/Nadrze/cz/smartphone/Mereni.aspx?id={station}&oid={cfg['oid']}&z=vse",
@@ -199,8 +227,10 @@ def parse_station(station,cfg):
                 raise ValueError(f"Current level parse failed: {level}")
 
             month_url=find_month_url(raw,detail_url)
+            week_png_url=find_week_png(raw,detail_url)
+            week_png_file=save_graph_png(week_png_url,f"cache/{station}_week.png")
             month_png_url=find_month_png(raw,detail_url)
-            month_png_file=save_month_png(month_png_url,station)
+            month_png_file=save_graph_png(month_png_url,f"cache/{station}_month.png")
             month_series=[]
             month_error=None
             if month_url:
@@ -228,6 +258,8 @@ def parse_station(station,cfg):
                 "name":cfg["name"],
                 "source":detail_url,
                 "monthSource":month_url,
+                "weekGraphUrl":week_png_url,
+                "weekGraphFile":week_png_file,
                 "monthGraphUrl":month_png_url,
                 "monthGraphFile":month_png_file,
                 "monthError":month_error,
