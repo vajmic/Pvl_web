@@ -4,18 +4,25 @@
   "name": "Lipno I",
   "source": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Mereni.aspx?id=VLL1&oid=1&z=vse",
   "monthSource": null,
+  "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_1_VLL1_cz.png",
+  "monthGraphFile": "VLL1_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-13T22:10:39.945957+00:00",
-  "timestamp": "14.08.2026 00:00",
-  "level": 722.46,
+  "fetchedAt": "2026-08-13T22:17:13.137808+00:00",
+  "timestamp": "14.08.2026 00:10",
+  "level": 722.47,
   "volume": 175.33,
   "inflow": 3.94,
   "outflow": 1.54,
   "series": [
     {
-      "timestamp": "14.08.2026 00:00",
-      "level": 722.46,
-      "outflow": 13.08
+      "timestamp": "14.08.2026 00:10",
+      "level": 722.47,
+      "outflow": 14.08
+    },
+    {
+      "timestamp": "13.08.2026 23:00",
+      "level": 722.47,
+      "outflow": 1.54
     },
     {
       "timestamp": "13.08.2026 22:00",
@@ -160,9 +167,14 @@
   ],
   "series24h": [
     {
-      "timestamp": "14.08.2026 00:00",
-      "level": 722.46,
-      "outflow": 13.08
+      "timestamp": "14.08.2026 00:10",
+      "level": 722.47,
+      "outflow": 14.08
+    },
+    {
+      "timestamp": "13.08.2026 23:00",
+      "level": 722.47,
+      "outflow": 1.54
     },
     {
       "timestamp": "13.08.2026 22:00",
@@ -277,9 +289,19 @@
   ],
   "series7d": [
     {
+      "timestamp": "14.08.2026 00:10",
+      "level": 722.47,
+      "outflow": 14.08
+    },
+    {
       "timestamp": "14.08.2026 00:00",
       "level": 722.46,
       "outflow": 13.08
+    },
+    {
+      "timestamp": "13.08.2026 23:00",
+      "level": 722.47,
+      "outflow": 1.54
     },
     {
       "timestamp": "13.08.2026 22:00",
@@ -424,9 +446,19 @@
   ],
   "series30d": [
     {
+      "timestamp": "14.08.2026 00:10",
+      "level": 722.47,
+      "outflow": 14.08
+    },
+    {
       "timestamp": "14.08.2026 00:00",
       "level": 722.46,
       "outflow": 13.08
+    },
+    {
+      "timestamp": "13.08.2026 23:00",
+      "level": 722.47,
+      "outflow": 1.54
     },
     {
       "timestamp": "13.08.2026 22:00",
