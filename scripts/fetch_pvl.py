@@ -139,6 +139,49 @@ def filter_days(rows, days, newest_ts=None):
     cutoff=newest-timedelta(days=days)
     return [r for dt,r in parsed if dt>=cutoff]
 
+
+def load_previous(station):
+    url=f"https://raw.githubusercontent.com/vajmic/Pvl_web/data-cache/{station}.json"
+    try:
+        req=urllib.request.Request(url,headers={"User-Agent":"VltavaDashboardCache/1.4"})
+        with urllib.request.urlopen(req,timeout=20) as r:
+            return json.loads(r.read().decode("utf-8"))
+    except:
+        return {}
+
+def merge_history(old_rows,new_rows,days=31):
+    merged={}
+    for row in (old_rows or [])+(new_rows or []):
+        ts=row.get("timestamp")
+        if not ts: continue
+        merged[ts]={"timestamp":ts,"level":row.get("level"),"outflow":row.get("outflow")}
+    cutoff=datetime.now()-timedelta(days=days)
+    out=[]
+    for row in merged.values():
+        try: dt=datetime.strptime(row["timestamp"],"%d.%m.%Y %H:%M")
+        except: continue
+        if dt>=cutoff: out.append(row)
+    out.sort(key=lambda r: datetime.strptime(r["timestamp"],"%d.%m.%Y %H:%M"), reverse=True)
+    return out
+
+def find_month_png(raw_html,detail_url):
+    m=re.search(r'<img[^>]+id=["\']GrafMesicniImg["\'][^>]+src=["\']([^"\']+)["\']',raw_html,re.I)
+    if not m:
+        m=re.search(r'<img[^>]+src=["\']([^"\']*GrafMesicni[^"\']*\.png)["\']',raw_html,re.I)
+    return urljoin(detail_url,m.group(1)) if m else None
+
+def save_month_png(url,station):
+    if not url: return None
+    try:
+        req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req,context=CTX,timeout=30) as r:
+            data=r.read()
+        path=f"cache/{station}_month.png"
+        with open(path,"wb") as f: f.write(data)
+        return f"{station}_month.png"
+    except:
+        return None
+
 def parse_station(station,cfg):
     detail_urls=[
         f"https://www.pvl.cz/portal/Nadrze/cz/smartphone/Mereni.aspx?id={station}&oid={cfg['oid']}&z=vse",
@@ -156,6 +199,8 @@ def parse_station(station,cfg):
                 raise ValueError(f"Current level parse failed: {level}")
 
             month_url=find_month_url(raw,detail_url)
+            month_png_url=find_month_png(raw,detail_url)
+            month_png_file=save_month_png(month_png_url,station)
             month_series=[]
             month_error=None
             if month_url:
@@ -171,14 +216,11 @@ def parse_station(station,cfg):
             except:
                 newest=None
 
+            previous=load_previous(station)
+            accumulated=merge_history(previous.get("series30d") or previous.get("series") or [], detail_series,31)
             series24h=filter_days(detail_series,1,newest)
-            series7d=filter_days(detail_series,7,newest)
-
-            # For 30d prefer dedicated month data. If its structure yields no usable
-            # rows, fall back to accumulated detail history.
-            series30d=filter_days(month_series,30,newest) if month_series else []
-            if len(series30d)<2:
-                series30d=filter_days(detail_series,30,newest)
+            series7d=filter_days(accumulated,7,newest)
+            series30d=filter_days(accumulated,30,newest)
 
             return {
                 "ok":True,
@@ -186,6 +228,8 @@ def parse_station(station,cfg):
                 "name":cfg["name"],
                 "source":detail_url,
                 "monthSource":month_url,
+                "monthGraphUrl":month_png_url,
+                "monthGraphFile":month_png_file,
                 "monthError":month_error,
                 "fetchedAt":datetime.now(timezone.utc).isoformat(),
                 "timestamp":timestamp,

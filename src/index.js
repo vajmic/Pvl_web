@@ -2,6 +2,15 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.pathname === "/api/month-graph") {
+      const station=(url.searchParams.get("station")||"VLOR").replace(/[^A-Z0-9]/g,"");
+      if(!["VLL1","VLOR","VLSL"].includes(station)) return new Response("Unsupported station",{status:400});
+      const raw=`https://raw.githubusercontent.com/vajmic/Pvl_web/data-cache/${station}_month.png`;
+      const r=await fetch(raw,{cf:{cacheTtl:300,cacheEverything:true}});
+      if(!r.ok) return new Response("Monthly graph unavailable",{status:502});
+      return new Response(r.body,{headers:{"Content-Type":"image/png","Cache-Control":"public,max-age=300"}});
+    }
+
     if (url.pathname === "/api/pvl") {
       const station = (url.searchParams.get("station") || "VLOR").replace(/[^A-Z0-9]/g, "");
       const allowed = new Set(["VLL1","VLOR","VLSL"]);
