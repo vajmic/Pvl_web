@@ -138,6 +138,12 @@ input[type=range]{width:260px}
   .analytics-live-grid{grid-template-columns:1fr}
 }
 
+
+.ref-card.current{border:1px solid #9ec5f8;background:#f4f8ff}
+.ref-card.selected{border:3px solid #111827;background:#fff8e8;transform:translateX(4px)}
+.ref-card.selected .ref-num{box-shadow:0 0 0 3px #fff,0 0 0 5px #111827}
+#curve circle[data-ref]{cursor:pointer;transition:r .12s ease,stroke-width .12s ease}
+
 </style>
 </head>
 <body>
@@ -1039,6 +1045,99 @@ if(typeof live14SyncOrlikCurrent==='function'){
   };
 }
 setTimeout(live15SyncCurrentDate,1800);
+
+
+let orlikSelectedRef=null;
+
+function orlikApplySelection(ref){
+  orlikSelectedRef=String(ref);
+
+  document.querySelectorAll('#orlikRefs .ref-card').forEach(card=>{
+    card.classList.toggle('selected',card.dataset.ref===orlikSelectedRef);
+  });
+
+  document.querySelectorAll('#curve circle[data-ref]').forEach(circle=>{
+    const selected=circle.dataset.ref===orlikSelectedRef;
+    const current=circle.dataset.ref==='3';
+
+    circle.setAttribute('r', selected ? '16' : '11');
+    circle.setAttribute('stroke', selected ? '#111827' : '#ffffff');
+    circle.setAttribute('stroke-width', selected ? '4' : '2');
+
+    // Current point stays blue as a reference; all other reference points stay amber.
+    circle.setAttribute('fill', current ? '#1565c0' : '#c17b00');
+  });
+}
+
+// Persistent selection on both graph markers and reference cards.
+document.querySelectorAll('#curve circle[data-ref]').forEach(circle=>{
+  circle.addEventListener('click',e=>{
+    e.stopPropagation();
+    orlikApplySelection(circle.dataset.ref);
+  });
+  circle.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch') orlikApplySelection(circle.dataset.ref);
+  });
+});
+
+document.querySelectorAll('#orlikRefs .ref-card').forEach(card=>{
+  card.style.cursor='pointer';
+  card.addEventListener('click',()=>orlikApplySelection(card.dataset.ref));
+});
+
+// Clear selection only by tapping/clicking empty graph area.
+const orlikCurveSvg=document.getElementById('curve');
+if(orlikCurveSvg){
+  orlikCurveSvg.addEventListener('click',e=>{
+    if(e.target===orlikCurveSvg){
+      orlikSelectedRef=null;
+      document.querySelectorAll('#orlikRefs .ref-card').forEach(c=>c.classList.remove('selected'));
+      document.querySelectorAll('#curve circle[data-ref]').forEach(circle=>{
+        circle.setAttribute('r','11');
+        circle.setAttribute('stroke','#ffffff');
+        circle.setAttribute('stroke-width','2');
+      });
+    }
+  });
+}
+
+function live17MoveCurrentCurvePoint(){
+  if(typeof live11Data==='undefined') return;
+  const d=live11Data.orlik;
+  if(!d || !Number.isFinite(+d.level)) return;
+  if(typeof sx!=='function' || typeof sy!=='function' || typeof live13VolumeAtOrlikLevel!=='function') return;
+
+  const level=+d.level;
+  const usable=live13VolumeAtOrlikLevel(level);
+  if(!Number.isFinite(usable)) return;
+
+  const circle=document.querySelector('#curve circle[data-ref="3"]');
+  if(circle){
+    circle.setAttribute('cx',sx(level));
+    circle.setAttribute('cy',sy(usable));
+    circle.dataset.lab='Aktuální stav — '+level.toFixed(2)+' m / '+usable.toFixed(1)+' mil. m³';
+  }
+
+  // Move the numeric label "3" belonging to the same SVG group.
+  const group=document.querySelector('#curve g[data-ref="3"]');
+  const text=group ? group.querySelector('text') : null;
+  if(text){
+    text.setAttribute('x',sx(level));
+    text.setAttribute('y',sy(usable)+4);
+  }
+
+  // Reapply persistent selected styling after moving the point.
+  if(orlikSelectedRef!==null) orlikApplySelection(orlikSelectedRef);
+}
+
+if(typeof live14SyncOrlikCurrent==='function'){
+  const _live14SyncOrlikCurrentV17=live14SyncOrlikCurrent;
+  live14SyncOrlikCurrent=function(){
+    _live14SyncOrlikCurrentV17();
+    live17MoveCurrentCurvePoint();
+  };
+}
+setTimeout(live17MoveCurrentCurvePoint,1900);
 
 </script>
 </body>
