@@ -116,6 +116,28 @@ input[type=range]{width:260px}
   .live-values{grid-template-columns:1fr 1fr}
 }
 
+
+.overview-live-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.overview-res-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.overview-res-name{font-weight:700;margin-bottom:8px}
+.overview-bar{height:18px;border-radius:999px;background:#eef2f7;overflow:hidden}
+.overview-fill{height:100%;background:var(--accent);width:0%;transition:width .25s ease}
+.overview-res-meta{display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-size:12px;color:var(--muted)}
+.overview-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.analytics-live-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.analytics-live-card{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+.analytics-live-card .label{font-size:12px;color:var(--muted)}
+.analytics-live-card .value{font-size:20px;font-weight:700;margin-top:2px}
+.dynamic-note{font-size:12px;color:var(--muted);margin-top:6px}
+@media(max-width:760px){
+  .overview-live-grid{grid-template-columns:1fr}
+  .overview-summary{grid-template-columns:1fr}
+  .analytics-live-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:430px){
+  .analytics-live-grid{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -327,6 +349,34 @@ input[type=range]{width:260px}
     </div>
   </div>
 
+
+  <div class="card" id="orlikDynamicAnalysis" style="margin-bottom:16px">
+    <h2>Aktuální provozní analytika Orlíku</h2>
+    <div class="muted" style="font-size:12px">Automaticky přepočítáno z posledních dat PVL a z objemové křivky použité v dashboardu.</div>
+
+    <div class="analytics-live-grid">
+      <div class="analytics-live-card">
+        <div class="label">Aktuální hladina</div>
+        <div class="value" id="orlDynLevel">— m</div>
+      </div>
+      <div class="analytics-live-card">
+        <div class="label">Zásoba nad 334,60 m</div>
+        <div class="value" id="orlDynToSlapy">— mil. m³</div>
+      </div>
+      <div class="analytics-live-card">
+        <div class="label">Rozdíl hladiny do 334,60 m</div>
+        <div class="value" id="orlDynLevelDiff">— m</div>
+      </div>
+      <div class="analytics-live-card">
+        <div class="label">Odhad do přechodu na Slapy</div>
+        <div class="value" id="orlDynDays">— dní</div>
+      </div>
+    </div>
+
+    <div class="dynamic-note" id="orlDynMethod">
+      Odhad času se počítá z průměrného čistého úbytku objemu podle dostupné 7denní historie; pokud není historie dostatečná, použije se kratší dostupné období.
+    </div>
+  </div>
 <div class="card" style="margin-bottom:16px">
     <h2>Co znamená hranice 334,60 m?</h2>
     <p>V současném provozním scénáři je Orlík využíván jako hlavní zdroj vody pro udržování požadovaného odtoku z Vltavské kaskády. <b>Hladina 334,60 m n. m. není námi zvolená orientační hranice – vychází z manipulačního řádu Vltavské kaskády. Po jejím dosažení se přechází z dalšího vyprazdňování zásobního prostoru Orlíku na využívání (vyprazdňování) zásobního prostoru Slap.</b></p>
@@ -772,6 +822,143 @@ window.addEventListener('resize',()=>{
 if(location.protocol==='http:'||location.protocol==='https:'){
   ['lipno','orlik','slapy'].forEach(live11Load);
 }
+
+
+const live13MaxStorage={lipno:252.99,orlik:343.08,slapy:200.50};
+
+// Approximate volume above permanent pool from dashboard's own level-volume curve.
+// Reuse existing interpolation helpers/point arrays when available.
+function live13UsableFromLevel(key,level){
+  try{
+    if(key==='orlik' && typeof pts!=='undefined' && typeof interpPts==='function') return interpPts(pts,level);
+    if(key==='lipno' && typeof lipPts!=='undefined' && typeof interpPts==='function') return interpPts(lipPts,level);
+    if(key==='slapy' && typeof slaPts!=='undefined' && typeof interpPts==='function') return interpPts(slaPts,level);
+  }catch(e){}
+  return null;
+}
+
+function live13ParseTs(s){
+  const m=String(s||'').match(/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2})$/);
+  return m?new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5]):null;
+}
+
+function live13VolumeAtOrlikLevel(level){
+  try{
+    if(typeof pts!=='undefined' && typeof interpPts==='function') return interpPts(pts,level);
+  }catch(e){}
+  return null;
+}
+
+function live13EstimateNetDailyLoss(orlikData){
+  const rows=(orlikData?.series7d||orlikData?.series||[])
+    .map(r=>({...r,_dt:live13ParseTs(r.timestamp)}))
+    .filter(r=>r._dt&&Number.isFinite(+r.level))
+    .sort((a,b)=>a._dt-b._dt);
+
+  if(rows.length<2) return null;
+
+  // Estimate loss from volume curve between oldest and newest available point.
+  const first=rows[0], last=rows[rows.length-1];
+  const v0=live13VolumeAtOrlikLevel(+first.level);
+  const v1=live13VolumeAtOrlikLevel(+last.level);
+  if(!Number.isFinite(v0)||!Number.isFinite(v1)) return null;
+
+  const days=(last._dt-first._dt)/(24*3600*1000);
+  if(days<=0) return null;
+
+  const loss=(v0-v1)/days;
+  return loss>0?loss:null;
+}
+
+function live13UpdateOverview(){
+  if(typeof live11Data==='undefined') return;
+  const cfg=[
+    ['lipno','ovLipFill','ovLipUsed','ovLipPct'],
+    ['orlik','ovOrlFill','ovOrlUsed','ovOrlPct'],
+    ['slapy','ovSlaFill','ovSlaUsed','ovSlaPct']
+  ];
+
+  let totalUsed=0,totalMax=0,latest=null;
+  cfg.forEach(([key,fillId,usedId,pctId])=>{
+    const d=live11Data[key];
+    const max=live13MaxStorage[key];
+    totalMax+=max;
+    if(!d) return;
+
+    let usable=live13UsableFromLevel(key,+d.level);
+    if(!Number.isFinite(usable)){
+      // Fallback: for display, cap reported total volume to storage maximum if no curve value is available.
+      usable=Math.min(max,Math.max(0,+d.volume||0));
+    }
+    const pct=Math.max(0,Math.min(100,100*usable/max));
+    totalUsed+=usable;
+
+    const fill=document.getElementById(fillId);
+    const used=document.getElementById(usedId);
+    const pctEl=document.getElementById(pctId);
+    if(fill) fill.style.width=pct.toFixed(1)+'%';
+    if(used) used.textContent=usable.toLocaleString('cs-CZ',{maximumFractionDigits:1})+' mil. m³';
+    if(pctEl) pctEl.textContent=pct.toLocaleString('cs-CZ',{maximumFractionDigits:1})+' %';
+
+    const dt=live13ParseTs(d.timestamp);
+    if(dt && (!latest || dt>latest)) latest=dt;
+  });
+
+  const totalUsedEl=document.getElementById('ovTotalUsed');
+  const totalPctEl=document.getElementById('ovTotalPct');
+  const tsEl=document.getElementById('overviewLiveTimestamp');
+  if(totalUsedEl) totalUsedEl.textContent=totalUsed.toLocaleString('cs-CZ',{maximumFractionDigits:1})+' mil. m³';
+  if(totalPctEl) totalPctEl.textContent=(100*totalUsed/totalMax).toLocaleString('cs-CZ',{maximumFractionDigits:1})+' %';
+  if(tsEl) tsEl.textContent=latest?'Data PVL: '+latest.toLocaleString('cs-CZ'):'Data PVL nejsou zatím načtena';
+}
+
+function live13UpdateOrlikAnalysis(){
+  if(typeof live11Data==='undefined') return;
+  const d=live11Data.orlik;
+  if(!d || !Number.isFinite(+d.level)) return;
+
+  const currentLevel=+d.level;
+  const boundaryLevel=334.60;
+  const currentVol=live13VolumeAtOrlikLevel(currentLevel);
+  const boundaryVol=live13VolumeAtOrlikLevel(boundaryLevel);
+  const remain=(Number.isFinite(currentVol)&&Number.isFinite(boundaryVol))?Math.max(0,currentVol-boundaryVol):null;
+  const diff=Math.max(0,currentLevel-boundaryLevel);
+  const dailyLoss=live13EstimateNetDailyLoss(d);
+  const days=(remain!=null&&dailyLoss)?remain/dailyLoss:null;
+
+  const set=(id,text)=>{const e=document.getElementById(id);if(e)e.textContent=text};
+  set('orlDynLevel',currentLevel.toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2})+' m');
+  set('orlDynLevelDiff',diff.toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2})+' m');
+  set('orlDynToSlapy',remain==null?'—':remain.toLocaleString('cs-CZ',{maximumFractionDigits:1})+' mil. m³');
+  set('orlDynDays',days==null?'—':days.toLocaleString('cs-CZ',{maximumFractionDigits:1})+' dní');
+
+  const method=document.getElementById('orlDynMethod');
+  if(method){
+    if(dailyLoss){
+      method.textContent='Odhad času vychází z průměrného čistého úbytku zásobního objemu podle dostupné historie hladiny: přibližně '
+        +dailyLoss.toLocaleString('cs-CZ',{maximumFractionDigits:2})+' mil. m³/den. Nejde o předpověď počasí ani budoucího manipulačního režimu.';
+    }else{
+      method.textContent='Pro spolehlivý odhad času zatím není dost hustá historie. Zásoba do 334,60 m je ale přepočtená z aktuální hladiny.';
+    }
+  }
+}
+
+function live13RefreshDerived(){
+  live13UpdateOverview();
+  live13UpdateOrlikAnalysis();
+}
+
+// Hook into the already-existing v11 loader by wrapping it after definition.
+if(typeof live11Load==='function'){
+  const _live11Load=live11Load;
+  live11Load=async function(key){
+    await _live11Load(key);
+    live13RefreshDerived();
+  };
+}
+
+// Also refresh after initial automatic loads finish.
+setTimeout(live13RefreshDerived,1500);
 
 </script>
 </body>
