@@ -4,9 +4,9 @@ from datetime import datetime, timezone, timedelta
 from urllib.parse import urljoin
 
 STATIONS = {
-    "VLL1": {"oid":"1","name":"Lipno I"},
-    "VLOR": {"oid":"2","name":"Orlík"},
-    "VLSL": {"oid":"2","name":"Slapy"},
+    "VLL1": {"oid":"1","name":"Lipno I","storageName":"VD Lipno 1"},
+    "VLOR": {"oid":"2","name":"Orlík","storageName":"VD Orlík"},
+    "VLSL": {"oid":"2","name":"Slapy","storageName":"VD Slapy"},
 }
 
 CTX = ssl._create_unverified_context()
@@ -210,7 +210,42 @@ def save_graph_png(url,path):
     except:
         return None
 
-def parse_station(station,cfg):
+
+def fetch_storage_overview():
+    url="https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC"
+    raw=fetch(url)
+    text=plain(raw)
+    out={}
+    for station,cfg in STATIONS.items():
+        name=re.escape(cfg["storageName"])
+        # PVL storage table starts with:
+        # station, river, timestamp, used storage [mil m3], used %, free storage [mil m3], free %
+        rx=re.compile(
+            name+r"\s+Vltava\s+"
+            r"(\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2})\s+"
+            r"(-?\d+(?:[.,]\d+)?)\s+"
+            r"(-?\d+(?:[.,]\d+)?)\s+"
+            r"(-?\d+(?:[.,]\d+)?)\s+"
+            r"(-?\d+(?:[.,]\d+)?)",
+            re.I
+        )
+        m=rx.search(text)
+        if not m:
+            continue
+        used=num(m.group(2)); used_pct=num(m.group(3))
+        free=num(m.group(4)); free_pct=num(m.group(5))
+        out[station]={
+            "storageTimestamp":m.group(1),
+            "storageUsed":used,
+            "storageUsedPct":used_pct,
+            "storageFree":free,
+            "storageFreePct":free_pct,
+            "storageCapacity":(used+free) if used is not None and free is not None else None,
+            "storageSource":url
+        }
+    return out
+
+def parse_station(station,cfg,storage_overview=None):
     detail_urls=[
         f"https://www.pvl.cz/portal/Nadrze/cz/smartphone/Mereni.aspx?id={station}&oid={cfg['oid']}&z=vse",
         f"https://www.pvl.cz/portal/Nadrze/cz/pc/Mereni.aspx?id={station}&oid={cfg['oid']}&z=vse",
@@ -252,6 +287,7 @@ def parse_station(station,cfg):
             series7d=filter_days(accumulated,7,newest)
             series30d=filter_days(accumulated,30,newest)
 
+            storage=(storage_overview or {}).get(station,{})
             return {
                 "ok":True,
                 "station":station,
@@ -269,6 +305,13 @@ def parse_station(station,cfg):
                 "volume":volume,
                 "inflow":inflow,
                 "outflow":outflow,
+                "storageTimestamp":storage.get("storageTimestamp"),
+                "storageUsed":storage.get("storageUsed"),
+                "storageUsedPct":storage.get("storageUsedPct"),
+                "storageFree":storage.get("storageFree"),
+                "storageFreePct":storage.get("storageFreePct"),
+                "storageCapacity":storage.get("storageCapacity"),
+                "storageSource":storage.get("storageSource"),
                 "series":detail_series,
                 "series24h":series24h,
                 "series7d":series7d,
@@ -284,9 +327,15 @@ def parse_station(station,cfg):
     }
 
 os.makedirs("cache",exist_ok=True)
+try:
+    STORAGE_OVERVIEW=fetch_storage_overview()
+except Exception as e:
+    print("Storage overview fetch failed:",e)
+    STORAGE_OVERVIEW={}
+
 summary={}
 for station,cfg in STATIONS.items():
-    data=parse_station(station,cfg)
+    data=parse_station(station,cfg,STORAGE_OVERVIEW)
     summary[station]=data
     with open(f"cache/{station}.json","w",encoding="utf-8") as f:
         json.dump(data,f,ensure_ascii=False,indent=2)
