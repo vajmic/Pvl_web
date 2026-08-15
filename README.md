@@ -1,10 +1,14 @@
-# PVL web – Cloudflare Worker
+# PVL Web – unified v2
 
-Tato verze odpovídá aktuálnímu Cloudflare deploymentu přes `npx wrangler deploy`.
+Deployment matches the current Cloudflare Worker setup (`npx wrangler deploy`).
 
-- `public/index.html` – web, který Wrangler skutečně publikuje jako asset
-- `src/index.js` – Worker; obsluhuje `/api/pvl` a ostatní požadavky předává `env.ASSETS`
-- `wrangler.jsonc` – asset directory je `./public`
-- `package.json` – Wrangler dependency
+Files:
+- `public/index.html` – unified visual design across all tabs
+- `src/index.js` – robust PVL parser + `/api/pvl`
+- `/api/health` – simple deployment health check
 
-Po pushi do GitHubu současný Cloudflare deploy command `npx wrangler deploy` nasadí tuto verzi.
+After deployment verify:
+1. `https://pvl-web.vosmik-david.workers.dev/api/health`
+2. `.../api/pvl?station=VLOR`
+3. `.../api/pvl?station=VLSL`
+4. `.../api/pvl?station=VLL1`
