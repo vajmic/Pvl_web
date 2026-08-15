@@ -90,7 +90,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v10</span></h1><p>Orlík – Slapy – Lipno</p></div>
+    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v11</span></h1><p>Orlík – Slapy – Lipno</p></div>
     <div class="refresh-meta">
       <div>Poslední aktualizace dat</div>
       <b id="globalUpdated">uložený snapshot</b><br>
@@ -157,8 +157,8 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
           <div class="ref-list" id="orlikRefs">
             <div class="ref-card" data-ref="1"><span class="ref-num">1</span><div><b>334,60 m · přechod na Slapy</b><div>Hranice dle manipulačního řádu. Po jejím dosažení se přechází na využívání zásobního prostoru Slap.</div></div></div>
             <div class="ref-card" data-ref="2"><span class="ref-num">2</span><div><b>335,19 m · technické snížení 2019</b><div>Je o pár centimetrů níž než sucho 1976, ale šlo o plánované snížení kvůli pracím, ne o hydrologické minimum.</div></div></div>
-            <div class="ref-card current" data-ref="3"><span class="ref-num">3</span><div><b id="orCurrentRefTitle">337,83 m · referenční stav 13. 8. 2026</b><div id="orCurrentRefText">Po načtení PVL se tento bod aktualizuje na současnou hladinu.</div></div></div>
-            <div class="ref-card" data-ref="4"><span class="ref-num">4</span><div><b>≈335,25 m · extrémní sucho 1976</b><div>Extrémní hydrologické sucho 1976. Tento bod je zde použit jako hlavní historická referenční suchá epizoda.</div></div></div>
+            <div class="ref-card" data-ref="3"><span class="ref-num">3</span><div><b>≈335,25 m · extrémní sucho 1976</b><div>Extrémní hydrologické sucho 1976. Tento bod je zde použit jako hlavní historická referenční suchá epizoda.</div></div></div>
+            <div class="ref-card current" data-ref="4"><span class="ref-num">4</span><div><b id="orCurrentRefTitle">337,83 m · referenční stav 13. 8. 2026</b><div id="orCurrentRefText">Po načtení PVL se tento bod aktualizuje na současnou hladinu.</div></div></div>
             <div class="ref-card" data-ref="5"><span class="ref-num">5</span><div><b>345,60 m · kóta přelivu</b><div>Výšková úroveň přelivu hráze.</div></div></div>
             <div class="ref-card" data-ref="6"><span class="ref-num">6</span><div><b>349,90 m · max. zásobní hladina</b><div>Horní hranice zásobního prostoru Orlíku.</div></div></div>
           </div>
@@ -169,8 +169,8 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
             <tr><td>Stálé nadržení</td><td>329,60 m</td><td>Nulový bod naší křivky zásobního objemu.</td></tr>
             <tr><td>1</td><td>334,60 m</td><td>Přechod na využívání zásobního prostoru Slap dle manipulačního řádu.</td></tr>
             <tr><td>2</td><td>335,19 m</td><td>Technické snížení 2019, nikoli hydrologické sucho.</td></tr>
-            <tr><td>3</td><td id="orCurrentRefTable">živý stav</td><td>Aktuální hladina z PVL cache.</td></tr>
-            <tr><td>4</td><td>≈335,25 m</td><td>Extrémní sucho 1976; jeden z nejnižších hydrologických stavů Orlíku v historickém srovnání.</td></tr>
+            <tr><td>3</td><td>≈335,25 m</td><td>Extrémní sucho 1976; jeden z nejnižších hydrologických stavů Orlíku v historickém srovnání.</td></tr>
+            <tr><td>4</td><td id="orCurrentRefTable">živý stav</td><td>Aktuální hladina z PVL cache.</td></tr>
             <tr><td>5</td><td>345,60 m</td><td>Kóta přelivu.</td></tr>
             <tr><td>6</td><td>349,90 m</td><td>Maximální zásobní hladina.</td></tr>
             <tr><td>—</td><td>353,60 m</td><td>Maximální retenční hladina; leží nad zásobním prostorem.</td></tr>
@@ -371,8 +371,8 @@ function drawOrlikCurve(currentLevel){
   const specials=[
     ['Slapy',334.60,interp(orPts,334.60)],
     ['2019',335.19,interp(orPts,335.19)],
-    ['aktuálně',currentLevel,currentVol],
     ['1976',335.25,interp(orPts,335.25)],
+    ['aktuálně',currentLevel,currentVol],
     ['přeliv',345.60,interp(orPts,345.60)],
     ['max zásobní',349.90,interp(orPts,349.90)]
   ];
@@ -388,8 +388,8 @@ function drawOrlikCurve(currentLevel){
     const offsets={
       1:{dx:-18,dy:48},
       2:{dx:8,dy:-48},
-      3:{dx:4,dy:-8},
-      4:{dx:62,dy:45},
+      3:{dx:62,dy:45},
+      4:{dx:4,dy:-8},
       5:{dx:-15,dy:-42},
       6:{dx:-38,dy:32}
     };
@@ -401,7 +401,7 @@ function drawOrlikCurve(currentLevel){
       const lead=document.createElementNS(NS,'line');
       lead.setAttribute('x1',ax);lead.setAttribute('y1',ay);
       lead.setAttribute('x2',mx);lead.setAttribute('y2',my);
-      lead.setAttribute('stroke',n===3?'#1565c0':'#c17b00');
+      lead.setAttribute('stroke',n===4?'#1565c0':'#c17b00');
       lead.setAttribute('stroke-width','3');
       lead.setAttribute('stroke-linecap','round');
       lead.setAttribute('opacity','.75');
@@ -409,19 +409,19 @@ function drawOrlikCurve(currentLevel){
 
       const anchor=document.createElementNS(NS,'circle');
       anchor.setAttribute('cx',ax);anchor.setAttribute('cy',ay);anchor.setAttribute('r','5');
-      anchor.setAttribute('fill',n===3?'#1565c0':'#c17b00');
+      anchor.setAttribute('fill',n===4?'#1565c0':'#c17b00');
       anchor.setAttribute('stroke','#fff');anchor.setAttribute('stroke-width','2');
       anchor.style.pointerEvents='none';g.appendChild(anchor);
     }
 
     const halo=document.createElementNS(NS,'circle');
     halo.setAttribute('cx',mx);halo.setAttribute('cy',my);halo.setAttribute('r','32');
-    halo.setAttribute('fill',n===3?'rgba(21,101,192,.16)':'rgba(193,123,0,.18)');
+    halo.setAttribute('fill',n===4?'rgba(21,101,192,.16)':'rgba(193,123,0,.18)');
     halo.style.pointerEvents='none';g.appendChild(halo);
 
     const c=document.createElementNS(NS,'circle');
     c.setAttribute('cx',mx);c.setAttribute('cy',my);c.setAttribute('r','21');
-    c.setAttribute('fill',n===3?'#1565c0':'#c17b00');
+    c.setAttribute('fill',n===4?'#1565c0':'#c17b00');
     c.setAttribute('stroke','#fff');c.setAttribute('stroke-width','3');
     c.style.cursor='pointer';
     c.dataset.ref=String(n);
