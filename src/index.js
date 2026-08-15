@@ -1,53 +1,101 @@
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "access-control-allow-origin": "*"
+    }
+  });
+}
+
+async function loadPVL(station) {
+  const stations = {
+    VLOR: { oid: "2", name: "Orlík" },
+    VLSL: { oid: "2", name: "Slapy" },
+    VLL1: { oid: "1", name: "Lipno I" }
+  };
+  const cfg = stations[station];
+  if (!cfg) return json({ ok: false, error: "Unsupported station" }, 400);
+
+  const source = `https://www.pvl.cz/portal/nadrze/cz/pc/Mereni.aspx?id=${station}&oid=${cfg.oid}`;
+  const resp = await fetch(source, {
+    headers: {
+      "user-agent": "Mozilla/5.0 (compatible; VltavaDashboard/1.0)",
+      "accept-language": "cs-CZ,cs;q=0.9"
+    }
+  });
+  if (!resp.ok) throw new Error(`PVL HTTP ${resp.status}`);
+
+  const html = await resp.text();
+  const text = html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&sup3;|&#179;/gi, "³")
+    .replace(/&[^;]+;/g, " ")
+    .replace(/\s+/g, " ");
+
+  function numAfter(patterns) {
+    for (const p of patterns) {
+      const re = new RegExp(p + String.raw`\s*(?:\[.*?\])?\s*[,:\-]?\s*([0-9]+(?:[.,][0-9]+)?)`, "i");
+      const m = text.match(re);
+      if (m) return Number(m[1].replace(",", "."));
+    }
+    return null;
+  }
+
+  const level = numAfter(["Hladina vody v nádrži", "Hladina"]);
+  const volume = numAfter(["Objem"]);
+  const inflow = numAfter(["Přítok"]);
+  const outflow = numAfter(["Odtok"]);
+
+  let timestamp = null;
+  const tm = text.match(/Aktuální hodnoty\s*\(([^)]+)\)/i);
+  if (tm) timestamp = tm[1].trim();
+
+  let graphUrl = null;
+  const anchorRe = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  let a;
+  while ((a = anchorRe.exec(html))) {
+    const label = a[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (/\bGraf\b/i.test(label)) {
+      try { graphUrl = new URL(a[1], source).href; } catch (_) {}
+      if (graphUrl) break;
+    }
+  }
+
+  return json({
+    ok: true,
+    station,
+    name: cfg.name,
+    source,
+    timestamp,
+    level,
+    volume,
+    inflow,
+    outflow,
+    graphUrl
+  });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (url.pathname === "/api/official-graph") {
-      const station=(url.searchParams.get("station")||"VLOR").replace(/[^A-Z0-9]/g,"");
-      const range=(url.searchParams.get("range")||"week").replace(/[^a-z]/g,"");
-      if(!["VLL1","VLOR","VLSL"].includes(station)) return new Response("Unsupported station",{status:400});
-      if(!["week","month"].includes(range)) return new Response("Unsupported range",{status:400});
-      const raw=`https://raw.githubusercontent.com/vajmic/Pvl_web/data-cache/${station}_${range}.png`;
-      const r=await fetch(raw,{cf:{cacheTtl:300,cacheEverything:true}});
-      if(!r.ok) return new Response("Official graph unavailable",{status:502});
-      return new Response(r.body,{headers:{"Content-Type":"image/png","Cache-Control":"public,max-age=300"}});
-    }
-
     if (url.pathname === "/api/pvl") {
-      const station = (url.searchParams.get("station") || "VLOR").replace(/[^A-Z0-9]/g, "");
-      const allowed = new Set(["VLL1","VLOR","VLSL"]);
-      if (!allowed.has(station)) {
-        return Response.json({ok:false,error:"Unsupported station"},{status:400});
-      }
-
-      const rawUrl = `https://raw.githubusercontent.com/vajmic/Pvl_web/data-cache/${station}.json`;
-
       try {
-        const r = await fetch(rawUrl, {
-          headers: { "User-Agent": "VltavaDashboard/1.0" },
-          cf: { cacheTtl: 60, cacheEverything: true }
-        });
-        if (!r.ok) {
-          return Response.json(
-            {ok:false,error:`Cache HTTP ${r.status}`,source:rawUrl},
-            {status:502,headers:{"Cache-Control":"no-store"}}
-          );
-        }
-        const data = await r.json();
-        return Response.json(data,{
-          headers:{
-            "Cache-Control":"no-store",
-            "Access-Control-Allow-Origin":"*"
-          }
-        });
-      } catch (e) {
-        return Response.json(
-          {ok:false,error:String(e),source:rawUrl},
-          {status:502,headers:{"Cache-Control":"no-store"}}
-        );
+        const station = (url.searchParams.get("station") || "VLOR")
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, "");
+        return await loadPVL(station);
+      } catch (err) {
+        return json({ ok: false, error: String(err) }, 502);
       }
     }
 
+    // Static dashboard from ./public.
     return env.ASSETS.fetch(request);
   }
 };

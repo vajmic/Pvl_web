@@ -1,7 +1,10 @@
-# Vltavská kaskáda – redesigned live dashboard
+# PVL web – Cloudflare Worker
 
-Cloudflare Pages project:
-- `index.html` – redesigned frontend
-- `functions/api/pvl.js` – server-side proxy/parser for live PVL data
+Tato verze odpovídá aktuálnímu Cloudflare deploymentu přes `npx wrangler deploy`.
 
-Deploy on Cloudflare Pages with no build step. Root directory is the project root.
+- `public/index.html` – web, který Wrangler skutečně publikuje jako asset
+- `src/index.js` – Worker; obsluhuje `/api/pvl` a ostatní požadavky předává `env.ASSETS`
+- `wrangler.jsonc` – asset directory je `./public`
+- `package.json` – Wrangler dependency
+
+Po pushi do GitHubu současný Cloudflare deploy command `npx wrangler deploy` nasadí tuto verzi.
