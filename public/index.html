@@ -22,7 +22,7 @@ a{color:inherit}
 .btn:hover{background:#f7fbff}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
 .tabs{display:grid;grid-template-columns:repeat(6,1fr);margin:18px 0 14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
 .tabs button{padding:12px;border:0;border-right:1px solid var(--line);background:#fff;font-weight:700;color:#2f4360;cursor:pointer}
-.tabs button:last-child{border-right:0}.tabs button.active{background:var(--blue);color:#fff}
+.tabs button:last-child{border-right:0}.tabs button.active{background:var(--blue);color:#fff}.nav-initial{font-size:17px;font-weight:900;margin-right:1px}.tabs button:not(.active) .nav-initial{color:var(--blue)}
 .panel{display:none}.panel.active{display:block}
 .hero{background:linear-gradient(135deg,var(--navy),#08253f);color:#fff;border-radius:14px;padding:18px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .hero .item{padding-right:12px;border-right:1px solid rgba(255,255,255,.18)}.hero .item:last-child{border-right:0}
@@ -56,6 +56,18 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
 
 .pvlimg{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
 .graph-switch{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+
+.overview-head{background:linear-gradient(135deg,var(--navy),#0b385d);color:#fff;border-radius:14px;padding:16px 18px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.overview-head h2{margin:0 0 3px}.overview-head .muted{color:rgba(255,255,255,.72)}
+.overview-total{text-align:right;display:flex;flex-direction:column}.overview-total b{font-size:25px}.overview-total .small{opacity:.72}
+.reservoir-overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.reservoir-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:44px 1fr auto;gap:11px;align-items:center;box-shadow:var(--shadow)}
+.reservoir-letter{width:42px;height:42px;border-radius:11px;background:var(--blueSoft);color:var(--blue);display:grid;place-items:center;font-size:24px;font-weight:900}
+.reservoir-side{text-align:right;display:flex;flex-direction:column}.reservoir-side b{font-size:17px}.reservoir-side span{font-size:11px;color:var(--muted)}
+.ts-card{margin-top:14px}.ts-controls{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px}.ts-controls .btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.ts-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:7px}.ts-key{display:inline-flex;gap:6px;align-items:center}.ts-line{width:20px;height:3px;border-radius:2px;display:inline-block}.ts-status{font-size:12px;color:var(--muted);margin-top:7px}
+@media(max-width:900px){.reservoir-overview-grid{grid-template-columns:1fr}.overview-head{align-items:flex-start}.overview-total{text-align:left}}
+@media(max-width:600px){.overview-head{flex-direction:column}.reservoir-card{grid-template-columns:42px 1fr}.reservoir-side{grid-column:2;text-align:left}}
 </style>
 </head>
 <body>
@@ -71,60 +83,37 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
 
   <nav class="tabs">
     <button class="active" data-tab="overview">Přehled</button>
-    <button data-tab="orlik">🌊 Orlík</button>
-    <button data-tab="slapy">🌲 Slapy</button>
-    <button data-tab="lipno">🌊 Lipno</button>
+    <button data-tab="lipno"><span class="nav-initial">L</span>ipno I</button>
+    <button data-tab="orlik"><span class="nav-initial">O</span>rlík</button>
+    <button data-tab="slapy"><span class="nav-initial">S</span>lapy</button>
     <button data-tab="history">▥ Historie</button>
     <button data-tab="about">ⓘ O projektu</button>
   </nav>
 
   <section id="overview" class="panel active">
-    <div class="hero">
-      <div class="item"><div class="label">ORLÍK · hladina</div><div class="value" id="ovOrlikLevel">337,83 m</div><div class="sub">referenční stav</div></div>
-      <div class="item"><div class="label">ORLÍK · zásoba</div><div class="value" id="ovOrlikUsable">115,09 mil. m³</div><div class="sub">zásobní prostor</div></div>
-      <div class="item"><div class="label">PŘÍTOK ORLÍK</div><div class="value" id="ovOrlikIn">10,83 m³/s</div><div class="sub">aktuální PVL po načtení</div></div>
-      <div class="item"><div class="label">ODTOK ORLÍK</div><div class="value" id="ovOrlikOut">—</div><div class="sub">aktuální PVL po načtení</div></div>
-      <div class="item danger"><div class="label">PŘECHOD NA SLAPY</div><div class="value">334,60 m</div><div class="sub">dle manipulačního řádu</div></div>
+    <div class="overview-head">
+      <div><h2>Aktuální stav Vltavské kaskády</h2><div class="muted">Lipno I · Orlík · Slapy — společná absolutní objemová perspektiva</div></div>
+      <div class="overview-total"><span class="small">Zásoba ve třech nádržích</span><b id="ovTotalStorage">—</b></div>
     </div>
-
+    <div class="reservoir-overview-grid">
+      <div class="reservoir-card"><div class="reservoir-letter">L</div><div><div class="small muted">LIPNO I</div><div class="metric" id="ovLipnoLevel">—</div><div class="small">hladina</div></div><div class="reservoir-side"><b id="ovLipnoStorage">—</b><span id="ovLipnoPct">zásobní prostor</span></div></div>
+      <div class="reservoir-card"><div class="reservoir-letter">O</div><div><div class="small muted">ORLÍK</div><div class="metric" id="ovOrlikLevel">—</div><div class="small">hladina</div></div><div class="reservoir-side"><b id="ovOrlikStorage">—</b><span id="ovOrlikPct">zásobní prostor</span></div></div>
+      <div class="reservoir-card"><div class="reservoir-letter">S</div><div><div class="small muted">SLAPY</div><div class="metric" id="ovSlapyLevel">—</div><div class="small">hladina</div></div><div class="reservoir-side"><b id="ovSlapyStorage">—</b><span id="ovSlapyPct">zásobní prostor</span></div></div>
+    </div>
     <div class="grid2">
       <div class="card">
         <h2>Absolutní velikost zásobních prostorů</h2>
-        <div class="muted small">Všechny bary mají stejnou absolutní osu. Délka tedy přímo ukazuje, jak velký zásobní prostor nádrž má.</div>
-        <div class="storage-bars" style="margin-top:14px">
-          <div><b>Lipno I</b><div class="small muted">max 252,99</div></div>
-          <div class="track"><div class="outer" style="width:73.74%"><div class="full" style="width:60.5%">153,1<br>60,5 %</div><div class="free" style="width:39.5%">99,9 volno</div></div></div>
-          <div><b>Orlík</b><div class="small muted">max 343,08</div></div>
-          <div class="track"><div class="outer" style="width:100%"><div class="full" style="width:33.55%">115,1<br>33,6 %</div><div class="free" style="width:66.45%">228,0 volno</div></div></div>
-          <div><b>Slapy</b><div class="small muted">max 200,50</div></div>
-          <div class="track"><div class="outer" style="width:58.44%"><div class="full" style="width:92.82%">186,1<br>92,8 %</div><div class="free" style="width:7.18%"></div></div></div>
-        </div>
-        <div class="note"><b>Jak graf číst:</b> Slapy jsou téměř plné, ale jejich zásobní prostor je výrazně menší než Orlík. Proto 92,8 % na Slapech neznamená trojnásobek vody oproti 33,6 % na Orlíku.</div>
+        <div class="muted small">Délka každého baru odpovídá skutečné kapacitě zásobního prostoru. Orlík je použit jako 100% referenční šířka.</div>
+        <div class="storage-bars" id="overviewStorageBars" style="margin-top:14px"></div>
+        <div class="note"><b>Jak graf číst:</b> procento naplnění samo o sobě neříká, kolik vody v nádrži skutečně je. Proto se šířka baru řídí absolutní kapacitou a jeho vnitřní dělení aktuálně využitou a volnou částí.</div>
       </div>
       <div class="card">
-        <h2>Rychlé srovnání</h2>
-        <div class="quickrow">
-          <div class="quick"><span>Celková zásoba</span><b>454,25</b></div><div class="quick"><span>Celkové maximum</span><b>796,57</b></div>
-          <div class="quick"><span>Naplnění trojice</span><b>57,0 %</b></div><div class="quick"><span>Volno</span><b>342,32</b></div>
-        </div>
-        <div class="small muted" style="margin-top:8px">mil. m³, snapshot 12. 8. 2026</div>
-      </div>
-    </div>
-
-    <div class="grid2">
-      <div class="darkcard">
-        <h2>Historická minima hladiny Orlíku</h2>
-        <svg id="miniHist" viewBox="0 0 820 390"></svg>
-      </div>
-      <div class="darkcard">
-        <h2>Klíčové srovnání</h2>
-        <div class="big" style="color:var(--orange)">337,83 m</div>
-        <div class="small" style="opacity:.75">stav 13. 8. 2026</div>
-        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 1976</span><b>+2,58 m</b></div>
-        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. hranice 334,60 m</span><b>+3,23 m</b></div>
-        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 2003</span><b>−0,57 m</b></div>
-        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 2015</span><b>−0,87 m</b></div>
-        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 1969</span><b>−0,07 m</b></div>
+        <h2>Souhrn zásobního prostoru</h2>
+        <div class="quick"><span>Využitá zásoba</span><b id="ovUsedTotal">—</b></div>
+        <div class="quick"><span>Volná část</span><b id="ovFreeTotal">—</b></div>
+        <div class="quick"><span>Celková kapacita</span><b id="ovCapacityTotal">—</b></div>
+        <div class="quick"><span>Naplnění trojice</span><b id="ovPctTotal">—</b></div>
+        <div class="small muted" id="ovCacheStatus" style="margin-top:10px">Čekám na aktuální cache…</div>
       </div>
     </div>
   </section>
@@ -148,11 +137,24 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
         <h2>Orlík – rychlý přehled</h2>
         <div class="quick"><span>Max. zásobní hladina</span><b>349,90 m</b></div>
         <div class="quick"><span>Stálé nadržení</span><b>329,60 m</b></div>
-        <div class="quick"><span>Současná referenční hladina</span><b>337,83 m</b></div>
+        <div class="quick"><span>Historický referenční bod 13. 8. 2026</span><b>337,83 m</b></div>
         <div class="quick"><span>Přeliv</span><b>345,60 m</b></div>
         <div class="quick"><span>Max. retenční hladina</span><b>353,60 m</b></div>
         <div class="note"><b>334,60 m</b> je provozní hranice dle manipulačního řádu, po jejímž dosažení se přechází na využívání zásoby Slap. Nejde o „prázdný Orlík“.</div>
       </div>
+    </div>
+
+    <div class="card ts-card">
+      <h2>Vývoj hladiny a odtoku</h2>
+      <div class="muted small">Vlastní graf z dat uložených v PVL cache. Levá osa = hladina, pravá osa = odtok.</div>
+      <div class="ts-controls">
+        <button class="btn active" id="orlikTs24" onclick="showSeries('orlik','24h')">24 hodin</button>
+        <button class="btn" id="orlikTs7" onclick="showSeries('orlik','7d')">7 dní</button>
+        <button class="btn" id="orlikTs30" onclick="showSeries('orlik','30d')">30 dní</button>
+      </div>
+      <svg id="orlikSeries" viewBox="0 0 980 410"></svg>
+      <div class="ts-legend"><span class="ts-key"><span class="ts-line" style="background:#1976d2"></span>hladina [m n. m.]</span><span class="ts-key"><span class="ts-line" style="background:#ef5350"></span>odtok [m³/s]</span></div>
+      <div class="ts-status" id="orlikSeriesStatus">Čekám na data…</div>
     </div>
 
     <div class="grid2">
@@ -168,6 +170,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
       </div>
       <div class="card">
         <h2>Oficiální graf PVL</h2>
+        <div class="graph-switch"><button class="btn" onclick="showCachedGraph('orlik','week')">Týdenní</button><button class="btn" onclick="showCachedGraph('orlik','month')">Měsíční</button></div>
         <img id="orlikGraph" class="pvlimg" style="display:none" alt="Aktuální graf PVL Orlík">
         <a id="orlikGraphLink" class="btn" target="_blank" rel="noopener" style="display:none;text-decoration:none">Otevřít graf na PVL ↗</a>
         <div id="orlikGraphFallback" class="small muted">Graf se načte po aktualizaci dat.</div>
@@ -195,6 +198,32 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
         <div class="note">Slapy jsou v současném režimu drženy téměř plné a představují hlavní další rezervu po dosažení hranice Orlíku 334,60 m.</div>
       </div>
     </div>
+    <div class="card ts-card">
+      <h2>Vývoj hladiny a odtoku</h2>
+      <div class="muted small">Vlastní graf z dat uložených v PVL cache. Levá osa = hladina, pravá osa = odtok.</div>
+      <div class="ts-controls">
+        <button class="btn active" id="slapyTs24" onclick="showSeries('slapy','24h')">24 hodin</button>
+        <button class="btn" id="slapyTs7" onclick="showSeries('slapy','7d')">7 dní</button>
+        <button class="btn" id="slapyTs30" onclick="showSeries('slapy','30d')">30 dní</button>
+      </div>
+      <svg id="slapySeries" viewBox="0 0 980 410"></svg>
+      <div class="ts-legend"><span class="ts-key"><span class="ts-line" style="background:#1976d2"></span>hladina [m n. m.]</span><span class="ts-key"><span class="ts-line" style="background:#ef5350"></span>odtok [m³/s]</span></div>
+      <div class="ts-status" id="slapySeriesStatus">Čekám na data…</div>
+    </div>
+
+    <div class="card ts-card">
+      <h2>Vývoj hladiny a odtoku</h2>
+      <div class="muted small">Vlastní graf z dat uložených v PVL cache. Levá osa = hladina, pravá osa = odtok.</div>
+      <div class="ts-controls">
+        <button class="btn active" id="lipnoTs24" onclick="showSeries('lipno','24h')">24 hodin</button>
+        <button class="btn" id="lipnoTs7" onclick="showSeries('lipno','7d')">7 dní</button>
+        <button class="btn" id="lipnoTs30" onclick="showSeries('lipno','30d')">30 dní</button>
+      </div>
+      <svg id="lipnoSeries" viewBox="0 0 980 410"></svg>
+      <div class="ts-legend"><span class="ts-key"><span class="ts-line" style="background:#1976d2"></span>hladina [m n. m.]</span><span class="ts-key"><span class="ts-line" style="background:#ef5350"></span>odtok [m³/s]</span></div>
+      <div class="ts-status" id="lipnoSeriesStatus">Čekám na data…</div>
+    </div>
+
     <div class="grid2"><div class="card"><h2>Živá data PVL</h2><div class="live-strip">
       <div class="livebox"><div class="l">Hladina</div><div class="v" id="slapyLiveLevel2">—</div></div>
       <div class="livebox"><div class="l">Objem</div><div class="v" id="slapyLiveVolume2">—</div></div>
@@ -258,7 +287,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
   </section>
 
   <section id="about" class="panel">
-    <div class="card"><h2>O projektu</h2><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Živá data se načítají přes Cloudflare Pages Function, protože přímé čtení pvl.cz z prohlížeče může být omezeno CORS pravidly.</p></div>
+    <div class="card"><h2>O projektu</h2><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Cloudflare Worker potom čte tuto cache, takže web není závislý na přímém HTTPS spojení Cloudflare → pvl.cz.</p></div>
   </section>
 </div>
 <div class="tip" id="tip"></div>
@@ -301,11 +330,62 @@ drawHistory('miniHist',true);drawHistory('histChart',true);
 
 const stationData={};
 const stationCfg={
- orlik:{api:'VLOR',prefix:'orlik',curve:orPts,slider:'orLevel',ovLevel:'ovOrlikLevel',ovIn:'ovOrlikIn',ovOut:'ovOrlikOut'},
+ orlik:{api:'VLOR',prefix:'orlik',curve:orPts,slider:'orLevel'},
  slapy:{api:'VLSL',prefix:'slapy',curve:slaPts,slider:'slaLevel'},
  lipno:{api:'VLL1',prefix:'lipno',curve:lipPts,slider:'lipLevel'}
 };
 function fmt(x,n=2){return Number(x).toLocaleString('cs-CZ',{minimumFractionDigits:n,maximumFractionDigits:n})}
+
+
+function parseCzDateTime(s){
+  const m=String(s||'').match(/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2})$/);
+  if(!m)return null;
+  return new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5]);
+}
+function clearSvg(svg){while(svg.firstChild)svg.removeChild(svg.firstChild)}
+function seriesName(kind){return kind==='24h'?'series24h':kind==='7d'?'series7d':'series30d'}
+function showSeries(key,kind){
+  const d=stationData[key],svg=document.getElementById(key+'Series'),status=document.getElementById(key+'SeriesStatus');
+  if(!d||!svg)return;
+  ['24','7','30'].forEach(x=>{const b=document.getElementById(key+'Ts'+x);if(b)b.classList.remove('active')});
+  const active=document.getElementById(key+'Ts'+(kind==='24h'?'24':kind==='7d'?'7':'30'));if(active)active.classList.add('active');
+
+  const rows=(d[seriesName(kind)]||[]).map(r=>({t:parseCzDateTime(r.timestamp),level:Number(r.level),outflow:r.outflow==null?null:Number(r.outflow)}))
+    .filter(r=>r.t&&Number.isFinite(r.level)).sort((a,b)=>a.t-b.t);
+  clearSvg(svg);
+  if(rows.length<2){
+    el(svg,'text',{x:490,y:205,'text-anchor':'middle',fill:'#6d7a8c','font-size':'14'},'Pro toto období zatím není dost dat');
+    status.textContent='V cache jsou méně než dva použitelné body.';
+    return;
+  }
+  const W=980,H=410,L=64,R=62,T=25,B=50;
+  const t0=rows[0].t.getTime(),t1=rows[rows.length-1].t.getTime();
+  let lo=Math.min(...rows.map(r=>r.level)),hi=Math.max(...rows.map(r=>r.level));
+  const lp=Math.max((hi-lo)*0.18,0.03);lo-=lp;hi+=lp;
+  const outs=rows.map(r=>r.outflow).filter(Number.isFinite);
+  const om=Math.max(10,...outs)*1.08;
+  const sx=t=>L+(t-t0)/(t1-t0)*(W-L-R),syL=v=>T+(hi-v)/(hi-lo)*(H-T-B),syO=v=>T+(om-v)/om*(H-T-B);
+
+  for(let i=0;i<=5;i++){
+    const y=T+i*(H-T-B)/5;
+    el(svg,'line',{x1:L,y1:y,x2:W-R,y2:y,stroke:'#e5e7eb'});
+    el(svg,'text',{x:L-7,y:y+4,'text-anchor':'end',fill:'#1976d2','font-size':'10'},(hi-i*(hi-lo)/5).toFixed(2).replace('.',','));
+    el(svg,'text',{x:W-R+7,y:y+4,'text-anchor':'start',fill:'#ef5350','font-size':'10'},Math.round(om-i*om/5));
+  }
+  for(let i=0;i<=5;i++){
+    const tt=t0+i*(t1-t0)/5,dt=new Date(tt),x=sx(tt);
+    el(svg,'line',{x1:x,y1:H-B,x2:x,y2:H-B+4,stroke:'#8795a6'});
+    const label=kind==='24h'
+      ?String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0')
+      :String(dt.getDate()).padStart(2,'0')+'.'+String(dt.getMonth()+1).padStart(2,'0');
+    el(svg,'text',{x,y:H-B+18,'text-anchor':'middle',fill:'#6d7a8c','font-size':'10'},label);
+  }
+  el(svg,'polyline',{points:rows.map(r=>sx(r.t.getTime())+','+syL(r.level)).join(' '),fill:'none',stroke:'#1976d2','stroke-width':'3','stroke-linejoin':'round','stroke-linecap':'round'});
+  const outRows=rows.filter(r=>Number.isFinite(r.outflow));
+  if(outRows.length>1)el(svg,'polyline',{points:outRows.map(r=>sx(r.t.getTime())+','+syO(r.outflow)).join(' '),fill:'none',stroke:'#ef5350','stroke-width':'2','stroke-linejoin':'round','stroke-linecap':'round'});
+  const minLevel=Math.min(...rows.map(r=>r.level)),maxLevel=Math.max(...rows.map(r=>r.level)),maxOut=Math.max(0,...outs);
+  status.textContent=`${rows.length} bodů · hladina ${fmt(minLevel)}–${fmt(maxLevel)} m · max. odtok ${fmt(maxOut,0)} m³/s`;
+}
 
 function showCachedGraph(key,kind){
   const d=stationData[key];
@@ -328,12 +408,41 @@ function showCachedGraph(key,kind){
   }
 }
 
+
+function updateOverviewCard(key,d){
+  const names={lipno:'Lipno',orlik:'Orlik',slapy:'Slapy'},n=names[key];
+  const level=document.getElementById('ov'+n+'Level'),storage=document.getElementById('ov'+n+'Storage'),pct=document.getElementById('ov'+n+'Pct');
+  if(level)level.textContent=d.level==null?'—':fmt(d.level)+' m';
+  if(storage)storage.textContent=d.storageUsed==null?'—':fmt(d.storageUsed)+' mil. m³';
+  if(pct)pct.textContent=d.storageUsedPct==null?'zásobní prostor':fmt(d.storageUsedPct,1)+' % zásobního prostoru';
+}
+function renderOverview(){
+  const defs=[['lipno','Lipno I'],['orlik','Orlík'],['slapy','Slapy']];
+  const rows=defs.map(([k,name])=>({k,name,d:stationData[k]})).filter(x=>x.d);
+  if(!rows.length)return;
+  const maxCap=Math.max(...rows.map(x=>Number(x.d.storageCapacity)||0),1);
+  let usedTotal=0,freeTotal=0,capTotal=0,out='';
+  rows.forEach(({name,d})=>{
+    const cap=Number(d.storageCapacity)||0,used=Number(d.storageUsed)||0,free=Number(d.storageFree)||Math.max(0,cap-used),pct=cap?100*used/cap:0;
+    usedTotal+=used;freeTotal+=free;capTotal+=cap;
+    out+=`<div><b>${name}</b><div class="small muted">max ${fmt(cap)} mil. m³</div></div><div class="track"><div class="outer" style="width:${100*cap/maxCap}%"><div class="full" style="width:${pct}%">${fmt(used,1)}<br>${fmt(pct,1)} %</div><div class="free" style="width:${100-pct}%">${free>15?fmt(free,1)+' volno':''}</div></div></div>`;
+  });
+  document.getElementById('overviewStorageBars').innerHTML=out;
+  document.getElementById('ovUsedTotal').textContent=fmt(usedTotal)+' mil. m³';
+  document.getElementById('ovFreeTotal').textContent=fmt(freeTotal)+' mil. m³';
+  document.getElementById('ovCapacityTotal').textContent=fmt(capTotal)+' mil. m³';
+  document.getElementById('ovPctTotal').textContent=fmt(100*usedTotal/capTotal,1)+' %';
+  document.getElementById('ovTotalStorage').textContent=fmt(usedTotal)+' mil. m³';
+  document.getElementById('ovCacheStatus').textContent='Aktuální hodnoty z poslední GitHub PVL cache.';
+}
+
 async function refreshStation(key){
  const c=stationCfg[key],p=c.prefix,status=document.getElementById(p+'Status');
  try{
   if(status) status.textContent='Načítám z PVL…';
   const r=await fetch('/api/pvl?station='+c.api,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
   const d=await r.json(); if(!d.ok) throw new Error(d.error||'PVL data nedostupná');
+  stationData[key]=d;
   for(const suffix of ['LiveLevel','LiveLevel2']){const e=document.getElementById(p+suffix.replace('Live','Live')); if(e&&d.level!=null)e.textContent=fmt(d.level)+' m'}
   const ids={Level:'level',Volume:'volume',Inflow:'inflow',Outflow:'outflow'};
   Object.entries(ids).forEach(([name,k])=>{
@@ -342,10 +451,9 @@ async function refreshStation(key){
     });
   });
   if(status) status.textContent='Aktualizováno: '+(d.timestamp||'právě teď');
-  if(c.ovLevel&&d.level!=null)document.getElementById(c.ovLevel).textContent=fmt(d.level)+' m';
-  if(c.ovIn&&d.inflow!=null)document.getElementById(c.ovIn).textContent=fmt(d.inflow)+' m³/s';
-  if(c.ovOut&&d.outflow!=null)document.getElementById(c.ovOut).textContent=fmt(d.outflow)+' m³/s';
   if(d.level!=null){const slider=document.getElementById(c.slider);if(slider&&d.level>=+slider.min&&d.level<=+slider.max){slider.value=d.level;slider.dispatchEvent(new Event('input'))}}
+  showSeries(key,'24h');
+  updateOverviewCard(key,d);
   if(d.weekGraphFile || d.monthGraphFile){
     showCachedGraph(key,'week');
   } else {
@@ -355,7 +463,7 @@ async function refreshStation(key){
   return d.timestamp;
  }catch(e){if(status)status.textContent='Aktualizace se nepodařila: '+e.message}
 }
-async function refreshAll(){let ts=null;for(const k of ['orlik','slapy','lipno']){const t=await refreshStation(k);if(t&&!ts)ts=t}document.getElementById('globalUpdated').textContent=ts||new Date().toLocaleString('cs-CZ')}
+async function refreshAll(){let ts=null;for(const k of ['orlik','slapy','lipno']){const t=await refreshStation(k);if(t&&!ts)ts=t}renderOverview();document.getElementById('globalUpdated').textContent=ts||new Date().toLocaleString('cs-CZ')}
 document.getElementById('refreshAll').addEventListener('click',refreshAll);
 if(location.protocol==='http:'||location.protocol==='https:')refreshAll();
 </script>
