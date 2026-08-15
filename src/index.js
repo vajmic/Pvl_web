@@ -26,6 +26,14 @@ export default{
       const h=new Headers(r.headers);h.set("cache-control","no-store");
       return new Response(r.body,{status:200,headers:h});
     }
-    return env.ASSETS.fetch(request);
+    const asset=await env.ASSETS.fetch(request);
+    const h=new Headers(asset.headers);
+    const ct=h.get("content-type")||"";
+    if(ct.includes("text/html")){
+      h.set("cache-control","no-store, no-cache, must-revalidate, max-age=0");
+      h.set("pragma","no-cache");
+      h.set("expires","0");
+    }
+    return new Response(asset.body,{status:asset.status,statusText:asset.statusText,headers:h});
   }
 };
