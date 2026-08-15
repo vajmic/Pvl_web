@@ -85,12 +85,22 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
 @media(max-width:900px){.orlik-chart-layout{grid-template-columns:1fr}}
 
 .version-chip{display:inline-block;vertical-align:middle;font-size:10px;line-height:1;padding:5px 7px;border-radius:999px;background:var(--blueSoft);color:var(--blue);font-weight:800;margin-left:5px}
+
+.transition-card{margin-top:14px;background:linear-gradient(135deg,#fffaf0,#ffffff);border:1px solid #f0d59a;border-radius:14px;padding:15px;box-shadow:var(--shadow)}
+.transition-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px}
+.transition-head h2{margin:0 0 3px}.transition-badge{background:#fff0c2;color:#8a5b00;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:800;white-space:nowrap}
+.transition-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.transition-box{background:#fff;border:1px solid #eadfca;border-radius:11px;padding:11px}
+.transition-box .l{font-size:11px;color:var(--muted);text-transform:uppercase}.transition-box .v{font-size:20px;font-weight:850;margin-top:3px}
+.transition-note{font-size:11px;color:var(--muted);margin-top:9px}
+@media(max-width:900px){.transition-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.transition-grid{grid-template-columns:1fr}.transition-head{flex-direction:column}.transition-badge{white-space:normal}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v11</span></h1><p>Orlík – Slapy – Lipno</p></div>
+    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v12</span></h1><p>Orlík – Slapy – Lipno</p></div>
     <div class="refresh-meta">
       <div>Poslední aktualizace dat</div>
       <b id="globalUpdated">uložený snapshot</b><br>
@@ -142,6 +152,23 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
       <div class="item"><div class="label">PŘÍTOK</div><div class="value" id="orlikLiveInflow">—</div></div>
       <div class="item"><div class="label">ODTOK</div><div class="value" id="orlikLiveOutflow">—</div></div>
       <div class="item danger"><div class="label">PŘECHOD NA SLAPY</div><div class="value">334,60 m</div><div class="sub">dle manipulačního řádu</div></div>
+    </div>
+
+    <div class="transition-card">
+      <div class="transition-head">
+        <div>
+          <h2>Odhad přechodu na vyprazdňování Slap</h2>
+          <div class="muted small">Hranice 334,60 m dle manipulačního řádu. Výpočet se aktualizuje z živé PVL cache.</div>
+        </div>
+        <div class="transition-badge">Orlík → Slapy</div>
+      </div>
+      <div class="transition-grid">
+        <div class="transition-box"><div class="l">Aktuální hladina Orlíku</div><div class="v" id="trCurrentLevel">—</div></div>
+        <div class="transition-box"><div class="l">Zbývá do 334,60 m</div><div class="v" id="trRemainingLevel">—</div></div>
+        <div class="transition-box"><div class="l">Zbývající zásoba do hranice</div><div class="v" id="trRemainingVolume">—</div></div>
+        <div class="transition-box"><div class="l">Odhad dosažení hranice</div><div class="v" id="trEta">—</div></div>
+      </div>
+      <div class="transition-note" id="trTrendNote">Odhad čeká na 24hodinovou časovou řadu.</div>
     </div>
 
     <div class="grid2">
@@ -578,6 +605,72 @@ function renderOverview(){
   document.getElementById('ovCacheStatus').textContent='Aktuální hodnoty z poslední GitHub PVL cache.';
 }
 
+
+function estimateLevelSlopePerDay(rows){
+  const pts=(rows||[]).map(r=>({t:parseCzDateTime(r.timestamp),y:Number(r.level)}))
+    .filter(r=>r.t&&Number.isFinite(r.y)).sort((a,b)=>a.t-b.t);
+  if(pts.length<4)return null;
+
+  // Linear regression of level versus time. This is less sensitive to single
+  // noisy samples than simply comparing the first and last point.
+  const t0=pts[0].t.getTime();
+  const xs=pts.map(p=>(p.t.getTime()-t0)/86400000);
+  const ys=pts.map(p=>p.y);
+  const xm=xs.reduce((a,b)=>a+b,0)/xs.length, ym=ys.reduce((a,b)=>a+b,0)/ys.length;
+  let num=0,den=0;
+  for(let i=0;i<xs.length;i++){num+=(xs[i]-xm)*(ys[i]-ym);den+=(xs[i]-xm)*(xs[i]-xm);}
+  if(den===0)return null;
+  return num/den; // metres per day
+}
+function formatDateCz(d){
+  return d.toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric',year:'numeric'});
+}
+function updateSlapyTransition(d){
+  if(!d||d.level==null)return;
+  const level=Number(d.level),boundary=334.60,boundaryVol=interp(orPts,boundary),nowVol=interp(orPts,level);
+  const remainLevel=Math.max(0,level-boundary);
+  const remainVol=(nowVol!=null&&boundaryVol!=null)?Math.max(0,nowVol-boundaryVol):null;
+
+  document.getElementById('trCurrentLevel').textContent=fmt(level)+' m';
+  document.getElementById('trRemainingLevel').textContent=fmt(remainLevel)+' m';
+  document.getElementById('trRemainingVolume').textContent=remainVol==null?'—':fmt(remainVol,1)+' mil. m³';
+
+  const slope=estimateLevelSlopePerDay(d.series24h);
+  const eta=document.getElementById('trEta'),note=document.getElementById('trTrendNote');
+
+  if(level<=boundary){
+    eta.textContent='hranice dosažena';
+    note.textContent='Aktuální hladina je již na nebo pod 334,60 m.';
+    return;
+  }
+  if(slope==null){
+    eta.textContent='nelze odhadnout';
+    note.textContent='V 24h cache zatím není dost bodů pro výpočet trendu.';
+    return;
+  }
+
+  const cmPerDay=slope*100;
+  // Do not extrapolate when decline is less than 0.5 cm/day or level is rising.
+  if(slope>=-0.005){
+    eta.textContent='nelze odhadnout';
+    note.textContent=`Trend posledních 24 h: ${cmPerDay>=0?'+':''}${fmt(cmPerDay,1)} cm/den. Hladina nyní neklesá dostatečně stabilně pro smysluplnou extrapolaci.`;
+    return;
+  }
+
+  const days=remainLevel/(-slope);
+  // Very long extrapolation is misleading.
+  if(!Number.isFinite(days)||days>120){
+    eta.textContent='> 120 dní';
+    note.textContent=`Trend posledních 24 h: ${fmt(cmPerDay,1)} cm/den. Dlouhodobá extrapolace je velmi nejistá.`;
+    return;
+  }
+
+  const dt=new Date();
+  dt.setTime(dt.getTime()+days*86400000);
+  eta.textContent=formatDateCz(dt);
+  note.textContent=`Při zachování 24h lineárního trendu ${fmt(cmPerDay,1)} cm/den vychází přibližně ${fmt(days,1)} dne do 334,60 m. Jde pouze o provozní extrapolaci; změna odtoku/přítoku může odhad rychle změnit.`;
+}
+
 async function refreshStation(key){
  const c=stationCfg[key],p=c.prefix,status=document.getElementById(p+'Status');
  try{
@@ -595,6 +688,7 @@ async function refreshStation(key){
   if(status) status.textContent='Aktualizováno: '+(d.timestamp||'právě teď');
   if(d.level!=null){const slider=document.getElementById(c.slider);if(slider&&d.level>=+slider.min&&d.level<=+slider.max){slider.value=d.level;slider.dispatchEvent(new Event('input'))}}
   if(key==='orlik'&&d.level!=null){
+    updateSlapyTransition(d);
     drawOrlikCurve(d.level);
     const v=interp(orPts,d.level);
     const title=document.getElementById('orCurrentRefTitle'),text=document.getElementById('orCurrentRefText'),tbl=document.getElementById('orCurrentRefTable');
