@@ -90,7 +90,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v9</span></h1><p>Orlík – Slapy – Lipno</p></div>
+    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v10</span></h1><p>Orlík – Slapy – Lipno</p></div>
     <div class="refresh-meta">
       <div>Poslední aktualizace dat</div>
       <b id="globalUpdated">uložený snapshot</b><br>
@@ -334,7 +334,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
   </section>
 
   <section id="about" class="panel">
-    <div class="card"><h2>O projektu</h2><div class="small muted">Frontend verze: v9 · střední velikost referenčních bodů pro mobil</div><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Pro 24hodinový vlastní graf používáme uloženou časovou řadu; pro 7 a 30 dní zatím zobrazujeme kompletní oficiální grafy PVL, dokud vlastní archiv nepokryje celé období.</p></div>
+    <div class="card"><h2>O projektu</h2><div class="small muted">Frontend verze: v10 · sjednocená velikost bodů Orlík, Slapy a Lipno</div><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Pro 24hodinový vlastní graf používáme uloženou časovou řadu; pro 7 a 30 dní zatím zobrazujeme kompletní oficiální grafy PVL, dokud vlastní archiv nepokryje celé období.</p></div>
   </section>
 </div>
 <div class="tip" id="tip"></div>
@@ -352,10 +352,10 @@ function drawCurve(svgId,pts,xmin,xmax,ymax,special=[]){
  for(let y=0;y<=ymax;y+=50){el(svg,'line',{x1:L,y1:sy(y),x2:W-R,y2:sy(y),stroke:'#e5e7eb'});el(svg,'text',{x:L-7,y:sy(y)+4,'text-anchor':'end',fill:'#6d7a8c','font-size':'10'},y)}
  el(svg,'polyline',{points:pts.map(p=>sx(p[0])+','+sy(p[1])).join(' '),fill:'none',stroke:'#1976d2','stroke-width':'3'});
  special.forEach(([lab,x,y])=>{
-   el(svg,'circle',{cx:sx(x),cy:sy(y),r:16,fill:'rgba(246,174,26,.20)'});
-   el(svg,'circle',{cx:sx(x),cy:sy(y),r:8,fill:'#f6ae1a',stroke:'#fff','stroke-width':'2.5'});
-   el(svg,'text',{x:sx(x)+13,y:sy(y)-12,fill:'#6f4c00','font-size':'13','font-weight':'900',
-     style:'paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round'},lab);
+   el(svg,'circle',{cx:sx(x),cy:sy(y),r:32,fill:'rgba(246,174,26,.20)'});
+   el(svg,'circle',{cx:sx(x),cy:sy(y),r:21,fill:'#f6ae1a',stroke:'#fff','stroke-width':'3'});
+   el(svg,'text',{x:sx(x)+27,y:sy(y)-20,fill:'#6f4c00','font-size':'16','font-weight':'900',
+     style:'paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round'},lab);
  });
 }
 const orPts=[[329.6,0],[330,5.91],[331,20.48],[332,34.75],[333,48.76],[334,62.52],[334.6,70.66],[335,76.05],[335.19,78.6],[336,89.15],[337,101.83],[337.83,112.68],[338,114.97],[338.63,123.8],[339,129.59],[340,146.62],[340.2,150.09],[341,163.7],[342,180.48],[343,197.71],[344,216.16],[345,236.6],[345.17,240.33],[345.6,249.9],[346,261.27],[347,291.2],[348,322.81],[349,352.45],[349.9,374.4]];
