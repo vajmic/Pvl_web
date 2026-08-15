@@ -1,14 +1,13 @@
-# PVL Web – unified v2
+# PVL web – cache restored
 
-Deployment matches the current Cloudflare Worker setup (`npx wrangler deploy`).
+Architecture:
+PVL -> existing `scripts/fetch_pvl.py` -> GitHub Action -> `data-cache` branch -> Cloudflare Worker -> browser.
 
-Files:
-- `public/index.html` – unified visual design across all tabs
-- `src/index.js` – robust PVL parser + `/api/pvl`
-- `/api/health` – simple deployment health check
+This package intentionally does **not** contain or overwrite `scripts/fetch_pvl.py`; the working scraper already present in the repository stays untouched.
 
-After deployment verify:
-1. `https://pvl-web.vosmik-david.workers.dev/api/health`
-2. `.../api/pvl?station=VLOR`
-3. `.../api/pvl?station=VLSL`
-4. `.../api/pvl?station=VLL1`
+Live JSON:
+- /api/pvl?station=VLOR
+- /api/pvl?station=VLSL
+- /api/pvl?station=VLL1
+
+Cached PVL graph images are proxied through `/cache/<filename>`.
