@@ -287,7 +287,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
   </section>
 
   <section id="about" class="panel">
-    <div class="card"><h2>O projektu</h2><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Cloudflare Worker potom čte tuto cache, takže web není závislý na přímém HTTPS spojení Cloudflare → pvl.cz.</p></div>
+    <div class="card"><h2>O projektu</h2><div class="small muted">Frontend verze: v4 · live cache + 24 h / 7 dní / 30 dní</div><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Cloudflare Worker potom čte tuto cache, takže web není závislý na přímém HTTPS spojení Cloudflare → pvl.cz.</p></div>
   </section>
 </div>
 <div class="tip" id="tip"></div>
@@ -320,13 +320,14 @@ const histData=[
  {year:'1969',level:337.90,type:'dry'},{year:'2026',level:337.83,type:'now'},{year:'1976',level:335.25,type:'dry'},{year:'2019',level:335.19,type:'tech'}
 ];
 function drawHistory(svgId,dark=false){
- const svg=document.getElementById(svgId),W=svg.viewBox.baseVal.width||820,H=svg.viewBox.baseVal.height||390,L=48,R=18,T=32,B=48,yTop=353.6,yBottom=329.6;
+ const svg=document.getElementById(svgId); if(!svg) return;
+ const W=svg.viewBox.baseVal.width||820,H=svg.viewBox.baseVal.height||390,L=48,R=18,T=32,B=48,yTop=353.6,yBottom=329.6;
  const sx=i=>L+15+i*((W-L-R-30)/histData.length), bw=(W-L-R-30)/histData.length-12, sy=y=>T+(yTop-y)/(yTop-yBottom)*(H-T-B);
  for(let y=330;y<=350;y+=5){el(svg,'line',{x1:L,y1:sy(y),x2:W-R,y2:sy(y),stroke:dark?'rgba(255,255,255,.12)':'#e5e7eb'});el(svg,'text',{x:L-6,y:sy(y)+4,'text-anchor':'end',fill:dark?'#dbe7f5':'#6d7a8c','font-size':'10'},y)}
  histData.forEach((d,i)=>{const x=sx(i),top=T,bottom=sy(d.level),fill=d.type==='tech'?'#7e57c2':d.type==='now'?'#f6ae1a':'#1976d2';el(svg,'rect',{x,y:top,width:bw,height:bottom-top,rx:5,fill});el(svg,'text',{x:x+bw/2,y:top+22,'text-anchor':'middle',fill:'#fff','font-size':'11','font-weight':'700'},d.year);el(svg,'circle',{cx:x+bw/2,cy:bottom,r:5,fill:d.type==='now'?'#ffe09a':'#7cc0ff'});el(svg,'text',{x:x+bw/2,y:bottom+20,'text-anchor':'middle',fill:d.type==='now'?'#ffd166':dark?'#69b6ff':'#1976d2','font-size':'11','font-weight':'700'},d.level.toFixed(2).replace('.',','))});
  el(svg,'line',{x1:L,y1:sy(334.6),x2:W-R,y2:sy(334.6),stroke:'#ef5350','stroke-width':'2','stroke-dasharray':'6 5'});el(svg,'text',{x:W-R-4,y:sy(334.6)-7,'text-anchor':'end',fill:'#ff6b6b','font-size':'10','font-weight':'700'},'334,60 m – přechod na Slapy');
 }
-drawHistory('miniHist',true);drawHistory('histChart',true);
+if(document.getElementById('miniHist'))drawHistory('miniHist',true);if(document.getElementById('histChart'))drawHistory('histChart',true);
 
 const stationData={};
 const stationCfg={
