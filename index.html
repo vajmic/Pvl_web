@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vltavská kaskáda – živý přehled</title>
+<style>
+:root{
+  --bg:#f4f7fb; --surface:#ffffff; --navy:#062b4f; --navy2:#0a3b67; --text:#132238;
+  --muted:#6d7a8c; --line:#d8e0ea; --blue:#1976d2; --blue2:#4ea3ff; --blueSoft:#eaf4ff;
+  --orange:#f6ae1a; --red:#ef5350; --green:#57b66f; --purple:#7e57c2; --free:#edf2f7;
+  --shadow:0 1px 2px rgba(18,38,63,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:inherit}
+.app{max-width:1180px;margin:auto;padding:20px}
+.topbar{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
+.brand h1{margin:0;font-size:28px;letter-spacing:-.02em}.brand p{margin:2px 0 0;color:var(--muted)}
+.refresh-meta{text-align:right;color:var(--muted);font-size:12px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px;cursor:pointer;font-weight:700;color:var(--blue)}
+.btn:hover{background:#f7fbff}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tabs{display:grid;grid-template-columns:repeat(6,1fr);margin:18px 0 14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.tabs button{padding:12px;border:0;border-right:1px solid var(--line);background:#fff;font-weight:700;color:#2f4360;cursor:pointer}
+.tabs button:last-child{border-right:0}.tabs button.active{background:var(--blue);color:#fff}
+.panel{display:none}.panel.active{display:block}
+.hero{background:linear-gradient(135deg,var(--navy),#08253f);color:#fff;border-radius:14px;padding:18px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.hero .item{padding-right:12px;border-right:1px solid rgba(255,255,255,.18)}.hero .item:last-child{border-right:0}
+.hero .label{font-size:12px;opacity:.8}.hero .value{font-size:24px;font-weight:800;margin-top:5px}.hero .sub{font-size:11px;opacity:.75;margin-top:3px}
+.hero .danger .value{color:#ff5e5e}
+.grid2{display:grid;grid-template-columns:1.8fr .8fr;gap:14px;margin-top:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:var(--shadow)}
+.darkcard{background:linear-gradient(135deg,var(--navy),#0b385d);color:white;border-radius:14px;padding:15px}
+.card h2,.card h3,.darkcard h2,.darkcard h3{margin:0 0 9px}.muted{color:var(--muted)}
+.metric{font-size:24px;font-weight:800}.small{font-size:12px}.big{font-size:30px;font-weight:800}
+svg{width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;margin:8px 0}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px}
+.quickrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quick{border-bottom:1px solid var(--line);padding:9px 0;display:flex;justify-content:space-between;gap:10px}
+.quick:last-child{border-bottom:0}.quick b{font-weight:800}
+.live-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.livebox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+.livebox .v{font-size:18px;font-weight:800}.livebox .l{font-size:11px;color:var(--muted)}
+.storage-bars{display:grid;grid-template-columns:92px 1fr;gap:10px 12px;align-items:center}
+.track{height:42px;position:relative}.track .outer{position:absolute;left:0;top:0;height:100%;border:2px solid #7b8794;border-radius:9px;overflow:hidden;display:flex}
+.full{background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px}.free{background:var(--free);display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px}
+.tablewrap{overflow:auto}.histtable{width:100%;border-collapse:collapse;min-width:1000px;background:#fff}
+.histtable th,.histtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}.histtable th{background:#f8fafc;color:var(--muted);font-size:11px;text-align:left}
+.badge{display:inline-block;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800}.badge.dry{background:#eaf3ff;color:#0f5ca8}.badge.tech{background:#f0e9ff;color:#6842a0}.badge.now{background:#fff3d3;color:#a66b00}
+.note{background:#eef6ff;border-left:4px solid var(--blue);padding:11px 13px;border-radius:8px;margin-top:10px}
+.tip{position:fixed;display:none;background:#111827;color:white;padding:6px 8px;border-radius:6px;font-size:11px;pointer-events:none;z-index:50}
+.rangebox{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0}input[type=range]{width:280px}
+iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;background:white}
+@media(max-width:900px){.hero{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(3,1fr)}.grid3{grid-template-columns:1fr}.live-strip{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.app{padding:12px}.hero{grid-template-columns:1fr}.tabs{grid-template-columns:1fr 1fr}.topbar{flex-direction:column}.refresh-meta{text-align:left}.storage-bars{grid-template-columns:72px 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><h1>💧 Vltavská kaskáda</h1><p>Orlík – Slapy – Lipno</p></div>
+    <div class="refresh-meta">
+      <div>Poslední aktualizace dat</div>
+      <b id="globalUpdated">uložený snapshot</b><br>
+      <button id="refreshAll" class="btn" type="button">↻ Aktualizovat</button>
+    </div>
+  </div>
+
+  <nav class="tabs">
+    <button class="active" data-tab="overview">Přehled</button>
+    <button data-tab="orlik">🌊 Orlík</button>
+    <button data-tab="slapy">🌲 Slapy</button>
+    <button data-tab="lipno">🌊 Lipno</button>
+    <button data-tab="history">▥ Historie</button>
+    <button data-tab="about">ⓘ O projektu</button>
+  </nav>
+
+  <section id="overview" class="panel active">
+    <div class="hero">
+      <div class="item"><div class="label">ORLÍK · hladina</div><div class="value" id="ovOrlikLevel">337,83 m</div><div class="sub">referenční stav</div></div>
+      <div class="item"><div class="label">ORLÍK · zásoba</div><div class="value" id="ovOrlikUsable">115,09 mil. m³</div><div class="sub">zásobní prostor</div></div>
+      <div class="item"><div class="label">PŘÍTOK ORLÍK</div><div class="value" id="ovOrlikIn">10,83 m³/s</div><div class="sub">aktuální PVL po načtení</div></div>
+      <div class="item"><div class="label">ODTOK ORLÍK</div><div class="value" id="ovOrlikOut">—</div><div class="sub">aktuální PVL po načtení</div></div>
+      <div class="item danger"><div class="label">PŘECHOD NA SLAPY</div><div class="value">334,60 m</div><div class="sub">dle manipulačního řádu</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Absolutní velikost zásobních prostorů</h2>
+        <div class="muted small">Všechny bary mají stejnou absolutní osu. Délka tedy přímo ukazuje, jak velký zásobní prostor nádrž má.</div>
+        <div class="storage-bars" style="margin-top:14px">
+          <div><b>Lipno I</b><div class="small muted">max 252,99</div></div>
+          <div class="track"><div class="outer" style="width:73.74%"><div class="full" style="width:60.5%">153,1<br>60,5 %</div><div class="free" style="width:39.5%">99,9 volno</div></div></div>
+          <div><b>Orlík</b><div class="small muted">max 343,08</div></div>
+          <div class="track"><div class="outer" style="width:100%"><div class="full" style="width:33.55%">115,1<br>33,6 %</div><div class="free" style="width:66.45%">228,0 volno</div></div></div>
+          <div><b>Slapy</b><div class="small muted">max 200,50</div></div>
+          <div class="track"><div class="outer" style="width:58.44%"><div class="full" style="width:92.82%">186,1<br>92,8 %</div><div class="free" style="width:7.18%"></div></div></div>
+        </div>
+        <div class="note"><b>Jak graf číst:</b> Slapy jsou téměř plné, ale jejich zásobní prostor je výrazně menší než Orlík. Proto 92,8 % na Slapech neznamená trojnásobek vody oproti 33,6 % na Orlíku.</div>
+      </div>
+      <div class="card">
+        <h2>Rychlé srovnání</h2>
+        <div class="quickrow">
+          <div class="quick"><span>Celková zásoba</span><b>454,25</b></div><div class="quick"><span>Celkové maximum</span><b>796,57</b></div>
+          <div class="quick"><span>Naplnění trojice</span><b>57,0 %</b></div><div class="quick"><span>Volno</span><b>342,32</b></div>
+        </div>
+        <div class="small muted" style="margin-top:8px">mil. m³, snapshot 12. 8. 2026</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="darkcard">
+        <h2>Historická minima hladiny Orlíku</h2>
+        <svg id="miniHist" viewBox="0 0 820 390"></svg>
+      </div>
+      <div class="darkcard">
+        <h2>Klíčové srovnání</h2>
+        <div class="big" style="color:var(--orange)">337,83 m</div>
+        <div class="small" style="opacity:.75">stav 13. 8. 2026</div>
+        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 1976</span><b>+2,58 m</b></div>
+        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. hranice 334,60 m</span><b>+3,23 m</b></div>
+        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 2003</span><b>−0,57 m</b></div>
+        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 2015</span><b>−0,87 m</b></div>
+        <div class="quick" style="border-color:rgba(255,255,255,.15)"><span>vs. minimum 1969</span><b>−0,07 m</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="orlik" class="panel">
+    <div class="hero">
+      <div class="item"><div class="label">HLADINA</div><div class="value" id="orlikLiveLevel">337,83 m</div></div>
+      <div class="item"><div class="label">CELKOVÝ OBJEM</div><div class="value" id="orlikLiveVolume">—</div></div>
+      <div class="item"><div class="label">PŘÍTOK</div><div class="value" id="orlikLiveInflow">—</div></div>
+      <div class="item"><div class="label">ODTOK</div><div class="value" id="orlikLiveOutflow">—</div></div>
+      <div class="item danger"><div class="label">PŘECHOD NA SLAPY</div><div class="value">334,60 m</div><div class="sub">dle manipulačního řádu</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Objemová křivka Orlíku</h2>
+        <div class="rangebox"><label>Hladina <input id="orLevel" type="range" min="329.60" max="349.90" step="0.01" value="337.83"></label><b><span id="orLv">337,83</span> m</b><span>→ <b><span id="orVol">112,68</span> mil. m³</b> nad stálým nadržením</span></div>
+        <svg id="orCurve" viewBox="0 0 820 430"></svg>
+      </div>
+      <div class="card">
+        <h2>Orlík – rychlý přehled</h2>
+        <div class="quick"><span>Max. zásobní hladina</span><b>349,90 m</b></div>
+        <div class="quick"><span>Stálé nadržení</span><b>329,60 m</b></div>
+        <div class="quick"><span>Současná referenční hladina</span><b>337,83 m</b></div>
+        <div class="quick"><span>Přeliv</span><b>345,60 m</b></div>
+        <div class="quick"><span>Max. retenční hladina</span><b>353,60 m</b></div>
+        <div class="note"><b>334,60 m</b> je provozní hranice dle manipulačního řádu, po jejímž dosažení se přechází na využívání zásoby Slap. Nejde o „prázdný Orlík“.</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Živá data PVL</h2>
+        <div class="live-strip">
+          <div class="livebox"><div class="l">Hladina</div><div class="v" id="orlikLiveLevel2">—</div></div>
+          <div class="livebox"><div class="l">Objem</div><div class="v" id="orlikLiveVolume2">—</div></div>
+          <div class="livebox"><div class="l">Přítok</div><div class="v" id="orlikLiveInflow2">—</div></div>
+          <div class="livebox"><div class="l">Odtok</div><div class="v" id="orlikLiveOutflow2">—</div></div>
+        </div>
+        <div class="small muted" id="orlikStatus" style="margin-top:8px">Čekám na načtení PVL…</div>
+      </div>
+      <div class="card">
+        <h2>Oficiální graf PVL</h2>
+        <iframe id="orlikGraph" style="display:none" title="PVL graf Orlík"></iframe>
+        <a id="orlikGraphLink" class="btn" target="_blank" rel="noopener" style="display:none;text-decoration:none">Otevřít graf na PVL ↗</a>
+        <div id="orlikGraphFallback" class="small muted">Graf se načte po aktualizaci dat.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="slapy" class="panel">
+    <div class="hero">
+      <div class="item"><div class="label">HLADINA</div><div class="value" id="slapyLiveLevel">—</div></div>
+      <div class="item"><div class="label">CELKOVÝ OBJEM</div><div class="value" id="slapyLiveVolume">—</div></div>
+      <div class="item"><div class="label">PŘÍTOK</div><div class="value" id="slapyLiveInflow">—</div></div>
+      <div class="item"><div class="label">ODTOK</div><div class="value" id="slapyLiveOutflow">—</div></div>
+      <div class="item"><div class="label">ZÁSOBNÍ PROSTOR</div><div class="value">200,50</div><div class="sub">mil. m³ maximum</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h2>Hladina → zásobní objem Slap</h2>
+        <div class="rangebox"><label>Hladina <input id="slaLevel" type="range" min="246.60" max="270.60" step="0.01" value="269.34"></label><b><span id="slaLv">269,34</span> m</b><span>→ <b><span id="slaVol">186,10</span> mil. m³</b></span></div>
+        <svg id="slaCurve" viewBox="0 0 820 430"></svg>
+      </div>
+      <div class="card"><h2>Slapy – rychlý přehled</h2>
+        <div class="quick"><span>Stálé nadržení</span><b>246,60 m</b></div>
+        <div class="quick"><span>Kóta přelivu</span><b>262,60 m</b></div>
+        <div class="quick"><span>Max. zásobní / retenční</span><b>270,60 m</b></div>
+        <div class="note">Slapy jsou v současném režimu drženy téměř plné a představují hlavní další rezervu po dosažení hranice Orlíku 334,60 m.</div>
+      </div>
+    </div>
+    <div class="grid2"><div class="card"><h2>Živá data PVL</h2><div class="live-strip">
+      <div class="livebox"><div class="l">Hladina</div><div class="v" id="slapyLiveLevel2">—</div></div>
+      <div class="livebox"><div class="l">Objem</div><div class="v" id="slapyLiveVolume2">—</div></div>
+      <div class="livebox"><div class="l">Přítok</div><div class="v" id="slapyLiveInflow2">—</div></div>
+      <div class="livebox"><div class="l">Odtok</div><div class="v" id="slapyLiveOutflow2">—</div></div>
+    </div><div id="slapyStatus" class="small muted" style="margin-top:8px">Čekám na načtení PVL…</div></div>
+    <div class="card"><h2>Oficiální graf PVL</h2><iframe id="slapyGraph" style="display:none" title="PVL graf Slapy"></iframe><a id="slapyGraphLink" class="btn" target="_blank" rel="noopener" style="display:none;text-decoration:none">Otevřít graf na PVL ↗</a><div id="slapyGraphFallback" class="small muted">Graf se načte po aktualizaci dat.</div></div></div>
+  </section>
+
+  <section id="lipno" class="panel">
+    <div class="hero">
+      <div class="item"><div class="label">HLADINA</div><div class="value" id="lipnoLiveLevel">—</div></div>
+      <div class="item"><div class="label">CELKOVÝ OBJEM</div><div class="value" id="lipnoLiveVolume">—</div></div>
+      <div class="item"><div class="label">PŘÍTOK</div><div class="value" id="lipnoLiveInflow">—</div></div>
+      <div class="item"><div class="label">ODTOK</div><div class="value" id="lipnoLiveOutflow">—</div></div>
+      <div class="item"><div class="label">ZÁSOBNÍ PROSTOR</div><div class="value">252,99</div><div class="sub">mil. m³ maximum</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h2>Hladina → zásobní objem Lipna I</h2>
+        <div class="rangebox"><label>Hladina <input id="lipLevel" type="range" min="716.10" max="724.90" step="0.01" value="722.51"></label><b><span id="lipLv">722,51</span> m</b><span>→ <b><span id="lipVol">153,06</span> mil. m³</b></span></div>
+        <svg id="lipCurve" viewBox="0 0 820 430"></svg>
+      </div>
+      <div class="card"><h2>Lipno I – rychlý přehled</h2>
+        <div class="quick"><span>Stálé nadržení</span><b>716,10 m</b></div>
+        <div class="quick"><span>Kóta přelivu</span><b>723,27 m</b></div>
+        <div class="quick"><span>Max. zásobní hladina</span><b>724,90 m</b></div>
+        <div class="quick"><span>Max. retenční hladina</span><b>725,60 m</b></div>
+        <div class="note">Lipno je horní velká zásobní nádrž. Jeho zásoba je významná, ale pro dolní Vltavu je provozně vzdálenější než Orlík a Slapy.</div>
+      </div>
+    </div>
+    <div class="grid2"><div class="card"><h2>Živá data PVL</h2><div class="live-strip">
+      <div class="livebox"><div class="l">Hladina</div><div class="v" id="lipnoLiveLevel2">—</div></div>
+      <div class="livebox"><div class="l">Objem</div><div class="v" id="lipnoLiveVolume2">—</div></div>
+      <div class="livebox"><div class="l">Přítok</div><div class="v" id="lipnoLiveInflow2">—</div></div>
+      <div class="livebox"><div class="l">Odtok</div><div class="v" id="lipnoLiveOutflow2">—</div></div>
+    </div><div id="lipnoStatus" class="small muted" style="margin-top:8px">Čekám na načtení PVL…</div></div>
+    <div class="card"><h2>Oficiální graf PVL</h2><iframe id="lipnoGraph" style="display:none" title="PVL graf Lipno"></iframe><a id="lipnoGraphLink" class="btn" target="_blank" rel="noopener" style="display:none;text-decoration:none">Otevřít graf na PVL ↗</a><div id="lipnoGraphFallback" class="small muted">Graf se načte po aktualizaci dat.</div></div></div>
+  </section>
+
+  <section id="history" class="panel">
+    <div class="darkcard">
+      <h2>Historická minima hladiny Orlíku</h2>
+      <div class="small" style="opacity:.78">Porovnání nejnižších známých hladin. Hodnoty s ≈ jsou odečteny z publikovaného historického grafu; 2026 je přímý údaj.</div>
+      <svg id="histChart" viewBox="0 0 980 460"></svg>
+    </div>
+    <div class="tablewrap" style="margin-top:14px">
+      <table class="histtable">
+        <thead><tr><th>Rok minima</th><th>Min. hladina</th><th>Vzdálenost od 329,60 m</th><th>Typ události</th><th>Vysvětlení / poznámka</th><th>Zdroj hodnoty</th></tr></thead>
+        <tbody>
+          <tr><td><b>1991</b></td><td><b>≈342,75 m</b></td><td>13,15 m</td><td><span class="badge dry">SUCHO</span></td><td>Sušší období, výrazně výše než ostatní minima.</td><td>Odečet z grafu ČHMÚ</td></tr>
+          <tr><td><b>2015</b></td><td><b>≈338,70 m</b></td><td>9,10 m</td><td><span class="badge dry">SUCHO</span></td><td>Dlouhodobé sucho, minimum na podzim 2015.</td><td>Odečet z grafu ČHMÚ</td></tr>
+          <tr><td><b>2003</b></td><td><b>≈338,40 m</b></td><td>8,80 m</td><td><span class="badge dry">SUCHO</span></td><td>Významné sucho 2003.</td><td>Odečet z grafu ČHMÚ</td></tr>
+          <tr><td><b>1969</b></td><td><b>≈337,90 m</b></td><td>8,30 m</td><td><span class="badge dry">NÍZKÝ STAV</span></td><td>Velmi nízké stavy na přelomu 1969/70. Může souviset i s tehdejším energetickým provozem.</td><td>Odečet z grafu ČHMÚ</td></tr>
+          <tr style="background:#fff8df"><td><b>2026 (13. 8.)</b></td><td><b style="color:#b77900">337,83 m</b></td><td>8,23 m</td><td><span class="badge now">SOUČASNÝ STAV</span></td><td>Referenční stav k 13. 8. 2026; rok není ukončen.</td><td>PVL online data</td></tr>
+          <tr><td><b>1976</b></td><td><b>≈335,25 m</b></td><td>5,65 m</td><td><span class="badge dry">SUCHO</span></td><td>Extrémní sucho. Přítok do Orlíku kolem 15 m³/s, chybělo cca 250 mil. m³ vody.</td><td>Graf ČHMÚ + dobové zprávy</td></tr>
+          <tr><td><b>2019</b></td><td><b>≈335,19 m</b></td><td>5,59 m</td><td><span class="badge tech">TECHNICKÉ SNÍŽENÍ</span></td><td>Účelové snížení kvůli pracím na Orlíku; nesrovnávat se suchem.</td><td>ČHMÚ / PVL</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>Metodika:</b> Porovnáváme primárně absolutní hladinu v m n. m. Procenta naplnění nejsou mezi desetiletími plně srovnatelná, protože manipulační řád a rozdělení objemu mezi zásobní a retenční prostor se měnily.</div>
+  </section>
+
+  <section id="about" class="panel">
+    <div class="card"><h2>O projektu</h2><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Živá data se načítají přes Cloudflare Pages Function, protože přímé čtení pvl.cz z prohlížeče může být omezeno CORS pravidly.</p></div>
+  </section>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const tabs=document.querySelectorAll('.tabs button'),panels=document.querySelectorAll('.panel');
+tabs.forEach(b=>b.addEventListener('click',()=>{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')}));
+
+const NS='http://www.w3.org/2000/svg';
+function el(svg,n,a,t){const e=document.createElementNS(NS,n);Object.entries(a||{}).forEach(([k,v])=>e.setAttribute(k,v));if(t!==undefined)e.textContent=t;svg.appendChild(e);return e}
+function interp(arr,x){for(let i=0;i<arr.length-1;i++){const a=arr[i],b=arr[i+1];if(x>=a[0]&&x<=b[0])return a[1]+(b[1]-a[1])*(x-a[0])/(b[0]-a[0]);}return null}
+function drawCurve(svgId,pts,xmin,xmax,ymax,special=[]){
+ const svg=document.getElementById(svgId),W=820,H=430,L=58,R=18,T=26,B=46;
+ const sx=x=>L+(x-xmin)/(xmax-xmin)*(W-L-R), sy=y=>H-B-y/ymax*(H-T-B);
+ for(let y=0;y<=ymax;y+=50){el(svg,'line',{x1:L,y1:sy(y),x2:W-R,y2:sy(y),stroke:'#e5e7eb'});el(svg,'text',{x:L-7,y:sy(y)+4,'text-anchor':'end',fill:'#6d7a8c','font-size':'10'},y)}
+ el(svg,'polyline',{points:pts.map(p=>sx(p[0])+','+sy(p[1])).join(' '),fill:'none',stroke:'#1976d2','stroke-width':'3'});
+ special.forEach(([lab,x,y])=>{el(svg,'circle',{cx:sx(x),cy:sy(y),r:5,fill:'#f6ae1a'});el(svg,'text',{x:sx(x)+7,y:sy(y)-7,fill:'#8d6500','font-size':'10','font-weight':'700'},lab)});
+}
+const orPts=[[329.6,0],[330,5.91],[331,20.48],[332,34.75],[333,48.76],[334,62.52],[334.6,70.66],[335,76.05],[335.19,78.6],[336,89.15],[337,101.83],[337.83,112.68],[338,114.97],[338.63,123.8],[339,129.59],[340,146.62],[340.2,150.09],[341,163.7],[342,180.48],[343,197.71],[344,216.16],[345,236.6],[345.17,240.33],[345.6,249.9],[346,261.27],[347,291.2],[348,322.81],[349,352.45],[349.9,374.4]];
+const slaPts=[[246.60,0],[269.34,186.10],[269.45,187.329],[269.84,191.752],[270.60,200.50]];
+const lipPts=[[716.10,0],[722.51,153.06],[723.53,193.370],[723.72,201.331],[724.90,252.99]];
+drawCurve('orCurve',orPts,329.6,349.9,400,[['334,60 Slapy',334.6,70.66],['dnes',337.83,112.68],['2015',338.63,123.8],['přeliv',345.6,249.9]]);
+drawCurve('slaCurve',slaPts,246.6,270.6,220,[['12.8.2026',269.34,186.1],['max',270.6,200.5]]);
+drawCurve('lipCurve',lipPts,716.1,724.9,270,[['12.8.2026',722.51,153.06],['max',724.9,252.99]]);
+function bindRange(id,lv,vol,pts){const r=document.getElementById(id);r.addEventListener('input',()=>{const x=+r.value,y=interp(pts,x);document.getElementById(lv).textContent=x.toFixed(2).replace('.',',');document.getElementById(vol).textContent=y.toFixed(2).replace('.',',')})}
+bindRange('orLevel','orLv','orVol',orPts);bindRange('slaLevel','slaLv','slaVol',slaPts);bindRange('lipLevel','lipLv','lipVol',lipPts);
+
+const histData=[
+ {year:'1991',level:342.75,type:'dry'},{year:'2015',level:338.70,type:'dry'},{year:'2003',level:338.40,type:'dry'},
+ {year:'1969',level:337.90,type:'dry'},{year:'2026',level:337.83,type:'now'},{year:'1976',level:335.25,type:'dry'},{year:'2019',level:335.19,type:'tech'}
+];
+function drawHistory(svgId,dark=false){
+ const svg=document.getElementById(svgId),W=svg.viewBox.baseVal.width||820,H=svg.viewBox.baseVal.height||390,L=48,R=18,T=32,B=48,yTop=353.6,yBottom=329.6;
+ const sx=i=>L+15+i*((W-L-R-30)/histData.length), bw=(W-L-R-30)/histData.length-12, sy=y=>T+(yTop-y)/(yTop-yBottom)*(H-T-B);
+ for(let y=330;y<=350;y+=5){el(svg,'line',{x1:L,y1:sy(y),x2:W-R,y2:sy(y),stroke:dark?'rgba(255,255,255,.12)':'#e5e7eb'});el(svg,'text',{x:L-6,y:sy(y)+4,'text-anchor':'end',fill:dark?'#dbe7f5':'#6d7a8c','font-size':'10'},y)}
+ histData.forEach((d,i)=>{const x=sx(i),top=T,bottom=sy(d.level),fill=d.type==='tech'?'#7e57c2':d.type==='now'?'#f6ae1a':'#1976d2';el(svg,'rect',{x,y:top,width:bw,height:bottom-top,rx:5,fill});el(svg,'text',{x:x+bw/2,y:top+22,'text-anchor':'middle',fill:'#fff','font-size':'11','font-weight':'700'},d.year);el(svg,'circle',{cx:x+bw/2,cy:bottom,r:5,fill:d.type==='now'?'#ffe09a':'#7cc0ff'});el(svg,'text',{x:x+bw/2,y:bottom+20,'text-anchor':'middle',fill:d.type==='now'?'#ffd166':dark?'#69b6ff':'#1976d2','font-size':'11','font-weight':'700'},d.level.toFixed(2).replace('.',','))});
+ el(svg,'line',{x1:L,y1:sy(334.6),x2:W-R,y2:sy(334.6),stroke:'#ef5350','stroke-width':'2','stroke-dasharray':'6 5'});el(svg,'text',{x:W-R-4,y:sy(334.6)-7,'text-anchor':'end',fill:'#ff6b6b','font-size':'10','font-weight':'700'},'334,60 m – přechod na Slapy');
+}
+drawHistory('miniHist',true);drawHistory('histChart',true);
+
+const stationCfg={
+ orlik:{api:'VLOR',prefix:'orlik',curve:orPts,slider:'orLevel',ovLevel:'ovOrlikLevel',ovIn:'ovOrlikIn',ovOut:'ovOrlikOut'},
+ slapy:{api:'VLSL',prefix:'slapy',curve:slaPts,slider:'slaLevel'},
+ lipno:{api:'VLL1',prefix:'lipno',curve:lipPts,slider:'lipLevel'}
+};
+function fmt(x,n=2){return Number(x).toLocaleString('cs-CZ',{minimumFractionDigits:n,maximumFractionDigits:n})}
+async function refreshStation(key){
+ const c=stationCfg[key],p=c.prefix,status=document.getElementById(p+'Status');
+ try{
+  if(status) status.textContent='Načítám z PVL…';
+  const r=await fetch('/api/pvl?station='+c.api,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+  const d=await r.json(); if(!d.ok) throw new Error(d.error||'PVL data nedostupná');
+  for(const suffix of ['LiveLevel','LiveLevel2']){const e=document.getElementById(p+suffix.replace('Live','Live')); if(e&&d.level!=null)e.textContent=fmt(d.level)+' m'}
+  const ids={Level:'level',Volume:'volume',Inflow:'inflow',Outflow:'outflow'};
+  Object.entries(ids).forEach(([name,k])=>{
+    ['','2'].forEach(s=>{
+      const e=document.getElementById(p+'Live'+name+s); if(e&&d[k]!=null)e.textContent=fmt(d[k])+(k==='level'?' m':k==='volume'?' mil. m³':' m³/s');
+    });
+  });
+  if(status) status.textContent='Aktualizováno: '+(d.timestamp||'právě teď');
+  if(c.ovLevel&&d.level!=null)document.getElementById(c.ovLevel).textContent=fmt(d.level)+' m';
+  if(c.ovIn&&d.inflow!=null)document.getElementById(c.ovIn).textContent=fmt(d.inflow)+' m³/s';
+  if(c.ovOut&&d.outflow!=null)document.getElementById(c.ovOut).textContent=fmt(d.outflow)+' m³/s';
+  if(d.level!=null){const slider=document.getElementById(c.slider);if(slider&&d.level>=+slider.min&&d.level<=+slider.max){slider.value=d.level;slider.dispatchEvent(new Event('input'))}}
+  const frame=document.getElementById(p+'Graph'),link=document.getElementById(p+'GraphLink'),fb=document.getElementById(p+'GraphFallback');
+  if(d.graphUrl){if(frame){frame.src=d.graphUrl;frame.style.display='block'} if(link){link.href=d.graphUrl;link.style.display='inline-block'} if(fb)fb.textContent='Oficiální PVL graf:'}
+  return d.timestamp;
+ }catch(e){if(status)status.textContent='Aktualizace se nepodařila: '+e.message}
+}
+async function refreshAll(){let ts=null;for(const k of ['orlik','slapy','lipno']){const t=await refreshStation(k);if(t&&!ts)ts=t}document.getElementById('globalUpdated').textContent=ts||new Date().toLocaleString('cs-CZ')}
+document.getElementById('refreshAll').addEventListener('click',refreshAll);
+if(location.protocol==='http:'||location.protocol==='https:')refreshAll();
+</script>
+</body>
+</html>
