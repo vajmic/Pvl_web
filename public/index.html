@@ -90,7 +90,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v8</span></h1><p>Orlík – Slapy – Lipno</p></div>
+    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v9</span></h1><p>Orlík – Slapy – Lipno</p></div>
     <div class="refresh-meta">
       <div>Poslední aktualizace dat</div>
       <b id="globalUpdated">uložený snapshot</b><br>
@@ -334,7 +334,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
   </section>
 
   <section id="about" class="panel">
-    <div class="card"><h2>O projektu</h2><div class="small muted">Frontend verze: v7 · větší body grafů pro mobil + live cache + PVL grafy</div><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Pro 24hodinový vlastní graf používáme uloženou časovou řadu; pro 7 a 30 dní zatím zobrazujeme kompletní oficiální grafy PVL, dokud vlastní archiv nepokryje celé období.</p></div>
+    <div class="card"><h2>O projektu</h2><div class="small muted">Frontend verze: v9 · střední velikost referenčních bodů pro mobil</div><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Pro 24hodinový vlastní graf používáme uloženou časovou řadu; pro 7 a 30 dní zatím zobrazujeme kompletní oficiální grafy PVL, dokud vlastní archiv nepokryje celé období.</p></div>
   </section>
 </div>
 <div class="tip" id="tip"></div>
@@ -352,10 +352,10 @@ function drawCurve(svgId,pts,xmin,xmax,ymax,special=[]){
  for(let y=0;y<=ymax;y+=50){el(svg,'line',{x1:L,y1:sy(y),x2:W-R,y2:sy(y),stroke:'#e5e7eb'});el(svg,'text',{x:L-7,y:sy(y)+4,'text-anchor':'end',fill:'#6d7a8c','font-size':'10'},y)}
  el(svg,'polyline',{points:pts.map(p=>sx(p[0])+','+sy(p[1])).join(' '),fill:'none',stroke:'#1976d2','stroke-width':'3'});
  special.forEach(([lab,x,y])=>{
-   el(svg,'circle',{cx:sx(x),cy:sy(y),r:22,fill:'rgba(246,174,26,.20)'});
-   el(svg,'circle',{cx:sx(x),cy:sy(y),r:11,fill:'#f6ae1a',stroke:'#fff','stroke-width':'3'});
-   el(svg,'text',{x:sx(x)+16,y:sy(y)-15,fill:'#6f4c00','font-size':'15','font-weight':'900',
-     style:'paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round'},lab);
+   el(svg,'circle',{cx:sx(x),cy:sy(y),r:16,fill:'rgba(246,174,26,.20)'});
+   el(svg,'circle',{cx:sx(x),cy:sy(y),r:8,fill:'#f6ae1a',stroke:'#fff','stroke-width':'2.5'});
+   el(svg,'text',{x:sx(x)+13,y:sy(y)-12,fill:'#6f4c00','font-size':'13','font-weight':'900',
+     style:'paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round'},lab);
  });
 }
 const orPts=[[329.6,0],[330,5.91],[331,20.48],[332,34.75],[333,48.76],[334,62.52],[334.6,70.66],[335,76.05],[335.19,78.6],[336,89.15],[337,101.83],[337.83,112.68],[338,114.97],[338.63,123.8],[339,129.59],[340,146.62],[340.2,150.09],[341,163.7],[342,180.48],[343,197.71],[344,216.16],[345,236.6],[345.17,240.33],[345.6,249.9],[346,261.27],[347,291.2],[348,322.81],[349,352.45],[349.9,374.4]];
@@ -415,14 +415,14 @@ function drawOrlikCurve(currentLevel){
     }
 
     const halo=document.createElementNS(NS,'circle');
-    halo.setAttribute('cx',mx);halo.setAttribute('cy',my);halo.setAttribute('r','44');
+    halo.setAttribute('cx',mx);halo.setAttribute('cy',my);halo.setAttribute('r','32');
     halo.setAttribute('fill',n===3?'rgba(21,101,192,.16)':'rgba(193,123,0,.18)');
     halo.style.pointerEvents='none';g.appendChild(halo);
 
     const c=document.createElementNS(NS,'circle');
-    c.setAttribute('cx',mx);c.setAttribute('cy',my);c.setAttribute('r','30');
+    c.setAttribute('cx',mx);c.setAttribute('cy',my);c.setAttribute('r','21');
     c.setAttribute('fill',n===3?'#1565c0':'#c17b00');
-    c.setAttribute('stroke','#fff');c.setAttribute('stroke-width','5');
+    c.setAttribute('stroke','#fff');c.setAttribute('stroke-width','3');
     c.style.cursor='pointer';
     c.dataset.ref=String(n);
     c.dataset.lab=lab+' — '+fmt(x)+' m / '+fmt(y,1)+' mil. m³';
@@ -431,7 +431,7 @@ function drawOrlikCurve(currentLevel){
     const tx=document.createElementNS(NS,'text');
     tx.setAttribute('x',mx);tx.setAttribute('y',my+7);
     tx.setAttribute('text-anchor','middle');tx.setAttribute('fill','#fff');
-    tx.setAttribute('font-size','21');tx.setAttribute('font-weight','900');
+    tx.setAttribute('font-size','16');tx.setAttribute('font-weight','900');
     tx.textContent=String(n);tx.style.pointerEvents='none';g.appendChild(tx);
   });
   const tip=document.getElementById('tip');
@@ -454,8 +454,8 @@ function drawOrlikCurve(currentLevel){
     }
   };
   document.querySelectorAll('#orlikRefs .ref-card').forEach(card=>{
-    card.onmouseenter=()=>{const c=svg.querySelector('circle[data-ref="'+card.dataset.ref+'"]');if(c)c.setAttribute('r','34')};
-    card.onmouseleave=()=>{const c=svg.querySelector('circle[data-ref="'+card.dataset.ref+'"]');if(c)c.setAttribute('r','30')};
+    card.onmouseenter=()=>{const c=svg.querySelector('circle[data-ref="'+card.dataset.ref+'"]');if(c)c.setAttribute('r','25')};
+    card.onmouseleave=()=>{const c=svg.querySelector('circle[data-ref="'+card.dataset.ref+'"]');if(c)c.setAttribute('r','21')};
   });
 }
 
