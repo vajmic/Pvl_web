@@ -103,12 +103,29 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
 .transition-card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
 .transition-box{border-color:var(--line);background:#f8fafc}
 .transition-badge{background:var(--blueSoft);color:var(--blue)}
+\n/* v14 redesign — presentation only */
+:root{--bg:#f3f7fc;--surface:#fff;--navy:#102a4b;--navy2:#184a7a;--text:#14243b;--muted:#6b7d92;--line:#dce5ef;--blue:#1368d7;--blue2:#4c9af0;--blueSoft:#edf5ff;--orange:#e59a12;--red:#e24343;--green:#15975a;--purple:#7354cf;--free:#edf2f7;--shadow:0 4px 18px rgba(31,64,103,.075)}
+body{background:linear-gradient(180deg,#f8fbff 0,#f3f7fc 180px,#f3f7fc 100%);color:var(--text)}
+.app{max-width:1180px;padding:22px}.topbar{align-items:center;padding:4px 2px 2px}.brand h1{color:#102847;font-size:29px;letter-spacing:-.025em}.brand p{color:#748399;font-size:13px}.version-chip{background:#eaf3ff!important;color:#1467d2!important;border:1px solid #d5e7ff}
+.refresh-meta{color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px 11px;box-shadow:0 2px 10px rgba(31,64,103,.045)}.refresh-meta b{color:#324e6e}
+.tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;padding:7px;margin:16px 0;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:visible}.tabs button{border:0!important;border-radius:11px;min-height:52px;padding:9px 10px;background:transparent;color:#38506d;font-size:14px;font-weight:750}.tabs button:hover{background:#f4f8fd}.tabs button.active{background:linear-gradient(180deg,#1974e5,#105fc8);color:#fff;box-shadow:0 7px 17px rgba(19,104,215,.22)}.nav-initial{display:inline-grid;place-items:center;min-width:21px;color:var(--blue);font-size:19px!important;font-weight:900!important}.tabs button.active .nav-initial{color:#fff}
+.card,.unified-card,.darkcard,.transition-card,.reservoir-card,.overview-head{background:#fff!important;color:var(--text)!important;border:1px solid var(--line)!important;border-radius:16px!important;box-shadow:var(--shadow)!important}.card{padding:17px}.card h2,.card h3,.unified-card h2,.darkcard h2,.transition-card h2,.overview-head h2{color:#102847;letter-spacing:-.018em}.muted{color:var(--muted)!important}.note{background:#edf5ff!important;border-left:4px solid var(--blue)!important;color:#2c4765;border-radius:10px}
+.overview-head{padding:18px 20px;align-items:center}.overview-head .muted{color:var(--muted)!important}.overview-total b{color:var(--blue);font-size:27px}.reservoir-overview-grid{gap:13px}.reservoir-card{padding:15px}.reservoir-letter{background:#edf5ff!important;color:var(--blue)!important;border:1px solid #d7e9ff}.reservoir-side b{color:#244565}
+.hero{background:#fff!important;color:var(--text)!important;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:8px;gap:0}.hero .item{padding:15px 12px;border-right:1px solid var(--line)!important;text-align:center}.hero .item:last-child{border-right:0!important}.hero .label{color:#536981!important;opacity:1!important;font-size:11px;font-weight:800;letter-spacing:.025em}.hero .value{color:var(--blue);font-size:27px;font-weight:850;margin-top:5px}.hero .sub{color:#73849a!important;opacity:1!important}.hero .danger .value{color:var(--red)!important}
+.transition-card{padding:17px}.transition-head{align-items:center}.transition-badge{background:#edf5ff!important;color:var(--blue)!important;border:1px solid #d4e7ff;padding:7px 10px}.transition-grid{gap:0!important;overflow:hidden;border:1px solid var(--line);border-radius:13px;background:#fff}.transition-box{background:#fff!important;border:0!important;border-right:1px solid var(--line)!important;border-radius:0!important;padding:17px 12px!important;text-align:center}.transition-box:last-child{border-right:0!important}.transition-box .l{color:#61748b!important;font-weight:800}.transition-box .v{color:var(--blue);font-size:23px!important}.transition-box:nth-child(3) .v{color:var(--green)}.transition-box:nth-child(4) .v{color:var(--purple)}.transition-note{margin-top:11px;padding-top:10px;border-top:1px solid var(--line)}
+.orlik-chart-layout{grid-template-columns:minmax(0,1.65fr) minmax(255px,.75fr);gap:16px}.ref-list{gap:9px}.ref-card{background:#fff!important;border:1px solid var(--line)!important;border-radius:11px;padding:10px;box-shadow:0 1px 5px rgba(31,64,103,.035)}.ref-card.current{background:#effaf4!important;border-color:#bee8d0!important}.ref-card.highlight{background:#fff8e8!important;border-color:#e3ad46!important}.ref-num{background:#b87908!important}.ref-card.current .ref-num{background:var(--blue)!important}.reference-table{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}.reference-table th{background:#f7f9fc!important;color:#61748b!important}.reference-table th,.reference-table td{border-color:var(--line)!important}
+.ts-card{padding:17px}.ts-controls{gap:7px}.ts-controls .btn.active{background:var(--blue)!important;border-color:var(--blue)!important;color:#fff!important;box-shadow:0 4px 10px rgba(19,104,215,.16)}.pvlimg,.ts-pvl-image{border:1px solid var(--line)!important;border-radius:12px!important;background:#fff!important}
+.live-strip{gap:8px}.livebox{background:#f8fbff!important;border:1px solid #e0e9f3!important;border-radius:11px!important;text-align:center}.livebox .l{color:#667b92}.livebox .v{color:#20466c}.histtable{border:1px solid var(--line);border-radius:12px;overflow:hidden}.histtable th{background:#f7f9fc!important}.histtable th,.histtable td{border-color:var(--line)!important}.unified-card .small{opacity:1!important}
+.btn{border:1px solid #cedae8;background:#fff;color:var(--blue);border-radius:10px}.btn:hover{background:#f3f8ff}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.rangebox{padding:9px 11px;background:#f8fbff;border:1px solid #e2eaf3;border-radius:11px}
+@media(max-width:900px){.tabs{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr 1fr}.hero .item{border-bottom:1px solid var(--line)}.orlik-chart-layout{grid-template-columns:1fr}.transition-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.app{padding:11px}.topbar{gap:9px}.brand h1{font-size:25px}.tabs{grid-template-columns:repeat(2,1fr);padding:5px;gap:5px}.tabs button{min-height:48px;font-size:13px}.hero{grid-template-columns:1fr 1fr!important;padding:5px}.hero .item{padding:13px 6px;border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important}.hero .item:nth-child(even){border-right:0!important}.hero .item:last-child{grid-column:1/-1;border-right:0!important;border-bottom:0!important}.hero .value{font-size:22px}.transition-grid{grid-template-columns:1fr 1fr!important}.transition-box{border-bottom:1px solid var(--line)!important}.transition-box:nth-child(even){border-right:0!important}.transition-box:last-child{grid-column:1/-1;border-bottom:0!important}.overview-head{align-items:flex-start}.refresh-meta{width:100%;text-align:left}}
+
 </style>
 </head>
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v13</span></h1><p>Orlík – Slapy – Lipno</p></div>
+    <div class="brand"><h1>💧 Vltavská kaskáda <span class="version-chip">v14</span></h1><p>Orlík – Slapy – Lipno</p></div>
     <div class="refresh-meta">
       <div>Poslední aktualizace dat</div>
       <b id="globalUpdated">uložený snapshot</b><br>
@@ -292,21 +309,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
       <div class="ts-status" id="slapySeriesStatus">Čekám na data…</div><div class="ts-source-note" id="slapySeriesSource"></div>
     </div>
 
-    <div class="card ts-card">
-      <h2>Vývoj hladiny a odtoku</h2>
-      <div class="muted small">24 hodin kreslíme z vlastní cache. Pro 7 a 30 dní dočasně používáme celý oficiální graf PVL, dokud si nevytvoříme kompletní vlastní historii.</div>
-      <div class="ts-controls">
-        <button class="btn active" id="lipnoTs24" onclick="showSeries('lipno','24h')">24 hodin</button>
-        <button class="btn" id="lipnoTs7" onclick="showSeries('lipno','7d')">7 dní</button>
-        <button class="btn" id="lipnoTs30" onclick="showSeries('lipno','30d')">30 dní</button>
-      </div>
-      <svg id="lipnoSeries" viewBox="0 0 980 410"></svg>
-      <img id="lipnoSeriesPvl" class="ts-pvl-image" alt="Oficiální časový graf PVL">
-      <div class="ts-legend"><span class="ts-key"><span class="ts-line" style="background:#1976d2"></span>hladina [m n. m.]</span><span class="ts-key"><span class="ts-line" style="background:#ef5350"></span>odtok [m³/s]</span></div>
-      <div class="ts-status" id="lipnoSeriesStatus">Čekám na data…</div><div class="ts-source-note" id="lipnoSeriesSource"></div>
-    </div>
-
-    <div class="grid2"><div class="card"><h2>Živá data PVL</h2><div class="live-strip">
+<div class="grid2"><div class="card"><h2>Živá data PVL</h2><div class="live-strip">
       <div class="livebox"><div class="l">Hladina</div><div class="v" id="slapyLiveLevel2">—</div></div>
       <div class="livebox"><div class="l">Objem</div><div class="v" id="slapyLiveVolume2">—</div></div>
       <div class="livebox"><div class="l">Přítok</div><div class="v" id="slapyLiveInflow2">—</div></div>
@@ -336,6 +339,22 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
         <div class="note">Lipno je horní velká zásobní nádrž. Jeho zásoba je významná, ale pro dolní Vltavu je provozně vzdálenější než Orlík a Slapy.</div>
       </div>
     </div>
+
+    <div class="card ts-card">
+      <h2>Vývoj hladiny a odtoku</h2>
+      <div class="muted small">24 hodin kreslíme z vlastní cache. Pro 7 a 30 dní dočasně používáme celý oficiální graf PVL, dokud si nevytvoříme kompletní vlastní historii.</div>
+      <div class="ts-controls">
+        <button class="btn active" id="lipnoTs24" onclick="showSeries('lipno','24h')">24 hodin</button>
+        <button class="btn" id="lipnoTs7" onclick="showSeries('lipno','7d')">7 dní</button>
+        <button class="btn" id="lipnoTs30" onclick="showSeries('lipno','30d')">30 dní</button>
+      </div>
+      <svg id="lipnoSeries" viewBox="0 0 980 410"></svg>
+      <img id="lipnoSeriesPvl" class="ts-pvl-image" alt="Oficiální časový graf PVL">
+      <div class="ts-legend"><span class="ts-key"><span class="ts-line" style="background:#1976d2"></span>hladina [m n. m.]</span><span class="ts-key"><span class="ts-line" style="background:#ef5350"></span>odtok [m³/s]</span></div>
+      <div class="ts-status" id="lipnoSeriesStatus">Čekám na data…</div><div class="ts-source-note" id="lipnoSeriesSource"></div>
+    </div>
+
+    
     <div class="grid2"><div class="card"><h2>Živá data PVL</h2><div class="live-strip">
       <div class="livebox"><div class="l">Hladina</div><div class="v" id="lipnoLiveLevel2">—</div></div>
       <div class="livebox"><div class="l">Objem</div><div class="v" id="lipnoLiveVolume2">—</div></div>
@@ -369,7 +388,7 @@ iframe{width:100%;height:430px;border:1px solid var(--line);border-radius:10px;b
   </section>
 
   <section id="about" class="panel">
-    <div class="card"><h2>O projektu</h2><div class="small muted">Frontend verze: v10 · sjednocená velikost bodů Orlík, Slapy a Lipno</div><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Pro 24hodinový vlastní graf používáme uloženou časovou řadu; pro 7 a 30 dní zatím zobrazujeme kompletní oficiální grafy PVL, dokud vlastní archiv nepokryje celé období.</p></div>
+    <div class="card"><h2>O projektu</h2><div class="small muted">Frontend verze: v14 · sjednocený světlý design; datová logika beze změny</div><p>Tento dashboard skládá do jednoho pohledu veřejná provozní data Povodí Vltavy, rekonstruované objemové křivky a historický kontext nízkých stavů Orlíku.</p><p>Data PVL každých 15 minut načítá GitHub Action do větve data-cache. Pro 24hodinový vlastní graf používáme uloženou časovou řadu; pro 7 a 30 dní zatím zobrazujeme kompletní oficiální grafy PVL, dokud vlastní archiv nepokryje celé období.</p></div>
   </section>
 </div>
 <div class="tip" id="tip"></div>
@@ -511,7 +530,7 @@ function drawHistory(svgId,dark=false){
  histData.forEach((d,i)=>{const x=sx(i),top=T,bottom=sy(d.level),fill=d.type==='tech'?'#7e57c2':d.type==='now'?'#f6ae1a':'#1976d2';el(svg,'rect',{x,y:top,width:bw,height:bottom-top,rx:5,fill});el(svg,'text',{x:x+bw/2,y:top+22,'text-anchor':'middle',fill:'#fff','font-size':'11','font-weight':'700'},d.year);el(svg,'circle',{cx:x+bw/2,cy:bottom,r:5,fill:d.type==='now'?'#ffe09a':'#7cc0ff'});el(svg,'text',{x:x+bw/2,y:bottom+20,'text-anchor':'middle',fill:d.type==='now'?'#ffd166':dark?'#69b6ff':'#1976d2','font-size':'11','font-weight':'700'},d.level.toFixed(2).replace('.',','))});
  el(svg,'line',{x1:L,y1:sy(334.6),x2:W-R,y2:sy(334.6),stroke:'#ef5350','stroke-width':'2','stroke-dasharray':'6 5'});el(svg,'text',{x:W-R-4,y:sy(334.6)-7,'text-anchor':'end',fill:'#ff6b6b','font-size':'10','font-weight':'700'},'334,60 m – přechod na Slapy');
 }
-if(document.getElementById('miniHist'))drawHistory('miniHist',true);if(document.getElementById('histChart'))drawHistory('histChart',true);
+if(document.getElementById('miniHist'))drawHistory('miniHist',true);if(document.getElementById('histChart'))drawHistory('histChart',false);
 
 const stationData={};
 const stationCfg={
