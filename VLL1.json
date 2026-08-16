@@ -9,9 +9,9 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_1_VLL1_cz.png",
   "monthGraphFile": "VLL1_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-16T23:49:04.078697+00:00",
-  "timestamp": "17.08.2026 01:40",
-  "level": 722.44,
+  "fetchedAt": "2026-08-16T23:59:16.293725+00:00",
+  "timestamp": "17.08.2026 01:50",
+  "level": 722.43,
   "volume": 173.18,
   "inflow": 1.06,
   "outflow": 1.52,
@@ -24,9 +24,14 @@
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
     {
-      "timestamp": "17.08.2026 01:40",
-      "level": 722.44,
+      "timestamp": "17.08.2026 01:50",
+      "level": 722.43,
       "outflow": 17.08
+    },
+    {
+      "timestamp": "17.08.2026 01:30",
+      "level": 722.41,
+      "outflow": 1.52
     },
     {
       "timestamp": "17.08.2026 01:20",
@@ -191,9 +196,14 @@
   ],
   "series24h": [
     {
-      "timestamp": "17.08.2026 01:40",
-      "level": 722.44,
+      "timestamp": "17.08.2026 01:50",
+      "level": 722.43,
       "outflow": 17.08
+    },
+    {
+      "timestamp": "17.08.2026 01:30",
+      "level": 722.41,
+      "outflow": 1.52
     },
     {
       "timestamp": "17.08.2026 01:20",
@@ -328,9 +338,19 @@
   ],
   "series7d": [
     {
+      "timestamp": "17.08.2026 01:50",
+      "level": 722.43,
+      "outflow": 17.08
+    },
+    {
       "timestamp": "17.08.2026 01:40",
       "level": 722.44,
       "outflow": 17.08
+    },
+    {
+      "timestamp": "17.08.2026 01:30",
+      "level": 722.41,
+      "outflow": 1.52
     },
     {
       "timestamp": "17.08.2026 01:20",
@@ -580,9 +600,19 @@
   ],
   "series30d": [
     {
+      "timestamp": "17.08.2026 01:50",
+      "level": 722.43,
+      "outflow": 17.08
+    },
+    {
       "timestamp": "17.08.2026 01:40",
       "level": 722.44,
       "outflow": 17.08
+    },
+    {
+      "timestamp": "17.08.2026 01:30",
+      "level": 722.41,
+      "outflow": 1.52
     },
     {
       "timestamp": "17.08.2026 01:20",
