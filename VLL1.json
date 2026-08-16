@@ -9,8 +9,8 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_1_VLL1_cz.png",
   "monthGraphFile": "VLL1_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-16T11:05:22.634193+00:00",
-  "timestamp": "16.08.2026 13:00",
+  "fetchedAt": "2026-08-16T11:30:11.033548+00:00",
+  "timestamp": "16.08.2026 13:20",
   "level": 722.42,
   "volume": 173.9,
   "inflow": 1.06,
@@ -24,9 +24,19 @@
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
     {
-      "timestamp": "16.08.2026 13:00",
+      "timestamp": "16.08.2026 13:20",
       "level": 722.42,
       "outflow": 16.08
+    },
+    {
+      "timestamp": "16.08.2026 13:00",
+      "level": 722.42,
+      "outflow": 1.51
+    },
+    {
+      "timestamp": "16.08.2026 12:00",
+      "level": 722.42,
+      "outflow": 1.51
     },
     {
       "timestamp": "16.08.2026 11:00",
@@ -171,9 +181,19 @@
   ],
   "series24h": [
     {
-      "timestamp": "16.08.2026 13:00",
+      "timestamp": "16.08.2026 13:20",
       "level": 722.42,
       "outflow": 16.08
+    },
+    {
+      "timestamp": "16.08.2026 13:00",
+      "level": 722.42,
+      "outflow": 1.51
+    },
+    {
+      "timestamp": "16.08.2026 12:00",
+      "level": 722.42,
+      "outflow": 1.51
     },
     {
       "timestamp": "16.08.2026 11:00",
@@ -288,9 +308,14 @@
   ],
   "series7d": [
     {
-      "timestamp": "16.08.2026 13:00",
+      "timestamp": "16.08.2026 13:20",
       "level": 722.42,
       "outflow": 16.08
+    },
+    {
+      "timestamp": "16.08.2026 13:00",
+      "level": 722.42,
+      "outflow": 1.51
     },
     {
       "timestamp": "16.08.2026 12:40",
@@ -1800,9 +1825,14 @@
   ],
   "series30d": [
     {
-      "timestamp": "16.08.2026 13:00",
+      "timestamp": "16.08.2026 13:20",
       "level": 722.42,
       "outflow": 16.08
+    },
+    {
+      "timestamp": "16.08.2026 13:00",
+      "level": 722.42,
+      "outflow": 1.51
     },
     {
       "timestamp": "16.08.2026 12:40",
