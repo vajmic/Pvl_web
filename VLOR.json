@@ -9,12 +9,12 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_2_VLOR_cz.png",
   "monthGraphFile": "VLOR_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-18T19:52:07.512385+00:00",
-  "timestamp": "18.08.2026 21:40",
-  "level": 336.71,
+  "fetchedAt": "2026-08-18T20:05:19.652056+00:00",
+  "timestamp": "18.08.2026 21:50",
+  "level": 336.69,
   "volume": 376.57,
   "inflow": 14.35,
-  "outflow": 356.87,
+  "outflow": 357.14,
   "storageTimestamp": "18.08.2026 21:00",
   "storageUsed": 96.57,
   "storageUsedPct": 28.15,
@@ -23,6 +23,11 @@
   "storageCapacity": 343.08,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
+    {
+      "timestamp": "18.08.2026 21:50",
+      "level": 336.69,
+      "outflow": 357.14
+    },
     {
       "timestamp": "18.08.2026 21:40",
       "level": 336.71,
@@ -157,11 +162,6 @@
       "timestamp": "17.08.2026 23:00",
       "level": 336.9,
       "outflow": 193.39
-    },
-    {
-      "timestamp": "17.08.2026 22:00",
-      "level": 336.94,
-      "outflow": 281.55
     },
     {
       "timestamp": "17.08.2026 07:00",
@@ -196,6 +196,11 @@
   ],
   "series24h": [
     {
+      "timestamp": "18.08.2026 21:50",
+      "level": 336.69,
+      "outflow": 357.14
+    },
+    {
       "timestamp": "18.08.2026 21:40",
       "level": 336.71,
       "outflow": 356.87
@@ -329,14 +334,14 @@
       "timestamp": "17.08.2026 23:00",
       "level": 336.9,
       "outflow": 193.39
-    },
-    {
-      "timestamp": "17.08.2026 22:00",
-      "level": 336.94,
-      "outflow": 281.55
     }
   ],
   "series7d": [
+    {
+      "timestamp": "18.08.2026 21:50",
+      "level": 336.69,
+      "outflow": 357.14
+    },
     {
       "timestamp": "18.08.2026 21:40",
       "level": 336.71,
@@ -724,6 +729,11 @@
     }
   ],
   "series30d": [
+    {
+      "timestamp": "18.08.2026 21:50",
+      "level": 336.69,
+      "outflow": 357.14
+    },
     {
       "timestamp": "18.08.2026 21:40",
       "level": 336.71,
