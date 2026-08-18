@@ -9,9 +9,9 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_2_VLOR_cz.png",
   "monthGraphFile": "VLOR_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-17T23:50:26.757214+00:00",
-  "timestamp": "18.08.2026 01:40",
-  "level": 336.89,
+  "fetchedAt": "2026-08-18T00:02:29.230573+00:00",
+  "timestamp": "18.08.2026 01:50",
+  "level": 336.9,
   "volume": 378.53,
   "inflow": 9.17,
   "outflow": 0.0,
@@ -23,6 +23,11 @@
   "storageCapacity": 343.08000000000004,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
+    {
+      "timestamp": "18.08.2026 01:50",
+      "level": 336.9,
+      "outflow": 0.0
+    },
     {
       "timestamp": "18.08.2026 01:40",
       "level": 336.89,
@@ -155,11 +160,6 @@
     },
     {
       "timestamp": "17.08.2026 03:00",
-      "level": 337.1,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "17.08.2026 02:00",
       "level": 337.1,
       "outflow": 0.0
     },
@@ -187,14 +187,14 @@
       "timestamp": "12.08.2026 07:00",
       "level": 337.98,
       "outflow": 68.91
-    },
-    {
-      "timestamp": "11.08.2026 07:00",
-      "level": 338.16,
-      "outflow": 71.28
     }
   ],
   "series24h": [
+    {
+      "timestamp": "18.08.2026 01:50",
+      "level": 336.9,
+      "outflow": 0.0
+    },
     {
       "timestamp": "18.08.2026 01:40",
       "level": 336.89,
@@ -329,14 +329,14 @@
       "timestamp": "17.08.2026 03:00",
       "level": 337.1,
       "outflow": 0.0
-    },
-    {
-      "timestamp": "17.08.2026 02:00",
-      "level": 337.1,
-      "outflow": 0.0
     }
   ],
   "series7d": [
+    {
+      "timestamp": "18.08.2026 01:50",
+      "level": 336.9,
+      "outflow": 0.0
+    },
     {
       "timestamp": "18.08.2026 01:40",
       "level": 336.89,
@@ -734,6 +734,11 @@
     }
   ],
   "series30d": [
+    {
+      "timestamp": "18.08.2026 01:50",
+      "level": 336.9,
+      "outflow": 0.0
+    },
     {
       "timestamp": "18.08.2026 01:40",
       "level": 336.89,
