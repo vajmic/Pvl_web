@@ -9,13 +9,13 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_1_VLL1_cz.png",
   "monthGraphFile": "VLL1_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-20T12:15:18.984534+00:00",
-  "timestamp": "20.08.2026 14:00",
+  "fetchedAt": "2026-08-20T13:14:02.818916+00:00",
+  "timestamp": "20.08.2026 15:00",
   "level": 722.33,
   "volume": 170.68,
   "inflow": 0.08,
   "outflow": 1.52,
-  "storageTimestamp": "20.08.2026 14:00",
+  "storageTimestamp": "20.08.2026 15:00",
   "storageUsed": 147.32,
   "storageUsedPct": 58.23,
   "storageFree": 105.67,
@@ -23,6 +23,11 @@
   "storageCapacity": 252.99,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
+    {
+      "timestamp": "20.08.2026 15:00",
+      "level": 722.33,
+      "outflow": 1.52
+    },
     {
       "timestamp": "20.08.2026 14:00",
       "level": 722.33,
@@ -135,11 +140,6 @@
     },
     {
       "timestamp": "19.08.2026 16:00",
-      "level": 722.34,
-      "outflow": 1.53
-    },
-    {
-      "timestamp": "19.08.2026 15:00",
       "level": 722.34,
       "outflow": 1.53
     },
@@ -176,6 +176,11 @@
   ],
   "series24h": [
     {
+      "timestamp": "20.08.2026 15:00",
+      "level": 722.33,
+      "outflow": 1.52
+    },
+    {
       "timestamp": "20.08.2026 14:00",
       "level": 722.33,
       "outflow": 1.52
@@ -289,14 +294,14 @@
       "timestamp": "19.08.2026 16:00",
       "level": 722.34,
       "outflow": 1.53
-    },
-    {
-      "timestamp": "19.08.2026 15:00",
-      "level": 722.34,
-      "outflow": 1.53
     }
   ],
   "series7d": [
+    {
+      "timestamp": "20.08.2026 15:00",
+      "level": 722.33,
+      "outflow": 1.52
+    },
     {
       "timestamp": "20.08.2026 14:00",
       "level": 722.33,
@@ -1509,6 +1514,11 @@
     }
   ],
   "series30d": [
+    {
+      "timestamp": "20.08.2026 15:00",
+      "level": 722.33,
+      "outflow": 1.52
+    },
     {
       "timestamp": "20.08.2026 14:00",
       "level": 722.33,
