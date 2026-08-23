@@ -9,44 +9,34 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_2_VLSL_cz.png",
   "monthGraphFile": "VLSL_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-23T19:59:39.138392+00:00",
-  "timestamp": "23.08.2026 21:50",
+  "fetchedAt": "2026-08-23T20:32:39.266916+00:00",
+  "timestamp": "23.08.2026 22:20",
   "level": 269.84,
-  "volume": 260.78,
+  "volume": 260.61,
   "inflow": 29.39,
-  "outflow": 58.28,
-  "storageTimestamp": "23.08.2026 21:00",
-  "storageUsed": 191.98,
-  "storageUsedPct": 95.75,
-  "storageFree": 8.52,
-  "storageFreePct": 4.25,
+  "outflow": 0.0,
+  "storageTimestamp": "23.08.2026 22:00",
+  "storageUsed": 191.81,
+  "storageUsedPct": 95.67,
+  "storageFree": 8.69,
+  "storageFreePct": 4.33,
   "storageCapacity": 200.5,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
     {
-      "timestamp": "23.08.2026 21:50",
+      "timestamp": "23.08.2026 22:20",
       "level": 269.84,
-      "outflow": 58.28
+      "outflow": 0.0
     },
     {
-      "timestamp": "23.08.2026 21:40",
-      "level": 269.84,
-      "outflow": 58.33
+      "timestamp": "23.08.2026 22:10",
+      "level": 269.85,
+      "outflow": 17.54
     },
     {
-      "timestamp": "23.08.2026 21:30",
+      "timestamp": "23.08.2026 22:00",
       "level": 269.84,
-      "outflow": 58.23
-    },
-    {
-      "timestamp": "23.08.2026 21:20",
-      "level": 269.84,
-      "outflow": 58.05
-    },
-    {
-      "timestamp": "23.08.2026 21:10",
-      "level": 269.84,
-      "outflow": 59.38
+      "outflow": 49.07
     },
     {
       "timestamp": "23.08.2026 21:00",
@@ -162,11 +152,6 @@
       "timestamp": "22.08.2026 23:00",
       "level": 269.77,
       "outflow": 0.0
-    },
-    {
-      "timestamp": "22.08.2026 22:00",
-      "level": 269.84,
-      "outflow": 220.87
     },
     {
       "timestamp": "22.08.2026 07:00",
@@ -201,29 +186,19 @@
   ],
   "series24h": [
     {
-      "timestamp": "23.08.2026 21:50",
+      "timestamp": "23.08.2026 22:20",
       "level": 269.84,
-      "outflow": 58.28
+      "outflow": 0.0
     },
     {
-      "timestamp": "23.08.2026 21:40",
-      "level": 269.84,
-      "outflow": 58.33
+      "timestamp": "23.08.2026 22:10",
+      "level": 269.85,
+      "outflow": 17.54
     },
     {
-      "timestamp": "23.08.2026 21:30",
+      "timestamp": "23.08.2026 22:00",
       "level": 269.84,
-      "outflow": 58.23
-    },
-    {
-      "timestamp": "23.08.2026 21:20",
-      "level": 269.84,
-      "outflow": 58.05
-    },
-    {
-      "timestamp": "23.08.2026 21:10",
-      "level": 269.84,
-      "outflow": 59.38
+      "outflow": 49.07
     },
     {
       "timestamp": "23.08.2026 21:00",
@@ -339,14 +314,24 @@
       "timestamp": "22.08.2026 23:00",
       "level": 269.77,
       "outflow": 0.0
-    },
-    {
-      "timestamp": "22.08.2026 22:00",
-      "level": 269.84,
-      "outflow": 220.87
     }
   ],
   "series7d": [
+    {
+      "timestamp": "23.08.2026 22:20",
+      "level": 269.84,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "23.08.2026 22:10",
+      "level": 269.85,
+      "outflow": 17.54
+    },
+    {
+      "timestamp": "23.08.2026 22:00",
+      "level": 269.84,
+      "outflow": 49.07
+    },
     {
       "timestamp": "23.08.2026 21:50",
       "level": 269.84,
@@ -1019,6 +1004,21 @@
     }
   ],
   "series30d": [
+    {
+      "timestamp": "23.08.2026 22:20",
+      "level": 269.84,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "23.08.2026 22:10",
+      "level": 269.85,
+      "outflow": 17.54
+    },
+    {
+      "timestamp": "23.08.2026 22:00",
+      "level": 269.84,
+      "outflow": 49.07
+    },
     {
       "timestamp": "23.08.2026 21:50",
       "level": 269.84,
