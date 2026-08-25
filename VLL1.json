@@ -9,29 +9,24 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_1_VLL1_cz.png",
   "monthGraphFile": "VLL1_month.png",
   "monthError": null,
-  "fetchedAt": "2026-08-25T17:38:14.869371+00:00",
-  "timestamp": "25.08.2026 19:30",
+  "fetchedAt": "2026-08-25T18:15:21.124687+00:00",
+  "timestamp": "25.08.2026 20:00",
   "level": 722.28,
-  "volume": 168.99,
+  "volume": 168.62,
   "inflow": -2.64,
-  "outflow": 37.8,
-  "storageTimestamp": "25.08.2026 19:00",
-  "storageUsed": 145.63,
-  "storageUsedPct": 57.56,
-  "storageFree": 107.36,
-  "storageFreePct": 42.44,
+  "outflow": 39.67,
+  "storageTimestamp": "25.08.2026 20:00",
+  "storageUsed": 145.27,
+  "storageUsedPct": 57.42,
+  "storageFree": 107.72,
+  "storageFreePct": 42.58,
   "storageCapacity": 252.99,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
     {
-      "timestamp": "25.08.2026 19:30",
+      "timestamp": "25.08.2026 20:00",
       "level": 722.28,
-      "outflow": 25.08
-    },
-    {
-      "timestamp": "25.08.2026 19:10",
-      "level": 722.28,
-      "outflow": 39.85
+      "outflow": 39.67
     },
     {
       "timestamp": "25.08.2026 19:00",
@@ -145,11 +140,6 @@
     },
     {
       "timestamp": "24.08.2026 21:00",
-      "level": 722.29,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "24.08.2026 20:00",
       "level": 722.29,
       "outflow": 1.52
     },
@@ -186,14 +176,9 @@
   ],
   "series24h": [
     {
-      "timestamp": "25.08.2026 19:30",
+      "timestamp": "25.08.2026 20:00",
       "level": 722.28,
-      "outflow": 25.08
-    },
-    {
-      "timestamp": "25.08.2026 19:10",
-      "level": 722.28,
-      "outflow": 39.85
+      "outflow": 39.67
     },
     {
       "timestamp": "25.08.2026 19:00",
@@ -309,14 +294,14 @@
       "timestamp": "24.08.2026 21:00",
       "level": 722.29,
       "outflow": 1.52
-    },
-    {
-      "timestamp": "24.08.2026 20:00",
-      "level": 722.29,
-      "outflow": 1.52
     }
   ],
   "series7d": [
+    {
+      "timestamp": "25.08.2026 20:00",
+      "level": 722.28,
+      "outflow": 39.67
+    },
     {
       "timestamp": "25.08.2026 19:30",
       "level": 722.28,
@@ -1349,6 +1334,11 @@
     }
   ],
   "series30d": [
+    {
+      "timestamp": "25.08.2026 20:00",
+      "level": 722.28,
+      "outflow": 39.67
+    },
     {
       "timestamp": "25.08.2026 19:30",
       "level": 722.28,
