@@ -9,38 +9,58 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_1_VLL1_cz.png",
   "monthGraphFile": "VLL1_month.png",
   "monthError": null,
-  "fetchedAt": "2026-09-05T11:59:18.831038+00:00",
-  "timestamp": "05.09.2026 13:50",
-  "level": 722.15,
-  "volume": 163.56,
+  "fetchedAt": "2026-09-05T15:02:36.560993+00:00",
+  "timestamp": "05.09.2026 16:50",
+  "level": 722.13,
+  "volume": 164.65,
   "inflow": 5.38,
   "outflow": 1.52,
-  "storageTimestamp": "05.09.2026 13:00",
-  "storageUsed": 140.21,
-  "storageUsedPct": 55.42,
-  "storageFree": 112.78,
-  "storageFreePct": 44.58,
+  "storageTimestamp": "05.09.2026 16:00",
+  "storageUsed": 141.29,
+  "storageUsedPct": 55.85,
+  "storageFree": 111.7,
+  "storageFreePct": 44.15,
   "storageCapacity": 252.99,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
     {
-      "timestamp": "05.09.2026 13:50",
+      "timestamp": "05.09.2026 16:50",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:40",
       "level": 722.15,
-      "outflow": 5.09
-    },
-    {
-      "timestamp": "05.09.2026 13:30",
-      "level": 722.14,
       "outflow": 1.52
     },
     {
-      "timestamp": "05.09.2026 13:20",
-      "level": 722.14,
+      "timestamp": "05.09.2026 16:30",
+      "level": 722.15,
       "outflow": 1.52
     },
     {
-      "timestamp": "05.09.2026 13:10",
-      "level": 722.14,
+      "timestamp": "05.09.2026 16:20",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:10",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:00",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 15:00",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 14:00",
+      "level": 722.16,
       "outflow": 1.52
     },
     {
@@ -146,21 +166,6 @@
     {
       "timestamp": "04.09.2026 17:00",
       "level": 722.16,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "04.09.2026 16:00",
-      "level": 722.17,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "04.09.2026 15:00",
-      "level": 722.16,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "04.09.2026 14:00",
-      "level": 722.17,
       "outflow": 1.52
     },
     {
@@ -191,23 +196,43 @@
   ],
   "series24h": [
     {
-      "timestamp": "05.09.2026 13:50",
+      "timestamp": "05.09.2026 16:50",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:40",
       "level": 722.15,
-      "outflow": 5.09
-    },
-    {
-      "timestamp": "05.09.2026 13:30",
-      "level": 722.14,
       "outflow": 1.52
     },
     {
-      "timestamp": "05.09.2026 13:20",
-      "level": 722.14,
+      "timestamp": "05.09.2026 16:30",
+      "level": 722.15,
       "outflow": 1.52
     },
     {
-      "timestamp": "05.09.2026 13:10",
-      "level": 722.14,
+      "timestamp": "05.09.2026 16:20",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:10",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:00",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 15:00",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 14:00",
+      "level": 722.16,
       "outflow": 1.52
     },
     {
@@ -314,24 +339,49 @@
       "timestamp": "04.09.2026 17:00",
       "level": 722.16,
       "outflow": 1.52
-    },
-    {
-      "timestamp": "04.09.2026 16:00",
-      "level": 722.17,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "04.09.2026 15:00",
-      "level": 722.16,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "04.09.2026 14:00",
-      "level": 722.17,
-      "outflow": 1.52
     }
   ],
   "series7d": [
+    {
+      "timestamp": "05.09.2026 16:50",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:40",
+      "level": 722.15,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:30",
+      "level": 722.15,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:20",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:10",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:00",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 15:00",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 14:00",
+      "level": 722.16,
+      "outflow": 1.52
+    },
     {
       "timestamp": "05.09.2026 13:50",
       "level": 722.15,
@@ -1671,34 +1721,49 @@
       "timestamp": "29.08.2026 17:00",
       "level": 722.24,
       "outflow": 1.52
-    },
-    {
-      "timestamp": "29.08.2026 16:20",
-      "level": 722.25,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "29.08.2026 16:10",
-      "level": 722.25,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "29.08.2026 16:00",
-      "level": 722.25,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "29.08.2026 15:00",
-      "level": 722.24,
-      "outflow": 1.52
-    },
-    {
-      "timestamp": "29.08.2026 14:00",
-      "level": 722.24,
-      "outflow": 1.52
     }
   ],
   "series30d": [
+    {
+      "timestamp": "05.09.2026 16:50",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:40",
+      "level": 722.15,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:30",
+      "level": 722.15,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:20",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:10",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 16:00",
+      "level": 722.17,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 15:00",
+      "level": 722.13,
+      "outflow": 1.52
+    },
+    {
+      "timestamp": "05.09.2026 14:00",
+      "level": 722.16,
+      "outflow": 1.52
+    },
     {
       "timestamp": "05.09.2026 13:50",
       "level": 722.15,
