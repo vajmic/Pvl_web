@@ -9,22 +9,42 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_2_VLOR_cz.png",
   "monthGraphFile": "VLOR_month.png",
   "monthError": null,
-  "fetchedAt": "2026-09-27T23:20:25.912736+00:00",
-  "timestamp": "28.09.2026 01:10",
-  "level": 334.74,
-  "volume": 346.0,
+  "fetchedAt": "2026-09-28T01:45:29.760240+00:00",
+  "timestamp": "28.09.2026 03:30",
+  "level": 334.75,
+  "volume": 346.15,
   "inflow": 13.03,
   "outflow": 0.0,
-  "storageTimestamp": "28.09.2026 01:00",
-  "storageUsed": 66.0,
-  "storageUsedPct": 19.24,
-  "storageFree": 277.08,
-  "storageFreePct": 80.76,
-  "storageCapacity": 343.08,
+  "storageTimestamp": "28.09.2026 03:00",
+  "storageUsed": 66.15,
+  "storageUsedPct": 19.28,
+  "storageFree": 276.93,
+  "storageFreePct": 80.72,
+  "storageCapacity": 343.08000000000004,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
     {
-      "timestamp": "28.09.2026 01:10",
+      "timestamp": "28.09.2026 03:30",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:20",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:10",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 02:00",
       "level": 334.74,
       "outflow": 0.0
     },
@@ -136,16 +156,6 @@
     {
       "timestamp": "27.09.2026 04:00",
       "level": 334.74,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "27.09.2026 03:00",
-      "level": 334.74,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "27.09.2026 02:00",
-      "level": 334.73,
       "outflow": 0.0
     },
     {
@@ -172,16 +182,31 @@
       "timestamp": "22.09.2026 07:00",
       "level": 334.85,
       "outflow": 38.52
-    },
-    {
-      "timestamp": "21.09.2026 07:00",
-      "level": 334.82,
-      "outflow": 0.0
     }
   ],
   "series24h": [
     {
-      "timestamp": "28.09.2026 01:10",
+      "timestamp": "28.09.2026 03:30",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:20",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:10",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 02:00",
       "level": 334.74,
       "outflow": 0.0
     },
@@ -294,19 +319,34 @@
       "timestamp": "27.09.2026 04:00",
       "level": 334.74,
       "outflow": 0.0
+    }
+  ],
+  "series7d": [
+    {
+      "timestamp": "28.09.2026 03:30",
+      "level": 334.75,
+      "outflow": 0.0
     },
     {
-      "timestamp": "27.09.2026 03:00",
+      "timestamp": "28.09.2026 03:20",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:10",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:00",
       "level": 334.74,
       "outflow": 0.0
     },
     {
-      "timestamp": "27.09.2026 02:00",
-      "level": 334.73,
+      "timestamp": "28.09.2026 02:00",
+      "level": 334.74,
       "outflow": 0.0
-    }
-  ],
-  "series7d": [
+    },
     {
       "timestamp": "28.09.2026 01:10",
       "level": 334.74,
@@ -464,6 +504,31 @@
     }
   ],
   "series30d": [
+    {
+      "timestamp": "28.09.2026 03:30",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:20",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:10",
+      "level": 334.75,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 03:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "28.09.2026 02:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
     {
       "timestamp": "28.09.2026 01:10",
       "level": 334.74,
