@@ -9,20 +9,60 @@
   "monthGraphUrl": "https://www.pvl.cz/portal/Nadrze/Images/grafy/GrafMesicni_2_VLOR_cz.png",
   "monthGraphFile": "VLOR_month.png",
   "monthError": null,
-  "fetchedAt": "2026-11-18T18:08:22.264690+00:00",
-  "timestamp": "18.11.2026 19:00",
-  "level": 334.86,
-  "volume": 347.96,
+  "fetchedAt": "2026-11-19T00:27:52.364029+00:00",
+  "timestamp": "19.11.2026 01:20",
+  "level": 334.74,
+  "volume": 346.15,
   "inflow": 22.41,
-  "outflow": 0.0,
-  "storageTimestamp": "18.11.2026 19:00",
-  "storageUsed": 67.96,
-  "storageUsedPct": 19.81,
-  "storageFree": 275.12,
-  "storageFreePct": 80.19,
-  "storageCapacity": 343.08,
+  "outflow": 84.32,
+  "storageTimestamp": "19.11.2026 01:00",
+  "storageUsed": 66.15,
+  "storageUsedPct": 19.28,
+  "storageFree": 276.93,
+  "storageFreePct": 80.72,
+  "storageCapacity": 343.08000000000004,
   "storageSource": "https://www.pvl.cz/portal/Nadrze/cz/smartphone/Objemy.aspx?data=1&rad=tok&smer=DESC",
   "series": [
+    {
+      "timestamp": "19.11.2026 01:20",
+      "level": 334.74,
+      "outflow": 84.32
+    },
+    {
+      "timestamp": "19.11.2026 01:10",
+      "level": 334.72,
+      "outflow": 72.63
+    },
+    {
+      "timestamp": "19.11.2026 01:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "19.11.2026 00:00",
+      "level": 334.71,
+      "outflow": 83.29
+    },
+    {
+      "timestamp": "18.11.2026 23:00",
+      "level": 334.71,
+      "outflow": 82.95
+    },
+    {
+      "timestamp": "18.11.2026 22:00",
+      "level": 334.75,
+      "outflow": 133.41
+    },
+    {
+      "timestamp": "18.11.2026 21:00",
+      "level": 334.8,
+      "outflow": 562.67
+    },
+    {
+      "timestamp": "18.11.2026 20:00",
+      "level": 334.87,
+      "outflow": 0.0
+    },
     {
       "timestamp": "18.11.2026 19:00",
       "level": 334.86,
@@ -111,36 +151,6 @@
     {
       "timestamp": "18.11.2026 02:00",
       "level": 334.73,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "18.11.2026 01:00",
-      "level": 334.72,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "18.11.2026 00:00",
-      "level": 334.71,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "17.11.2026 23:00",
-      "level": 334.71,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "17.11.2026 22:00",
-      "level": 334.71,
-      "outflow": 122.3
-    },
-    {
-      "timestamp": "17.11.2026 21:00",
-      "level": 334.74,
-      "outflow": 148.34
-    },
-    {
-      "timestamp": "17.11.2026 20:00",
-      "level": 334.76,
       "outflow": 0.0
     },
     {
@@ -176,6 +186,46 @@
   ],
   "series24h": [
     {
+      "timestamp": "19.11.2026 01:20",
+      "level": 334.74,
+      "outflow": 84.32
+    },
+    {
+      "timestamp": "19.11.2026 01:10",
+      "level": 334.72,
+      "outflow": 72.63
+    },
+    {
+      "timestamp": "19.11.2026 01:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "19.11.2026 00:00",
+      "level": 334.71,
+      "outflow": 83.29
+    },
+    {
+      "timestamp": "18.11.2026 23:00",
+      "level": 334.71,
+      "outflow": 82.95
+    },
+    {
+      "timestamp": "18.11.2026 22:00",
+      "level": 334.75,
+      "outflow": 133.41
+    },
+    {
+      "timestamp": "18.11.2026 21:00",
+      "level": 334.8,
+      "outflow": 562.67
+    },
+    {
+      "timestamp": "18.11.2026 20:00",
+      "level": 334.87,
+      "outflow": 0.0
+    },
+    {
       "timestamp": "18.11.2026 19:00",
       "level": 334.86,
       "outflow": 0.0
@@ -264,39 +314,49 @@
       "timestamp": "18.11.2026 02:00",
       "level": 334.73,
       "outflow": 0.0
-    },
-    {
-      "timestamp": "18.11.2026 01:00",
-      "level": 334.72,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "18.11.2026 00:00",
-      "level": 334.71,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "17.11.2026 23:00",
-      "level": 334.71,
-      "outflow": 0.0
-    },
-    {
-      "timestamp": "17.11.2026 22:00",
-      "level": 334.71,
-      "outflow": 122.3
-    },
-    {
-      "timestamp": "17.11.2026 21:00",
-      "level": 334.74,
-      "outflow": 148.34
-    },
-    {
-      "timestamp": "17.11.2026 20:00",
-      "level": 334.76,
-      "outflow": 0.0
     }
   ],
   "series7d": [
+    {
+      "timestamp": "19.11.2026 01:20",
+      "level": 334.74,
+      "outflow": 84.32
+    },
+    {
+      "timestamp": "19.11.2026 01:10",
+      "level": 334.72,
+      "outflow": 72.63
+    },
+    {
+      "timestamp": "19.11.2026 01:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "19.11.2026 00:00",
+      "level": 334.71,
+      "outflow": 83.29
+    },
+    {
+      "timestamp": "18.11.2026 23:00",
+      "level": 334.71,
+      "outflow": 82.95
+    },
+    {
+      "timestamp": "18.11.2026 22:00",
+      "level": 334.75,
+      "outflow": 133.41
+    },
+    {
+      "timestamp": "18.11.2026 21:00",
+      "level": 334.8,
+      "outflow": 562.67
+    },
+    {
+      "timestamp": "18.11.2026 20:00",
+      "level": 334.87,
+      "outflow": 0.0
+    },
     {
       "timestamp": "18.11.2026 19:00",
       "level": 334.86,
@@ -549,6 +609,46 @@
     }
   ],
   "series30d": [
+    {
+      "timestamp": "19.11.2026 01:20",
+      "level": 334.74,
+      "outflow": 84.32
+    },
+    {
+      "timestamp": "19.11.2026 01:10",
+      "level": 334.72,
+      "outflow": 72.63
+    },
+    {
+      "timestamp": "19.11.2026 01:00",
+      "level": 334.74,
+      "outflow": 0.0
+    },
+    {
+      "timestamp": "19.11.2026 00:00",
+      "level": 334.71,
+      "outflow": 83.29
+    },
+    {
+      "timestamp": "18.11.2026 23:00",
+      "level": 334.71,
+      "outflow": 82.95
+    },
+    {
+      "timestamp": "18.11.2026 22:00",
+      "level": 334.75,
+      "outflow": 133.41
+    },
+    {
+      "timestamp": "18.11.2026 21:00",
+      "level": 334.8,
+      "outflow": 562.67
+    },
+    {
+      "timestamp": "18.11.2026 20:00",
+      "level": 334.87,
+      "outflow": 0.0
+    },
     {
       "timestamp": "18.11.2026 19:00",
       "level": 334.86,
